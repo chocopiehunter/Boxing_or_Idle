@@ -14,11 +14,10 @@ public enum UIType
 {
     MainUI,
     LoadingUI,
-    LobbyUI,
+    MainLobbyUI,
     Inventory,
     DialogueUI,
-    SimplePopupUI,
-
+    SimplePopupUI
 }
 
 public static class UIManagerExtension
