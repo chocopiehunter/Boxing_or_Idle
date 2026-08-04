@@ -8,17 +8,19 @@ public class MainLobbyUI : UIBase
 
     private void OnEnable()
     {
-        
+        Button_GameStart.BindOnClickButtonEvent(OnClick_GameStart);
+        Button_GameQuit.BindOnClickButtonEvent(OnClick_GameQuit);
+        //Button_LoadGame.BindOnClickButtonEvent(OnClick_LoadGame);
     }
 
     public void OnClick_GameStart()
     {
-
+        Debug.Log($"{Button_GameStart} 버튼이 눌렸습니다");
     }
 
     public void OnClick_GameQuit()
     {
-
+        Debug.Log($"{Button_GameQuit} 버튼이 눌렸습니다");
     }
 
     // 로드는 나중에 구현
