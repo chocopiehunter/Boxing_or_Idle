@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
 
+[DefaultExecutionOrder(-100)] // 실행순서 강제로 테스트
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; set; }
@@ -13,7 +14,17 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.Log("SoundManager가 중복되어 파괴합니다");
+            Destroy(gameObject);
+            return;
+        }
+
         InitVolume();
     }
 
