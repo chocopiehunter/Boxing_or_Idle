@@ -189,3 +189,4 @@ x86/
 # 유료 에셋 폴더 및 폴더 meta 파일 제외
 Assets/ThirdParty/
 Assets/ThirdParty.meta
+.cursor
