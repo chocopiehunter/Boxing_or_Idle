@@ -51,11 +51,10 @@ public class UIButton : MonoBehaviour
 
     public void BindOnClickButtonEvent(Action onClickCallback, bool isMenualUnbineEvent = false)
     {
-        if (Button_Base == null)
-        {
-            Button_Base.onClick.AddListener(onClickCallback.Invoke);
-            _isSlotMenualUnbindEvent = isMenualUnbineEvent;
-        }
+        if (Button_Base == null) return;
+
+        Button_Base.onClick.AddListener(onClickCallback.Invoke);
+        _isSlotMenualUnbindEvent = isMenualUnbineEvent;
     }
 
     public void UnBindAllOnClickButtonEvent()
