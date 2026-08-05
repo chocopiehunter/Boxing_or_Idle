@@ -31,8 +31,7 @@ public class SettingUI : UIBase
     // 나중에 UIManager나 Extension에서 OpenPopupUI/ClosePopupUI로 바꾸기
     private void OnClick_Close()
     {
-        Debug.Log("SettingUI 닫기 버튼 누름");
-        this.gameObject.SetActive(false);
+        UIManager.Instance.ClosePopupUI(UIType.SettingUI);
     }
 
     private void OnClick_ToTitleMenu()

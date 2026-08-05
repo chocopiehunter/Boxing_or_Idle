@@ -17,7 +17,10 @@ public class MainLobbyUI : UIBase
 
     public void OnClick_GameStart()
     {
-        Debug.Log($"{Button_GameStart} 버튼이 눌렸습니다");
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainLobbyUI);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
+
+        // 나중에 이곳에 SeasonManager같은게 만들어지면 인게임 시작(첫 시즌/턴 초기화) 호출
     }
 
     public void OnClick_GameQuit()
