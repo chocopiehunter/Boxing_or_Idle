@@ -17,7 +17,8 @@ public enum UIType
     MainLobbyUI,
     Inventory,
     DialogueUI,
-    SimplePopupUI
+    SimplePopupUI,
+    SettingUI
 }
 
 public static class UIManagerExtension

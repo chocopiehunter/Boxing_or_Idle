@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingUI : MonoBehaviour
+public class SettingUI : UIBase
 {
     [SerializeField] private Slider Slider_MasterVolume;
     [SerializeField] private UIButton Button_Close;
+    [SerializeField] private UIButton Button_ToTitleMenu;
 
     private void OnEnable()
     {
@@ -13,6 +14,8 @@ public class SettingUI : MonoBehaviour
 
         Slider_MasterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
+
+        Button_ToTitleMenu.BindOnClickButtonEvent(OnClick_ToTitleMenu);
     }
 
     private void OnDisable()
@@ -31,5 +34,13 @@ public class SettingUI : MonoBehaviour
     {
         Debug.Log("SettingUI 닫기 버튼 누름");
         this.gameObject.SetActive(false);
+    }
+
+    private void OnClick_ToTitleMenu()
+    {
+        Debug.Log("SettingUI에서 '타이틀로 돌아가기' 버튼 누름");
+
+        UIManager.Instance.ClosePopupUI(UIType.SettingUI);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainLobbyUI);
     }
 }
