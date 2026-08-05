@@ -48,12 +48,25 @@ public class LoadingUI : MonoBehaviour
 
     private async UniTaskVoid PlayLoadingBarAsync(CancellationToken token)
     {
-        Slider_LoadingBar.value = 0f;
+        float currentValue = 0f;
+        Slider_LoadingBar.value = currentValue;
 
         foreach (var stage in LoadingStages)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(stage.DelaySeconds), cancellationToken: token);
-            Slider_LoadingBar.value = stage.TargetProgress;
+            float startValue = currentValue;
+            float timePassed = 0f;
+
+            while(timePassed < stage.DelaySeconds)
+            {
+                timePassed += Time.deltaTime;
+                float progressRatio = Mathf.Clamp01(timePassed / stage.DelaySeconds);
+                Slider_LoadingBar.value = Mathf.Lerp(startValue, stage.TargetProgress, progressRatio);
+
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+            }
+
+            currentValue = stage.TargetProgress;
+            Slider_LoadingBar.value = currentValue;
         }
     }
 }
