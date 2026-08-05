@@ -2,6 +2,10 @@
 
 public class SeasonManager : MonoBehaviour
 {
-    // 년도, 계절, 턴 등을 관리할 매니저
+    public static SeasonManager Instance { get; set; }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 }
