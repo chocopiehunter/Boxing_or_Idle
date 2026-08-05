@@ -15,7 +15,7 @@ public class SettingUI : UIBase
         Slider_MasterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
 
-        Button_ToTitleMenu.BindOnClickButtonEvent(OnClick_ToTitleMenu);
+        Button_ToTitleMenu.BindOnClickButtonEvent(OnClick_ToTitle);
     }
 
     private void OnDisable()
@@ -34,11 +34,11 @@ public class SettingUI : UIBase
         UIManager.Instance.ClosePopupUI(UIType.SettingUI);
     }
 
-    private void OnClick_ToTitleMenu()
+    private void OnClick_ToTitle()
     {
         Debug.Log("SettingUI에서 '타이틀로 돌아가기' 버튼 누름");
 
         UIManager.Instance.ClosePopupUI(UIType.SettingUI);
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainLobbyUI);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 }

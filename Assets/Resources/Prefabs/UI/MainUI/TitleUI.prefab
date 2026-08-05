@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 6842248101302560981}
   - component: {fileID: 8475622287168386649}
   m_Layer: 5
-  m_Name: MainLobbyUI
+  m_Name: TitleUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

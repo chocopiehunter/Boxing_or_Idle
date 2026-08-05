@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MainLobbyUI : UIBase
+public class TitleUI : UIBase
 {
     [SerializeField] private UIButton Button_GameStart;
     [SerializeField] private UIButton Button_GameQuit;
@@ -17,7 +17,7 @@ public class MainLobbyUI : UIBase
 
     public void OnClick_GameStart()
     {
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainLobbyUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
 
         // 나중에 이곳에 SeasonManager같은게 만들어지면 인게임 시작(첫 시즌/턴 초기화) 호출

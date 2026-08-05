@@ -15,7 +15,7 @@ public enum UIType
 {
     MainUI,
     LoadingUI,
-    MainLobbyUI,
+    TitleUI,
     Inventory,
     DialogueUI,
     SimplePopupUI,
@@ -42,6 +42,6 @@ public static class UIManagerExtension
         }
 
         UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainLobbyUI);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 }
