@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        this.ShowStartupUIOnGameStart();
+        this.ShowStartupUIOnGameStart().Forget();
     }
 
     public UIBase OpenUI(UIRootType uiRootType, UIType uiType, bool isInitialHide = false)

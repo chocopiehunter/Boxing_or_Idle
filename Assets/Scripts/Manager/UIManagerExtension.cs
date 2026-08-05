@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public enum UIRootType
 {
@@ -31,8 +32,16 @@ public static class UIManagerExtension
         return path;
     }
 
-    public static void ShowStartupUIOnGameStart(this UIManager uiManager)
+    public static async UniTaskVoid ShowStartupUIOnGameStart(this UIManager uiManager)
     {
+        LoadingUI loadingUI = UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI) as LoadingUI;
 
+        if (loadingUI != null)
+        {
+            await loadingUI.PlayLoadingBarAsync();
+        }
+
+        UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainLobbyUI);
     }
 }

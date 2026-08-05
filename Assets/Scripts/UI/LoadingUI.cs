@@ -33,7 +33,6 @@ public class LoadingUI : UIBase
         CancellationToken token = this.GetCancellationTokenOnDestroy();
 
         LoadAndSetLoadingImgAsync(token).Forget();
-        PlayLoadingBarAsync(token).Forget();
     }
 
     private async UniTaskVoid LoadAndSetLoadingImgAsync(CancellationToken token)
@@ -46,8 +45,9 @@ public class LoadingUI : UIBase
         }
     }
 
-    private async UniTaskVoid PlayLoadingBarAsync(CancellationToken token)
+    public async UniTask PlayLoadingBarAsync()
     {
+        CancellationToken token = this.GetCancellationTokenOnDestroy();
         float currentValue = 0f;
         Slider_LoadingBar.value = currentValue;
 
