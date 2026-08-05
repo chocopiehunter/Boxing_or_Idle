@@ -844,6 +844,7 @@ MonoBehaviour:
   Button_GameStart: {fileID: 641652221860046453}
   Button_GameQuit: {fileID: 6761594525280566152}
   Button_LoadGame: {fileID: 0}
+  Button_Settings: {fileID: 4347875905936875050}
 --- !u!1 &4342386660827691377
 GameObject:
   m_ObjectHideFlags: 0

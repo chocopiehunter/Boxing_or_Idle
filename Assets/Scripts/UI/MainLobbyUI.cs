@@ -5,11 +5,13 @@ public class MainLobbyUI : UIBase
     [SerializeField] private UIButton Button_GameStart;
     [SerializeField] private UIButton Button_GameQuit;
     [SerializeField] private UIButton Button_LoadGame;
+    [SerializeField] private UIButton Button_Settings;
 
     private void OnEnable()
     {
         Button_GameStart.BindOnClickButtonEvent(OnClick_GameStart);
         Button_GameQuit.BindOnClickButtonEvent(OnClick_GameQuit);
+        Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
         //Button_LoadGame.BindOnClickButtonEvent(OnClick_LoadGame);
     }
 
@@ -20,7 +22,12 @@ public class MainLobbyUI : UIBase
 
     public void OnClick_GameQuit()
     {
-        Debug.Log($"{Button_GameQuit} 버튼이 눌렸습니다");
+        Application.Quit();
+    }
+
+    public void OnClick_Settings()
+    {
+        UIManager.Instance.OpenPopupUI(UIType.SettingUI);
     }
 
     // 로드는 나중에 구현
