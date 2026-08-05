@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingUI : MonoBehaviour
+public class LoadingUI : UIBase
 {
     [SerializeField] private RawImage RawImage_LoadingImg;
     [SerializeField] private Slider Slider_LoadingBar;

@@ -25,7 +25,6 @@ public class SettingUI : UIBase
 
     private void OnMasterVolumeChanged(float value)
     {
-        Debug.Log("SettingUI 슬라이더 값 변경됨");
         SoundManager.Instance.SetMasterVolume(value);
     }
 
