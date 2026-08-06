@@ -2,11 +2,11 @@
 
 public class NetworkManager : MonoBehaviour
 {
-    public static NetworkManager Inst { get; set; }
+    public static NetworkManager Instance { get; set; }
 
     private void Awake()
     {
-        Inst = this;
+        Instance = this;
         InitNetworkService();
     }
 

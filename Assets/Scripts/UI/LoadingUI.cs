@@ -37,7 +37,7 @@ public class LoadingUI : UIBase
 
     private async UniTaskVoid LoadAndSetLoadingImgAsync(CancellationToken token)
     {
-        Texture texture = await ResourceManager.Inst.LoadAsset<Texture>(Address_LoadingImg);
+        Texture texture = await ResourceManager.Instance.LoadAsset<Texture>(Address_LoadingImg);
 
         if (texture != null && token.IsCancellationRequested == false)
         {

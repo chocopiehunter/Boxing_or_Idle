@@ -6,11 +6,11 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ResourceManager : MonoBehaviour
 {
-    public static ResourceManager Inst { get; set; }
+    public static ResourceManager Instance { get; set; }
 
     private void Awake()
     {
-        Inst = this;
+        Instance = this;
     }
 
     // 로드된 에셋들을 관리하기 위한 캐시 (메모리 해제 시 필요)
