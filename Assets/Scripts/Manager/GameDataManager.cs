@@ -11,7 +11,7 @@ public class GameDataManager : MonoBehaviour
     {
         Instance = this;
 
-        // GameUtil.LoadFullData();
+        GameUtil.LoadFullData();
     }
 
     [Serializable]
@@ -65,7 +65,7 @@ public class GameDataManager : MonoBehaviour
     // 3. 로드
     public void LoadAll()
     {
-
+        CharacterDataList = LoadData<CharacterData>("Character");
     }
 
     // 2. 사용을 위한 메서드 정의
