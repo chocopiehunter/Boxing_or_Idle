@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum TurnType
+public enum ActionType
 {
     Training,
     Rest
