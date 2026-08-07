@@ -313,6 +313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2176554245899191087}
+  - component: {fileID: 1667037606153484290}
   m_Layer: 5
   m_Name: TrainingUI
   m_TagString: Untagged
@@ -342,6 +343,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1667037606153484290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174981734158116271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a216412fb87afc42a31e6200e6fe47d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainingUI
+  Button_Training: {fileID: 9186890700226563321}
+  Button_Rest: {fileID: 2069162168099487731}
 --- !u!1 &5655605974757845681
 GameObject:
   m_ObjectHideFlags: 0
