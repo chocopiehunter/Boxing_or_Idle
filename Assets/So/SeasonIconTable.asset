@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb232dafb19dcc47b3dcf20d50c84d0, type: 3}
+  m_Name: SeasonIconTable
+  m_EditorClassIdentifier: Assembly-CSharp::SeasonIconTable
+  Entries:
+  - Season: 0
+    IconAddress: 'SeasonIcon[SeasonIcon_0]'
+  - Season: 1
+    IconAddress: 'SeasonIcon[SeasonIcon_1]'
+  - Season: 2
+    IconAddress: 'SeasonIcon[SeasonIcon_2]'
+  - Season: 3
+    IconAddress: 'SeasonIcon[SeasonIcon_3]'
