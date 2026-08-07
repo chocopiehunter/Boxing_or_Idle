@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345c5a7e64b91e54f802900539fe809e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainUI
+  UI_Season: {fileID: 7285024183356556966}
 --- !u!1 &2802799197274440415
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,3 +600,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2123467969780540989, guid: 7f648883111b03749b4af3ecb86909b3, type: 3}
   m_PrefabInstance: {fileID: 818837002704970288}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7285024183356556966 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7945630741477844118, guid: 7f648883111b03749b4af3ecb86909b3, type: 3}
+  m_PrefabInstance: {fileID: 818837002704970288}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9784ed88abd3bd64e9d58184ce8b8362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SeasonUI
