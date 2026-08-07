@@ -10,34 +10,10 @@ public class SeasonUI : UIBase
 
     private const string WeekTextFormat = "{0}주차";
 
-    private void OnEnable()
+    public void SetSeason(Season season, int week)
     {
-        if (SeasonManager.Instance != null)
-        {
-            SeasonManager.Instance.OnWeekAdvanced += Refresh;
-        }
-
-        Refresh();
-    }
-
-    private void OnDisable()
-    {
-        if (SeasonManager.Instance != null)
-        {
-            SeasonManager.Instance.OnWeekAdvanced -= Refresh;
-        }
-    }
-
-    private void Refresh()
-    {
-        if (SeasonManager.Instance == null)
-        {
-            Debug.LogError("SeasonManager가 없습니다");
-            return;
-        }
-
-        Text_Week.text = string.Format(WeekTextFormat, SeasonManager.Instance.CurrentWeek);
-        SetSeasonIconAsync(SeasonManager.Instance.CurrentSeason).Forget();
+        Text_Week.text = string.Format(WeekTextFormat, week);
+        SetSeasonIconAsync(season).Forget();
     }
 
     private async UniTaskVoid SetSeasonIconAsync(Season season)
