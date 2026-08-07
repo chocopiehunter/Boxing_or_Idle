@@ -44,4 +44,12 @@ public class SeasonManager : MonoBehaviour
             CurrentSeason++;
         }
     }
+
+
+    [ContextMenu("일주일 진행 테스트")]
+    private void TestAdvanceWeek()
+    {
+        Debug.Log($"1주일 테스트 진행");
+        AdvanceWeek();
+    }
 }
