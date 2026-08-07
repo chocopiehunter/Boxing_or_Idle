@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 255d23220805fce42b978743d9babc00
+guid: 128a189b16659da45be1f89388e1a518
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afc09344bede58044bc78e7cb9a980b0
-      internalID: -1707343642
+      spriteID: 2c0b07eca29dabc41bb55b140523b77d
+      internalID: 838511709
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3459abb7058e9f042b665c7251779811
-      internalID: 1176277936
+      spriteID: 6fa6768f8e8807046aaafadb97ef3c53
+      internalID: -1466956383
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4583ad28f26982643a8f3a3cfc6dc4d9
-      internalID: 1272663059
+      spriteID: e2fe66f13232cef4eaf00bfd0ead9774
+      internalID: 109584435
       vertices: []
       indices: 
       edges: []
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec3186ecf9fbc7b48b012e4f11b7dacf
-      internalID: -1760813416
+      spriteID: c3e2c5240638f6c4db8045952a055952
+      internalID: -1993511185
       vertices: []
       indices: 
       edges: []
@@ -201,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: df55a4ef2f1988e4a87bab4318db64b3
+    spriteID: ab42402c656b9604aa4c2b96d7bac11f
     internalID: 0
     vertices: []
     indices: 
@@ -213,10 +213,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      SeasonIcon_0: -1707343642
-      SeasonIcon_1: 1176277936
-      SeasonIcon_2: 1272663059
-      SeasonIcon_3: -1760813416
+      SeasonIcon_0: 838511709
+      SeasonIcon_1: -1466956383
+      SeasonIcon_2: 109584435
+      SeasonIcon_3: -1993511185
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

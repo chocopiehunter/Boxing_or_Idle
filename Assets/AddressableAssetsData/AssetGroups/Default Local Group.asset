@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: c5e8f8b4262c15a4cb1c7bf5d217177d
   m_SerializeEntries:
-  - m_GUID: 255d23220805fce42b978743d9babc00
+  - m_GUID: 128a189b16659da45be1f89388e1a518
     m_Address: SeasonIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
