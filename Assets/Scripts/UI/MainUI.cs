@@ -13,7 +13,7 @@ public class MainUI : UIBase
             return;
         }
 
-        SeasonManager.Instance.OnWeekAdvanced += RefreshSeasonUI;
+        SeasonManager.Instance.OnMonthAdvanced += RefreshSeasonUI;
         RefreshSeasonUI();
     }
 
@@ -21,12 +21,12 @@ public class MainUI : UIBase
     {
         if(SeasonManager.Instance != null)
         {
-            SeasonManager.Instance.OnWeekAdvanced -= RefreshSeasonUI;
+            SeasonManager.Instance.OnMonthAdvanced -= RefreshSeasonUI;
         }
     }
 
     private void RefreshSeasonUI()
     {
-        UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason, SeasonManager.Instance.CurrentWeek);
+        UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason, SeasonManager.Instance.CurrentMonth);
     }
 }

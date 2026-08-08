@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class SeasonUI : UIBase
 {
     [SerializeField] private Image Image_Season;
-    [SerializeField] private Text Text_Week;
+    [SerializeField] private Text Text_Month;
     [SerializeField] private SeasonIconTable IconTable;
 
-    private const string WeekTextFormat = "{0}주차";
+    private const string MonthTextFormat = "{0}월";
 
-    public void SetSeason(Season season, int week)
+    public void SetSeason(Season season, int month)
     {
-        Text_Week.text = string.Format(WeekTextFormat, week);
+        Text_Month.text = string.Format(MonthTextFormat, month);
         SetSeasonIconAsync(season).Forget();
     }
 

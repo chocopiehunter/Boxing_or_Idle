@@ -5,31 +5,31 @@ public class SeasonManager : MonoBehaviour
 {
     public static SeasonManager Instance { get; set; }
 
-    public const int WeeksPerSeason = 4;
+    public const int MonthsPerSeason = 3;
 
     public int Year { get; private set; } = 1;
     public Season CurrentSeason { get; private set; } = Season.Spring;
-    public int CurrentWeek { get; private set; } = 1;
+    public int CurrentMonth { get; private set; } = 1;
 
 
-    public event Action OnWeekAdvanced;
+    public event Action OnMonthAdvanced;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void AdvanceWeek()
+    public void AdvanceMonth()
     {
-        CurrentWeek++;
+        CurrentMonth++;
         
-        if(CurrentWeek > WeeksPerSeason)
+        if(CurrentMonth > MonthsPerSeason)
         {
-            CurrentWeek = 1;
+            CurrentMonth = 1;
             AdvanceSeason();
         }
 
-        OnWeekAdvanced?.Invoke();
+        OnMonthAdvanced?.Invoke();
     }
 
     public void AdvanceSeason()
@@ -46,10 +46,10 @@ public class SeasonManager : MonoBehaviour
     }
 
 
-    [ContextMenu("일주일 진행 테스트")]
+    [ContextMenu("한달 진행 테스트")]
     private void TestAdvanceWeek()
     {
-        Debug.Log($"1주일 테스트 진행");
-        AdvanceWeek();
+        Debug.Log($"한달 테스트 진행");
+        AdvanceMonth();
     }
 }
