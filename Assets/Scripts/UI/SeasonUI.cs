@@ -6,6 +6,7 @@ public class SeasonUI : UIBase
 {
     [SerializeField] private Image Image_Season;
     [SerializeField] private Text Text_Month;
+    [SerializeField] private Slider Slider_MonthProgress;
     [SerializeField] private SeasonIconTable IconTable;
 
     private const string MonthTextFormat = "{0}월";
@@ -14,6 +15,11 @@ public class SeasonUI : UIBase
     {
         Text_Month.text = string.Format(MonthTextFormat, month);
         SetSeasonIconAsync(season).Forget();
+    }
+
+    public void SetMonthProgress(float ratio)
+    {
+        Slider_MonthProgress.value = Mathf.Clamp01(ratio);
     }
 
     private async UniTaskVoid SetSeasonIconAsync(Season season)
