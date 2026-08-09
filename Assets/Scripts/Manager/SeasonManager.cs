@@ -35,6 +35,11 @@ public class SeasonManager : MonoBehaviour
             return;
         }
 
+        if(GameManager.Instance.GameState.CurrentState != GameFlowState.Play)
+        {
+            return;
+        }
+
         float speedMultiplier = GetSpeedMultiplier(GameManager.Instance.GameState.CurrentSpeed);
         _elapsedSecondsInMonth += Time.deltaTime * speedMultiplier;
 
