@@ -20,7 +20,7 @@ public class TitleUI : UIBase
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
 
-        // 나중에 이곳에 SeasonManager같은게 만들어지면 인게임 시작(첫 시즌/턴 초기화) 호출
+        GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
     }
 
     public void OnClick_GameQuit()
