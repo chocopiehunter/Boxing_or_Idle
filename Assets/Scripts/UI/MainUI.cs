@@ -4,6 +4,7 @@ public class MainUI : UIBase
 {
     [SerializeField] private SeasonUI UI_Season;
     [SerializeField] private TrainingUI UI_Training;
+    [SerializeField] private UIButton Button_Menu;
 
     private void OnEnable()
     {
@@ -15,6 +16,7 @@ public class MainUI : UIBase
 
         SeasonManager.Instance.OnMonthAdvanced += RefreshSeasonUI;
         SeasonManager.Instance.OnMonthProgressChanged += RefreshMonthProgress;
+        Button_Menu.BindOnClickButtonEvent(OnClick_Menu);
 
         RefreshSeasonUI();
         RefreshMonthProgress(SeasonManager.Instance.MonthProgress);
@@ -39,5 +41,12 @@ public class MainUI : UIBase
     private void RefreshMonthProgress(float ratio)
     {
         UI_Season.SetMonthProgress(ratio);
+    }
+
+    private void OnClick_Menu()
+    {
+        GameManager.Instance.GameState.ChangeState(GameFlowState.Pause);
+
+        UIManager.Instance.OpenPopupUI(UIType.MenuUI);
     }
 }
