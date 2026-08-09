@@ -45,6 +45,14 @@ public class SeasonManager : MonoBehaviour
 
         MonthProgress = Mathf.Clamp01(_elapsedSecondsInMonth / SecondsPerMonth);
         OnMonthProgressChanged?.Invoke(MonthProgress);
+
+        if (_elapsedSecondsInMonth >= SecondsPerMonth)
+        {
+            _elapsedSecondsInMonth = 0f;
+            MonthProgress = 0f;
+            OnMonthProgressChanged?.Invoke(MonthProgress);
+            AdvanceMonth();
+        }
     }
 
     public void AdvanceMonth()
