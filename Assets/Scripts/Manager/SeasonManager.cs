@@ -8,18 +8,29 @@ public class SeasonManager : MonoBehaviour
     public const int MonthsPerSeason = 3;
     public const int MonthsPerYear = 12;
 
+    [SerializeField] private float SecondsPerMonth = 5f;
+
     public int Year { get; private set; } = 1;
     public Season CurrentSeason { get; private set; } = Season.Spring;
     public int CurrentMonth { get; private set; } = 3;
 
+    public float MonthProgress { get; private set; } = 0f; // 슬라이더용
 
     public event Action OnMonthAdvanced;
+    public event Action<float> OnMonthProgressChanged;
+
+    private float _elapsedSecondsInMonth;
 
     private void Awake()
     {
         Instance = this;
 
         CurrentSeason = GetSeasonByMonth(CurrentMonth);
+    }
+
+    private void Update()
+    {
+        
     }
 
     public void AdvanceMonth()
@@ -56,6 +67,16 @@ public class SeasonManager : MonoBehaviour
         if (month >= 6 && month <= 8) return Season.Summer;
         if (month >= 9 && month <= 11) return Season.Fall;
         return Season.Winter;
+    }
+
+    private float GetSpeedMultiplier(GameSpeedType speedType)
+    {
+        if (speedType == GameSpeedType.Fast)
+        {
+            return 2f;
+        }
+
+        return 1f;
     }
 
 
