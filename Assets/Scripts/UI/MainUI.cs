@@ -14,7 +14,10 @@ public class MainUI : UIBase
         }
 
         SeasonManager.Instance.OnMonthAdvanced += RefreshSeasonUI;
+        SeasonManager.Instance.OnMonthProgressChanged += RefreshMonthProgress;
+
         RefreshSeasonUI();
+        RefreshMonthProgress(SeasonManager.Instance.MonthProgress);
     }
 
     private void OnDisable()
@@ -22,6 +25,7 @@ public class MainUI : UIBase
         if(SeasonManager.Instance != null)
         {
             SeasonManager.Instance.OnMonthAdvanced -= RefreshSeasonUI;
+            SeasonManager.Instance.OnMonthProgressChanged -= RefreshMonthProgress;
         }
     }
 
@@ -30,5 +34,10 @@ public class MainUI : UIBase
         UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason,
                             SeasonManager.Instance.Year,
                             SeasonManager.Instance.CurrentMonth, 1); // Week는 아직 없어서 1로 고정
+    }
+
+    private void RefreshMonthProgress(float ratio)
+    {
+        UI_Season.SetMonthProgress(ratio);
     }
 }
