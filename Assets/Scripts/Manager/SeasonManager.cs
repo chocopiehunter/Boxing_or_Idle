@@ -30,6 +30,11 @@ public class SeasonManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
         float speedMultiplier = GetSpeedMultiplier(GameManager.Instance.GameState.CurrentSpeed);
         _elapsedSecondsInMonth += Time.deltaTime * speedMultiplier;
 
