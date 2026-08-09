@@ -14,10 +14,28 @@ public class MenuUI : UIBase
 
     private void OnEnable()
     {
-        Button_Management.BindOnClickButtonEvent(OnClick_Management);
-        Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
-        Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
+        Button_ToTitle.BindOnClickButtonEvent(OnClick_ToTitle);
+        //Button_Management.BindOnClickButtonEvent(OnClick_Management);
+        //Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
+        //Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
+    }
+
+    private void OnClick_Close()
+    {
+        UIManager.Instance.ClosePopupUI(UIType.MenuUI);
+
+        GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
+    }
+
+    private void OnClick_ToTitle()
+    {
+        UIManager.Instance.ClosePopupUI(UIType.MenuUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainUI);
+
+        GameManager.Instance.GameState.ChangeState(GameFlowState.Title);
+
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
     private void OnClick_Management()
@@ -33,12 +51,5 @@ public class MenuUI : UIBase
     private void OnClick_Settings()
     {
         UIManager.Instance.OpenPopupUI(UIType.SettingUI);
-    }
-
-    private void OnClick_Close()
-    {
-        UIManager.Instance.ClosePopupUI(UIType.MenuUI);
-
-        GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
     }
 }
