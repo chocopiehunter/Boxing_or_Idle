@@ -27,6 +27,8 @@ public class MainUI : UIBase
 
     private void RefreshSeasonUI()
     {
-        UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason, SeasonManager.Instance.CurrentMonth);
+        UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason,
+                            SeasonManager.Instance.Year,
+                            SeasonManager.Instance.CurrentMonth, 1); // Week는 아직 없어서 1로 고정
     }
 }
