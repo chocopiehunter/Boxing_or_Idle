@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class CharacterData : GameDataBase
+public class FighterData : GameDataBase
 {
     public string Name;
     public string Description;

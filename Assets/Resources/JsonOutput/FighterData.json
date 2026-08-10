@@ -1,6 +1,6 @@
 [
   {
-    "Id": "character_01",
+    "Id": "fighter_01",
     "Name": "김기본",
     "Description": "기본 캐릭터이다",
     "Hp": 100,
@@ -8,7 +8,7 @@
     "Def": 5
   },
   {
-    "Id": "opponent_01",
+    "Id": "fighter_02",
     "Name": "김적",
     "Description": "기본 적이다",
     "Hp": 150,
