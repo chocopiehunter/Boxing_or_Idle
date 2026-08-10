@@ -20,7 +20,8 @@ public enum UIType
     DialogueUI,
     SimplePopupUI,
     SettingUI,
-    MenuUI
+    MenuUI,
+    TrainingManagementUI
 }
 
 public static class UIManagerExtension

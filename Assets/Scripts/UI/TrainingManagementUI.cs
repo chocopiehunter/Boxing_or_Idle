@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ManagementUI : UIBase
+public class TrainingManagementUI : UIBase
 {
     
 }
