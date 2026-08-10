@@ -7,10 +7,10 @@ public class TrainingManagementUI : UIBase
     [SerializeField] private Text Text_CurrentTraining;
     [SerializeField] private Text Text_Stats;
 
-    [SerializeField] private UIButton Button_Rest;
-    [SerializeField] private UIButton Button_HpTraining;
-    [SerializeField] private UIButton Button_AtkTraining;
-    [SerializeField] private UIButton Button_DefTraining;
+    [SerializeField] private UIButton_Check Button_Rest;
+    [SerializeField] private UIButton_Check Button_HpTraining;
+    [SerializeField] private UIButton_Check Button_AtkTraining;
+    [SerializeField] private UIButton_Check Button_DefTraining;
     [SerializeField] private UIButton Button_Close;
 
     private FighterModel _targetFighter;
@@ -27,11 +27,11 @@ public class TrainingManagementUI : UIBase
         RefreshUI();
     }
 
-    
+
 
     private void RefreshUI()
     {
-        if(_targetFighter == null)
+        if (_targetFighter == null)
         {
             Text_Name.text = "선수 없음";
             Text_CurrentTraining.text = "-";
@@ -53,9 +53,11 @@ public class TrainingManagementUI : UIBase
             trainingName = _targetFighter.CurrentTrainingId;
         }
 
-        Text_CurrentTraining.text = string.Format("현재 훈련 정책: {0}", trainingName);
+        Text_CurrentTraining.text = $"현재 훈련 정책: {trainingName}";
 
         Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.Atk} / Def {_targetFighter.Def} / Condition {_targetFighter.Condition}";
+        
+        RefreshCheckUI();
     }
 
     private void ChangeTraining(string trainingId)
@@ -69,6 +71,25 @@ public class TrainingManagementUI : UIBase
         _targetFighter.CurrentTrainingId = trainingId;
         Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {trainingId}");
         RefreshUI();
+    }
+
+    private void RefreshCheckUI()
+    {
+        if (_targetFighter == null)
+        {
+            Button_Rest.SetChecked(false);
+            Button_HpTraining.SetChecked(false);
+            Button_AtkTraining.SetChecked(false);
+            Button_DefTraining.SetChecked(false);
+            return;
+        }
+
+        string currentId = _targetFighter.CurrentTrainingId;
+
+        Button_Rest.SetChecked(currentId == "training_00");
+        Button_HpTraining.SetChecked(currentId == "training_01");
+        Button_AtkTraining.SetChecked(currentId == "training_02");
+        Button_DefTraining.SetChecked(currentId == "training_03");
     }
 
     private void OnClick_Rest()

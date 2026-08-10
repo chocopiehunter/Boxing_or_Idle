@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4112150331547128218}
   - component: {fileID: 6908170742384218656}
   - component: {fileID: 6375781418088192575}
-  - component: {fileID: 8600830865684990211}
+  - component: {fileID: 2424935851877900607}
   m_Layer: 5
   m_Name: Button_AtkTraining
   m_TagString: Untagged
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8600830865684990211
+--- !u!114 &2424935851877900607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,9 +102,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 113723105901862278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce84accfee4ac74a963ea6df1ca1ace, type: 3}
+  m_Script: {fileID: 11500000, guid: 58b518b8c10902348ad20188ac164912, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton_Check
   Button_Base: {fileID: 6375781418088192575}
   Text_Base: {fileID: 1837687661285142182}
   Image_Base: {fileID: 8681414020156518952}
@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 7656041830495657273}
   - component: {fileID: 913135155981541799}
   - component: {fileID: 851452166574994221}
-  - component: {fileID: 1723954440724398701}
+  - component: {fileID: 7120607533648566437}
   m_Layer: 5
   m_Name: Button_HpTraining
   m_TagString: Untagged
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1723954440724398701
+--- !u!114 &7120607533648566437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -562,9 +562,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1911008437285516368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce84accfee4ac74a963ea6df1ca1ace, type: 3}
+  m_Script: {fileID: 11500000, guid: 58b518b8c10902348ad20188ac164912, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton_Check
   Button_Base: {fileID: 851452166574994221}
   Text_Base: {fileID: 7961713969627046727}
   Image_Base: {fileID: 2440183844498096412}
@@ -1081,10 +1081,10 @@ MonoBehaviour:
   Text_Name: {fileID: 6020681420084249715}
   Text_CurrentTraining: {fileID: 4728424084856352828}
   Text_Stats: {fileID: 8374184502648462039}
-  Button_Rest: {fileID: 6231894622115383567}
-  Button_HpTraining: {fileID: 1723954440724398701}
-  Button_AtkTraining: {fileID: 8600830865684990211}
-  Button_DefTraining: {fileID: 95471283309850233}
+  Button_Rest: {fileID: 3500854253021527872}
+  Button_HpTraining: {fileID: 7120607533648566437}
+  Button_AtkTraining: {fileID: 2424935851877900607}
+  Button_DefTraining: {fileID: 3841734396509395015}
   Button_Close: {fileID: 5269802437027548742}
 --- !u!1 &5628512409863635495
 GameObject:
@@ -1661,7 +1661,7 @@ GameObject:
   - component: {fileID: 5612106238283280550}
   - component: {fileID: 5766693384772788761}
   - component: {fileID: 6585207315739686179}
-  - component: {fileID: 95471283309850233}
+  - component: {fileID: 3841734396509395015}
   m_Layer: 5
   m_Name: Button_DefTraining
   m_TagString: Untagged
@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &95471283309850233
+--- !u!114 &3841734396509395015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1752,9 +1752,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7399429756991917046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce84accfee4ac74a963ea6df1ca1ace, type: 3}
+  m_Script: {fileID: 11500000, guid: 58b518b8c10902348ad20188ac164912, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton_Check
   Button_Base: {fileID: 6585207315739686179}
   Text_Base: {fileID: 3245337600173049778}
   Image_Base: {fileID: 7487726009569342720}
@@ -1849,7 +1849,7 @@ GameObject:
   - component: {fileID: 692091530609756971}
   - component: {fileID: 1504351072054163879}
   - component: {fileID: 4192796190543488404}
-  - component: {fileID: 6231894622115383567}
+  - component: {fileID: 3500854253021527872}
   m_Layer: 5
   m_Name: Button_Rest
   m_TagString: Untagged
@@ -1931,7 +1931,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6231894622115383567
+--- !u!114 &3500854253021527872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1940,9 +1940,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7853883207659330255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce84accfee4ac74a963ea6df1ca1ace, type: 3}
+  m_Script: {fileID: 11500000, guid: 58b518b8c10902348ad20188ac164912, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton_Check
   Button_Base: {fileID: 4192796190543488404}
   Text_Base: {fileID: 7889652074018466960}
   Image_Base: {fileID: 2131425049899372866}

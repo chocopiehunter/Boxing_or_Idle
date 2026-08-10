@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIButton : MonoBehaviour
+public class UIButton_Check : MonoBehaviour
 {
     [SerializeField] private Button Button_Base;
     [SerializeField] private Text Text_Base;
@@ -10,37 +10,34 @@ public class UIButton : MonoBehaviour
     [SerializeField] private Image Image_Select;
 
     private bool _isSlotMenualUnbindEvent;
+    private bool _isChecked;
+
+    public bool IsChecked { get { return _isChecked; } }
 
     private void Awake()
     {
         InitUIButton();
-        SetDefaultUI();
     }
 
     private void OnDisable()
     {
         if (_isSlotMenualUnbindEvent == false)
         {
-            Button_Base.onClick.RemoveAllListeners();
-        }
-    }
-
-    private void SetDefaultUI()
-    {
-        if (Image_Select != null) 
-        {
-            Image_Select.gameObject.SetActive(false);
+            if (Button_Base != null)
+            {
+                Button_Base.onClick.RemoveAllListeners();
+            }
         }
     }
 
     private void InitUIButton()
     {
-        if(Button_Base != null)
+        if (Button_Base != null)
         {
             return;
         }
 
-        var button = this.gameObject.GetComponentInChildren<Button>();
+        Button button = gameObject.GetComponentInChildren<Button>();
         if (button != null)
         {
             this.Button_Base = button;
@@ -76,5 +73,17 @@ public class UIButton : MonoBehaviour
         }
 
         Text_Base.text = buttonStr;
+    }
+
+    public void SetChecked(bool isChecked)
+    {
+        _isChecked = isChecked;
+
+        if (Image_Select == null)
+        {
+            return;
+        }
+
+        Image_Select.gameObject.SetActive(isChecked);
     }
 }
