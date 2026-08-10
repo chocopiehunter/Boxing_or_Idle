@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d471c14eb09b14ba11c40ce2cc9fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuUI
-  Button_Management: {fileID: 0}
+  Button_TrainingManagement: {fileID: 1082052882569534624}
   Button_MatchSchedule: {fileID: 0}
   Button_Settings: {fileID: 0}
   Button_Close: {fileID: 2988978311291158895}
