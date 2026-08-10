@@ -2,7 +2,7 @@
 
 public class MenuUI : UIBase
 {
-    [SerializeField] private UIButton Button_Management;
+    [SerializeField] private UIButton Button_TrainingManagement;
     [SerializeField] private UIButton Button_MatchSchedule;
     [SerializeField] private UIButton Button_Settings;
     [SerializeField] private UIButton Button_Close;
@@ -16,7 +16,7 @@ public class MenuUI : UIBase
     {
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
         Button_ToTitle.BindOnClickButtonEvent(OnClick_ToTitle);
-        //Button_Management.BindOnClickButtonEvent(OnClick_Management);
+        Button_TrainingManagement.BindOnClickButtonEvent(OnClick_TrainingManagement);
         //Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
         //Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
     }
@@ -38,9 +38,9 @@ public class MenuUI : UIBase
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
 
-    private void OnClick_Management()
+    private void OnClick_TrainingManagement()
     {
-        Debug.Log("선수관리 버튼 누름. 미구현");
+        UIManager.Instance.OpenPopupUI(UIType.TrainingManagementUI);
     }
 
     private void OnClick_MatchSchedule()

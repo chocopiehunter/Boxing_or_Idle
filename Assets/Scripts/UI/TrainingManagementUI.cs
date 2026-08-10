@@ -17,11 +17,24 @@ public class TrainingManagementUI : UIBase
 
     private void OnEnable()
     {
-        
+        Button_Rest.BindOnClickButtonEvent(OnClick_Rest);
+        Button_HpTraining.BindOnClickButtonEvent(OnClick_HpTraining);
+        Button_AtkTraining.BindOnClickButtonEvent(OnClick_AtkTraining);
+        Button_DefTraining.BindOnClickButtonEvent(OnClick_DefTraining);
+        Button_Close.BindOnClickButtonEvent(OnClick_Close);
     }
 
     private void RefreshUI()
     {
+        if(_targetFighter == null)
+        {
+            Text_Name.text = "선수 없음";
+            Text_CurrentTraining.text = "-";
+            Text_Stats.text = "-";
+            return;
+        }
+
+        Text_Name.text = _targetFighter.Name;
 
     }
 
