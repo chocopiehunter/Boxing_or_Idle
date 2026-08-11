@@ -7,8 +7,8 @@ public class SettingUI : UIBase
     [SerializeField] private UIButton Button_Close;
     [SerializeField] private UIButton Button_ToTitleMenu;
 
-    [SerializeField] private UIButton Button_SpeedNormal;
-    [SerializeField] private UIButton Button_SpeedFast;
+    [SerializeField] private UIButton_Check Button_SpeedNormal;
+    [SerializeField] private UIButton_Check Button_SpeedFast;
 
     private void OnEnable()
     {
@@ -32,9 +32,11 @@ public class SettingUI : UIBase
 
     private void RefreshSpeedUI()
     {
-        bool unlocked = GameManager.Instance.GameState.HasClearedFirstGame;
+        // 프로토타입용 1회차 배속 잠금 풀어둠. 최종 빌드에선 다시 활성화할것
+        //bool unlocked = GameManager.Instance.GameState.HasClearedFirstGame;
+        //Button_SpeedFast.SetInteractable(unlocked);
 
-
+        Button_SpeedFast.SetInteractable(true);
     }
 
     private void OnClick_SpeedNormal()
@@ -66,7 +68,7 @@ public class SettingUI : UIBase
 
         UIManager.Instance.ClosePopupUI(UIType.SettingUI);
         UIManager.Instance.ClosePopupUI(UIType.MenuUI);
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainUI);
 
         GameManager.Instance.GameState.ChangeState(GameFlowState.Title);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);

@@ -20,6 +20,6 @@ public class GameState
 
     public void SetFirstGameCleared(bool cleared)
     {
-        HasClearedFirstGame = true;
+        HasClearedFirstGame = cleared;
     }
 }
