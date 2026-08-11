@@ -79,6 +79,11 @@ public class FighterManager : MonoBehaviour
         fighter.Atk = fighter.Atk + trainingData.AtkUp - trainingData.AtkDown;
         fighter.Def = fighter.Def + trainingData.DefUp - trainingData.DefDown;
         fighter.Condition = fighter.Condition + trainingData.ConditionUp - trainingData.ConditionDown;
+
+        if (fighter.Condition < 0f)
+        {
+            fighter.Condition = 0f;
+        }
     }
 
     private void ApplyTrainingToFighter()
