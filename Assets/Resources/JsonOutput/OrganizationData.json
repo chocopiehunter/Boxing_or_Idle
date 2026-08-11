@@ -1,0 +1,8 @@
+[
+  {
+    "Id": "org_01",
+    "Name": "프로토 리그",
+    "Description": "프로토타입용 테스트 최초의 리그다",
+    "FighterIds": "fighter_02,fighter_03,fighter_04"
+  }
+]

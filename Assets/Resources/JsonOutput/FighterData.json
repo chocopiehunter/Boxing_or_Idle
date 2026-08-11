@@ -9,10 +9,26 @@
   },
   {
     "Id": "fighter_02",
-    "Name": "김적",
-    "Description": "기본 적이다",
+    "Name": "상대1",
+    "Description": "기본 상대1이다",
     "Hp": 150,
     "Atk": 12,
     "Def": 6
+  },
+  {
+    "Id": "fighter_03",
+    "Name": "상대2",
+    "Description": "기본 상대2이다",
+    "Hp": 170,
+    "Atk": 10,
+    "Def": 8
+  },
+  {
+    "Id": "fighter_04",
+    "Name": "상대3",
+    "Description": "기본 상대3이다",
+    "Hp": 250,
+    "Atk": 20,
+    "Def": 10
   }
 ]
