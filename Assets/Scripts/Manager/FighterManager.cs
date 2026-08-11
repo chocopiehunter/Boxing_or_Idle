@@ -12,8 +12,27 @@ public class FighterManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        if (SeasonManager.Instance != null)
+        {
+            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
+            SeasonManager.Instance.OnMonthAdvanced += OnMonthAdvanced;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(SeasonManager.Instance != null)
+        {
+            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
+        }
+    }
+
     public void CreateStartingRoster()
     {
+        PlayerFighters.Clear();
+
         FighterData data = GameDataManager.Instance.GetFighterData("fighter_01");
         if (data == null)
         {
@@ -35,5 +54,43 @@ public class FighterManager : MonoBehaviour
         }
 
         return PlayerFighters[0];
+    }
+
+    private void OnMonthAdvanced()
+    {
+        ApplyTrainingToFighter();
+    }
+
+    private void ApplyTraining(FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return;
+        }
+
+        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(fighter.CurrentTrainingId);
+        if(trainingData == null)
+        {
+            Debug.LogError($"TrainingData 없음 {fighter.CurrentTrainingId}");
+            return;
+        }
+
+        fighter.Hp = fighter.Hp + trainingData.HpUp - trainingData.HpDown;
+        fighter.Atk = fighter.Atk + trainingData.AtkUp - trainingData.AtkDown;
+        fighter.Def = fighter.Def + trainingData.DefUp - trainingData.DefDown;
+        fighter.Condition = fighter.Condition + trainingData.ConditionUp - trainingData.ConditionDown;
+
+        if (fighter.Condition < 0f)
+        {
+            fighter.Condition = 0f;
+        }
+    }
+
+    private void ApplyTrainingToFighter()
+    {
+        for (int i = 0; i < PlayerFighters.Count; i++)
+        {
+            ApplyTraining(PlayerFighters[i]);
+        }
     }
 }
