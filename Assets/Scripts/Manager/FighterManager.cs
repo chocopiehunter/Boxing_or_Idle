@@ -58,7 +58,7 @@ public class FighterManager : MonoBehaviour
 
     private void OnMonthAdvanced()
     {
-
+        ApplyTrainingToFighter();
     }
 
     private void ApplyTraining(FighterModel fighter)
@@ -68,14 +68,24 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(fighter.CurrentTrainingId);
+        if(trainingData == null)
+        {
+            Debug.LogError($"TrainingData 없음 {fighter.CurrentTrainingId}");
+            return;
+        }
 
+        fighter.Hp = fighter.Hp + trainingData.HpUp - trainingData.HpDown;
+        fighter.Atk = fighter.Atk + trainingData.AtkUp - trainingData.AtkDown;
+        fighter.Def = fighter.Def + trainingData.DefUp - trainingData.DefDown;
+        fighter.Condition = fighter.Condition + trainingData.ConditionUp - trainingData.ConditionDown;
     }
 
     private void ApplyTrainingToFighter()
     {
         for (int i = 0; i < PlayerFighters.Count; i++)
         {
-
+            ApplyTraining(PlayerFighters[i]);
         }
     }
 }
