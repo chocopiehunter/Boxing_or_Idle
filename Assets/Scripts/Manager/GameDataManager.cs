@@ -69,7 +69,7 @@ public class GameDataManager : MonoBehaviour
     {
         FighterDataList = LoadData<FighterData>("FighterData");
         TrainingDataList = LoadData<TrainingData>("TrainingData");
-        OrganizationDataList = LoadData<OrganizationData>("OranizationData");
+        OrganizationDataList = LoadData<OrganizationData>("OrganizationData");
     }
 
     // 2. 사용을 위한 메서드 정의
