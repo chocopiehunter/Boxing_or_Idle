@@ -12,8 +12,27 @@ public class FighterManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        if (SeasonManager.Instance != null)
+        {
+            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
+            SeasonManager.Instance.OnMonthAdvanced += OnMonthAdvanced;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(SeasonManager.Instance != null)
+        {
+            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
+        }
+    }
+
     public void CreateStartingRoster()
     {
+        PlayerFighters.Clear();
+
         FighterData data = GameDataManager.Instance.GetFighterData("fighter_01");
         if (data == null)
         {
@@ -35,5 +54,28 @@ public class FighterManager : MonoBehaviour
         }
 
         return PlayerFighters[0];
+    }
+
+    private void OnMonthAdvanced()
+    {
+
+    }
+
+    private void ApplyTraining(FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return;
+        }
+
+
+    }
+
+    private void ApplyTrainingToFighter()
+    {
+        for (int i = 0; i < PlayerFighters.Count; i++)
+        {
+
+        }
     }
 }
