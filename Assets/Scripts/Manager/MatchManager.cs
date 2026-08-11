@@ -2,5 +2,24 @@
 
 public class MatchManager : MonoBehaviour
 {
-    // 경기 판정을 관리할 매니저 추후 삭제되거나 용도 변경 가능
+    public static MatchManager Instance { get; private set; }
+
+    public MatchState CurrentState { get; private set; } = MatchState.None;
+    public FighterModel PlayerFighter { get; private set; }
+    public FighterData OpponentData { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public bool TryScheduleMatch(FighterModel player, FighterData opponent)
+    {
+        return true;
+    }
+
+    public void ClearMatch()
+    {
+
+    }
 }
