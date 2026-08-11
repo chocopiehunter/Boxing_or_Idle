@@ -18,7 +18,7 @@ public class MenuUI : UIBase
         Button_ToTitle.BindOnClickButtonEvent(OnClick_ToTitle);
         Button_TrainingManagement.BindOnClickButtonEvent(OnClick_TrainingManagement);
         //Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
-        //Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
+        Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
     }
 
     private void OnClick_Close()

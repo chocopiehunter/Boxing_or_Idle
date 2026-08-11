@@ -86,4 +86,14 @@ public class UIButton_Check : MonoBehaviour
 
         Image_Select.gameObject.SetActive(isChecked);
     }
+
+    public void SetInteractable(bool interactble)
+    {
+        if (Button_Base == null)
+        {
+            return;
+        }
+
+        Button_Base.interactable = interactble;
+    }
 }

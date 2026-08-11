@@ -38,6 +38,12 @@ public class UIManager : MonoBehaviour
             _openedUIDic.Add(uiType);
         }
 
+        // 같은 PopupUI 타입인 MenuUI와 SettingUI의 표기 순서 문제해결용 코드
+        if (isSetActiveOnOpen)
+        {
+            openedUI.transform.SetAsLastSibling();
+        }
+
         return openedUI;
     }
 
