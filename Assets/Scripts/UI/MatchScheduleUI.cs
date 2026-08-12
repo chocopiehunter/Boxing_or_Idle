@@ -16,9 +16,34 @@ public class MatchScheduleUI : UIBase
     [SerializeField] private GameObject Panel_Request;
     [SerializeField] private Text Text_RequestMessage;
 
+    [SerializeField] private RectTransform Rect_Window;
+
     
     private List<FighterData> _opponentList = new List<FighterData>();
     private int _selectedIndex = -1;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnClick_Close();
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0) == false)
+        {
+            return;
+        }
+
+        bool inside = RectTransformUtility.RectangleContainsScreenPoint(Rect_Window, Input.mousePosition, null);
+
+        if (inside == true)
+        {
+            return;
+        }
+
+        OnClick_Close();
+    }
 
     private void OnEnable()
     {

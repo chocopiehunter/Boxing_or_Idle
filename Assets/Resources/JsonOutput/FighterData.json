@@ -30,5 +30,29 @@
     "Hp": 250,
     "Atk": 20,
     "Def": 10
+  },
+  {
+    "Id": "fighter_05",
+    "Name": "상대4",
+    "Description": "기본 상대4이다",
+    "Hp": 270,
+    "Atk": 18,
+    "Def": 15
+  },
+  {
+    "Id": "fighter_06",
+    "Name": "상대5",
+    "Description": "기본 상대5이다",
+    "Hp": 300,
+    "Atk": 20,
+    "Def": 11
+  },
+  {
+    "Id": "fighter_07",
+    "Name": "상대6",
+    "Description": "기본 상대6이다",
+    "Hp": 350,
+    "Atk": 25,
+    "Def": 12
   }
 ]
