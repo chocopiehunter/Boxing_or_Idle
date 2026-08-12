@@ -33,6 +33,8 @@ public class MatchScheduleUI : UIBase
 
     private void LoadOpponents()
     {
+        _opponentList.Clear();
+
         OrganizationData orgData = GameDataManager.Instance.GetOrganizationData(DefaultOrganizationId);
         if (orgData == null)
         {
@@ -61,7 +63,14 @@ public class MatchScheduleUI : UIBase
 
     private void RefreshListUI()
     {
+        ClearRowUI();
 
+        for (int i = 0; i < _opponentList.Count; i++)
+        {
+            MatchOpponentRowUI rowUI = Instantiate(Prefab_OpponentRow, Transform_Content);
+            int rank = i + 1;
+            rowUI.Setup(this, i, rank, _opponentList[i]);
+        }
     }
 
     public void SelectOpponentRow(int index)
@@ -77,7 +86,10 @@ public class MatchScheduleUI : UIBase
 
     private void ClearRowUI()
     {
-
+        for (int i = Transform_Content.childCount - 1; i >= 0; i--)
+        {
+            Destroy(Transform_Content.GetChild(i).gameObject);
+        }
     }
 
     private void ShowRequestPanel(FighterData opponent)
@@ -87,7 +99,12 @@ public class MatchScheduleUI : UIBase
             return;
         }
 
-        if ()
+        if (Text_RequestMessage != null)
+        {
+            Text_RequestMessage.text = $"{opponent.Name} 에게 경기를 요청하시겠습니까?";
+        }
+
+        Panel_Request.SetActive(true);
     }
 
     private void HideRequestPanel()
@@ -100,18 +117,35 @@ public class MatchScheduleUI : UIBase
         }
     }
 
-    private void OnClick_Close()
-    {
-
-    }
-
     private void OnClick_RequestYes()
     {
+        if (_selectedIndex  < 0 || _selectedIndex >= _opponentList.Count)
+        {
+            Debug.LogWarning("선택된 상대가 없습니다");
+            return;
+        }
 
+        FighterModel player = FighterManager.Instance.GetFirstFighter();
+        FighterData opponent = _opponentList[_selectedIndex];
+
+        bool success = MatchManager.Instance.TryScheduleMatch(player, opponent);
+        if (success == false)
+        {
+            return;
+        }
+
+        HideRequestPanel();
+        UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
     }
 
     private void OnClick_RequestNo()
     {
+        HideRequestPanel();
+    }
 
+    private void OnClick_Close()
+    {
+        HideRequestPanel();
+        UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
     }
 }
