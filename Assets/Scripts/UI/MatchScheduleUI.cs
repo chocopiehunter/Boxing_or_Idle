@@ -22,9 +22,9 @@ public class MatchScheduleUI : UIBase
 
     private void OnEnable()
     {
-        Button_Close.BindOnClickButtonEvent(OnClick_Close);
-        Button_RequestYes.BindOnClickButtonEvent(OnClick_RequestYes);
-        Button_RequestNo.BindOnClickButtonEvent(OnClick_RequestNo);
+        //Button_Close.BindOnClickButtonEvent(OnClick_Close);
+        //Button_RequestYes.BindOnClickButtonEvent(OnClick_RequestYes);
+        //Button_RequestNo.BindOnClickButtonEvent(OnClick_RequestNo);
 
         HideRequestPanel();
         LoadOpponents();
