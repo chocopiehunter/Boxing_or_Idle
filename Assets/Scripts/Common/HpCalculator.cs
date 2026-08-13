@@ -10,7 +10,7 @@ public static class HpCalculator
 
         if (damage < MinDamage)
         {
-            return MinDamage;
+            damage = MinDamage;
         }
 
         float remainingHp = maxHp - damage;
