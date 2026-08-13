@@ -3,5 +3,6 @@ using UnityEngine;
 public enum MatchResult
 {
     Win,
-    Lose
+    Lose,
+    Draw
 }
