@@ -56,16 +56,19 @@ public class MatchManager : MonoBehaviour
         int playerRoundWins = 0;
         int opponentRoundWins = 0;
 
+        float playerCurrentHp = PlayerFighter.Hp;
+        float opponentCurrentHp = OpponentData.Hp;
+
         for (int round = 1; round <= DefaultRoundCount; round++)
         {
-            float playerRemainingHp = HpCalculator.CalculateRemainingHp(PlayerFighter.Hp, PlayerFighter.Def, OpponentData.Atk);
+            float playerRemainingHp = HpCalculator.CalculateRemainingHp(playerCurrentHp, PlayerFighter.Def, OpponentData.Atk);
 
-            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(OpponentData.Hp, OpponentData.Def, PlayerFighter.Atk);
+            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(opponentCurrentHp, OpponentData.Def, PlayerFighter.Atk);
 
-            float playerLostRate = HpCalculator.CalculateLostHpRate(PlayerFighter.Hp, playerRemainingHp);
-            float opponentLostRate = HpCalculator.CalculateLostHpRate(OpponentData.Hp, opponentRemainingHp);
+            float playerLostRate = HpCalculator.CalculateLostHpRate(playerCurrentHp, playerRemainingHp);
+            float opponentLostRate = HpCalculator.CalculateLostHpRate(opponentCurrentHp, opponentRemainingHp);
 
-            Debug.Log($"{round}라운드 {PlayerFighter.Name} {playerRemainingHp}/{PlayerFighter.Hp} (체력 {playerLostRate} 잃음");
+            Debug.Log($"{round}라운드 {PlayerFighter.Name} {playerRemainingHp}/{PlayerFighter.Hp} (체력 {playerLostRate} 잃음) vs {OpponentData.Name} {opponentRemainingHp}/{OpponentData.Hp} (체력 {opponentLostRate} 잃음)");
 
             // KO시 즉시 경기 종료 로직
             if (playerRemainingHp <= 0f && opponentRemainingHp <= 0f)
@@ -103,6 +106,9 @@ public class MatchManager : MonoBehaviour
             }
 
             Debug.Log($"{round}라운드 판정 : {roundResult}");
+
+            playerCurrentHp = playerRemainingHp;
+            opponentCurrentHp = opponentRemainingHp;
         }
 
         LastResult = JudgeMatchByRoundWins(playerRoundWins, opponentRoundWins);
