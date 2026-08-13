@@ -58,7 +58,7 @@ public class MatchManager : MonoBehaviour
 
         for (int round = 1; round <= DefaultRoundCount; round++)
         {
-            float playerRemainingHp = HpCalculator.CalculateRemainingHp(OpponentData.Hp, OpponentData.Def, PlayerFighter.Atk);
+            float playerRemainingHp = HpCalculator.CalculateRemainingHp(PlayerFighter.Hp, PlayerFighter.Def, OpponentData.Atk);
 
             float opponentRemainingHp = HpCalculator.CalculateRemainingHp(OpponentData.Hp, OpponentData.Def, PlayerFighter.Atk);
 
