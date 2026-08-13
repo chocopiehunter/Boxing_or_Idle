@@ -45,6 +45,24 @@ public class MatchManager : MonoBehaviour
         return true;
     }
 
+    public bool TryJudgeMatch()
+    {
+
+        return true;
+    }
+
+    private MatchResult JudgeRoundByLostHpRate(float playerLostRate, float opponentLostRate)
+    {
+
+        return MatchResult.Lose;
+    }
+
+    private MatchResult JudgeMatchByRoundWins(int playerRoundWins, int opponentRoundWins)
+    {
+
+        return MatchResult.Lose;
+    }
+
     public void ClearMatch()
     {
         PlayerFighter = null;
