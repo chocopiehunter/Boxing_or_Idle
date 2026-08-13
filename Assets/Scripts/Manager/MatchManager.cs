@@ -47,6 +47,32 @@ public class MatchManager : MonoBehaviour
 
     public bool TryJudgeMatch()
     {
+        if (CurrentState != MatchState.Scheduled)
+        {
+            Debug.LogError($"경기 판정 실패. 현재 상태= {CurrentState}");
+            return false;
+        }
+
+        int playerRoundWins = 0;
+        int opponentRoundWins = 0;
+
+        for (int round = 1; round <= DefaultRoundCount; round++)
+        {
+            float playerRemainingHp = HpCalculator.CalculateRemainingHp(OpponentData.Hp, OpponentData.Def, PlayerFighter.Atk);
+
+            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(OpponentData.Hp, OpponentData.Def, PlayerFighter.Atk);
+
+            float playerLostRate = HpCalculator.CalculateLostHpRate(PlayerFighter.Hp, playerRemainingHp);
+            float opponentLostRate = HpCalculator.CalculateLostHpRate(OpponentData.Hp, opponentRemainingHp);
+
+            Debug.Log($"{round}라운드 {PlayerFighter.Name} {playerRemainingHp}/{PlayerFighter.Hp} (체력 {playerLostRate} 잃음");
+
+            // KO시 즉시 경기 종료 로직
+            if (playerRemainingHp <= 0f && opponentRemainingHp <= 0f)
+            {
+
+            }
+        }
 
         return true;
     }
