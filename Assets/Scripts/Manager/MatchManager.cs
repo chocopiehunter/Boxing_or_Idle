@@ -4,9 +4,13 @@ public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
 
+    private const int DefaultRoundCount = 3;
+
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
+
+    public MatchResult LastResult { get; private set; }
 
     private void Awake()
     {
@@ -27,9 +31,9 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        if (CurrentState != MatchState.None)
+        if (CurrentState != MatchState.None && CurrentState != MatchState.Finished)
         {
-            Debug.LogWarning(" 경기 신청 실패 이미 잡힌 경기가 있습니다");
+            Debug.LogWarning("경기 신청 실패. 이미 예정된 경기가 있습니다");
             return false;
         }
 
