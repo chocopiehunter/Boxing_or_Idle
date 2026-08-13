@@ -9,10 +9,50 @@
   },
   {
     "Id": "fighter_02",
-    "Name": "김적",
-    "Description": "기본 적이다",
+    "Name": "상대1",
+    "Description": "기본 상대1이다",
     "Hp": 150,
     "Atk": 12,
     "Def": 6
+  },
+  {
+    "Id": "fighter_03",
+    "Name": "상대2",
+    "Description": "기본 상대2이다",
+    "Hp": 170,
+    "Atk": 10,
+    "Def": 8
+  },
+  {
+    "Id": "fighter_04",
+    "Name": "상대3",
+    "Description": "기본 상대3이다",
+    "Hp": 250,
+    "Atk": 20,
+    "Def": 10
+  },
+  {
+    "Id": "fighter_05",
+    "Name": "상대4",
+    "Description": "기본 상대4이다",
+    "Hp": 270,
+    "Atk": 18,
+    "Def": 15
+  },
+  {
+    "Id": "fighter_06",
+    "Name": "상대5",
+    "Description": "기본 상대5이다",
+    "Hp": 300,
+    "Atk": 20,
+    "Def": 11
+  },
+  {
+    "Id": "fighter_07",
+    "Name": "상대6",
+    "Description": "기본 상대6이다",
+    "Hp": 350,
+    "Atk": 25,
+    "Def": 12
   }
 ]

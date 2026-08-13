@@ -23,7 +23,7 @@ public class GameDataManager : MonoBehaviour
     // 1. 등록
     public Dictionary<string, FighterData> FighterDataList { get; private set; } = new Dictionary<string, FighterData>();
     public Dictionary<string, TrainingData> TrainingDataList { get; private set; } = new Dictionary<string, TrainingData>();
-
+    public Dictionary<string, OrganizationData> OrganizationDataList { get; private set; } = new Dictionary<string, OrganizationData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -69,6 +69,7 @@ public class GameDataManager : MonoBehaviour
     {
         FighterDataList = LoadData<FighterData>("FighterData");
         TrainingDataList = LoadData<TrainingData>("TrainingData");
+        OrganizationDataList = LoadData<OrganizationData>("OrganizationData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -85,5 +86,12 @@ public class GameDataManager : MonoBehaviour
         if (TrainingDataList == null || string.IsNullOrEmpty(Id)) return null;
 
         return TrainingDataList.TryGetValue(Id, out var item) ? item : null;
+    }
+
+    public OrganizationData GetOrganizationData(string Id)
+    {
+        if (OrganizationDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return OrganizationDataList.TryGetValue(Id, out var item) ? item : null;
     }
 }

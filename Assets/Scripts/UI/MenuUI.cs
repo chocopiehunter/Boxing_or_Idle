@@ -17,7 +17,7 @@ public class MenuUI : UIBase
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
         Button_ToTitle.BindOnClickButtonEvent(OnClick_ToTitle);
         Button_TrainingManagement.BindOnClickButtonEvent(OnClick_TrainingManagement);
-        //Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
+        Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
         Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
     }
 
@@ -45,7 +45,7 @@ public class MenuUI : UIBase
 
     private void OnClick_MatchSchedule()
     {
-        Debug.Log("경기관리 버튼 누름. 미구현");
+        UIManager.Instance.OpenPopupUI(UIType.MatchScheduleUI);
     }
 
     private void OnClick_Settings()
