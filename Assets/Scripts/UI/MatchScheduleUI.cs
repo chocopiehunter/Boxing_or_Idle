@@ -159,6 +159,8 @@ public class MatchScheduleUI : UIBase
             return;
         }
 
+        MatchManager.Instance.TryJudgeMatch();
+
         HideRequestPanel();
         UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
     }
