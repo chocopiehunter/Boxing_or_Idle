@@ -37,18 +37,30 @@ public class SettingUI : UIBase
         //Button_SpeedFast.SetInteractable(unlocked);
 
         Button_SpeedFast.SetInteractable(true);
+
+        GameSpeedType currentSpeed = GameManager.Instance.GameState.CurrentSpeed;
+        bool isNormal = false;
+        if (currentSpeed == GameSpeedType.Normal)
+        {
+            isNormal = true;
+        }
+
+        Button_SpeedNormal.SetChecked(isNormal);
+        Button_SpeedFast.SetChecked(isNormal == false);
     }
 
     private void OnClick_SpeedNormal()
     {
         GameManager.Instance.GameState.ChangeSpeed(GameSpeedType.Normal);
         Debug.Log("배속 Normal 변경");
+        RefreshSpeedUI();
     }
 
     private void OnClick_SpeedFast()
     {
         GameManager.Instance.GameState.ChangeSpeed(GameSpeedType.Fast);
         Debug.Log("배속 Fast 변경");
+        RefreshSpeedUI();
     }
 
     private void OnMasterVolumeChanged(float value)
