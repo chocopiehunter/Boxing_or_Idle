@@ -115,12 +115,20 @@ public class MatchManager : MonoBehaviour
 
     private MatchResult JudgeRoundByLostHpRate(float playerLostRate, float opponentLostRate)
     {
+        if (playerLostRate < opponentLostRate) 
+        {
+            return MatchResult.Win;
+        }
 
         return MatchResult.Lose;
     }
 
     private MatchResult JudgeMatchByRoundWins(int playerRoundWins, int opponentRoundWins)
     {
+        if (playerRoundWins > opponentRoundWins) 
+        {
+            return MatchResult.Win;
+        }
 
         return MatchResult.Lose;
     }
