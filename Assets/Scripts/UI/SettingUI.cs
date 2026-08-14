@@ -82,6 +82,8 @@ public class SettingUI : UIBase
         UIManager.Instance.ClosePopupUI(UIType.MenuUI);
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainUI);
 
+        FighterManager.Instance.ClearRoster();
+
         GameManager.Instance.GameState.ChangeState(GameFlowState.Title);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI);
     }
