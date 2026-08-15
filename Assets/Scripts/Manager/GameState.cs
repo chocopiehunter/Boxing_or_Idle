@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameState
 {
@@ -7,6 +8,9 @@ public class GameState
 
     // 프로토타입용 1회차 엔딩 클리어 여부
     public bool HasClearedFirstGame { get; private set; } = false;
+
+    public int NgPlusPoints { get; private set; } = 0;
+    private List<string> _receivedNgAchievementIds = new List<string>();
 
     public void ChangeState(GameFlowState newState)
     {
@@ -21,5 +25,25 @@ public class GameState
     public void SetFirstGameCleared(bool cleared)
     {
         HasClearedFirstGame = cleared;
+    }
+
+    public void AddNgPlusPoints(int amount)
+    {
+        NgPlusPoints = NgPlusPoints + amount;
+    }
+
+    public bool HasReceivedNgAchievement(string id)
+    {
+        return _receivedNgAchievementIds.Contains(id);
+    }
+
+    public void AddReceivedNgAchievement(string id)
+    {
+        if (HasReceivedNgAchievement(id) == true)
+        {
+            return;
+        }
+
+        _receivedNgAchievementIds.Add(id);
     }
 }

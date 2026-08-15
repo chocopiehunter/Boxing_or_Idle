@@ -161,6 +161,11 @@ public class MatchScheduleUI : UIBase
 
         MatchManager.Instance.TryJudgeMatch();
 
+        if (MatchManager.Instance.LastResult == MatchResult.Win)
+        {
+            GameManager.Instance.TryReceiveNgAchievement("ng_001");
+        }
+
         HideRequestPanel();
         UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
         UIManager.Instance.ClosePopupUI(UIType.MenuUI);
