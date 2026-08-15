@@ -5,6 +5,6 @@ public class NgAchievementData : GameDataBase
 {
     public string Name;
     public string Description;
-    public string AchievementName;
+    public string AchievementType;
     public int Point;
 }
