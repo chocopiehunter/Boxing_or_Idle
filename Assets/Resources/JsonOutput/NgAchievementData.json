@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "ng_001",
+    "Name": "첫 승리",
+    "Description": "첫 승리를 달성했습니다",
+    "AchievementType": "FirstTimeOnly",
+    "Point": 1
+  },
+  {
+    "Id": "ng_002",
+    "Name": "5연승",
+    "Description": "5연승을 달성했습니다",
+    "AchievementType": "Repeat",
+    "Point": 2
+  }
+]

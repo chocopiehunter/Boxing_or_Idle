@@ -2,6 +2,6 @@
 
 public enum NgPlusAchievementType
 {
-    FirstMatchWin,
-
+    FirstTimeOnly,
+    Repeat
 }
