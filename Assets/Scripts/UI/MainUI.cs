@@ -14,7 +14,7 @@ public class MainUI : UIBase
             return;
         }
 
-        SeasonManager.Instance.OnMonthAdvanced += RefreshSeasonUI;
+        SeasonManager.Instance.OnWeekAdvanced += RefreshSeasonUI;
         SeasonManager.Instance.OnWeekProgressChanged += RefreshMonthProgress;
         Button_Menu.BindOnClickButtonEvent(OnClick_Menu);
 
@@ -26,7 +26,7 @@ public class MainUI : UIBase
     {
         if(SeasonManager.Instance != null)
         {
-            SeasonManager.Instance.OnMonthAdvanced -= RefreshSeasonUI;
+            SeasonManager.Instance.OnWeekAdvanced -= RefreshSeasonUI;
             SeasonManager.Instance.OnWeekProgressChanged -= RefreshMonthProgress;
         }
     }
@@ -35,7 +35,8 @@ public class MainUI : UIBase
     {
         UI_Season.SetSeason(SeasonManager.Instance.CurrentSeason,
                             SeasonManager.Instance.Year,
-                            SeasonManager.Instance.CurrentMonth, 1); // Week는 아직 없어서 1로 고정
+                            SeasonManager.Instance.CurrentMonth,
+                            SeasonManager.Instance.CurrentWeek);
     }
 
     private void RefreshMonthProgress(float ratio)

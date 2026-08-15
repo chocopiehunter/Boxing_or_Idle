@@ -54,7 +54,7 @@ public class SeasonManager : MonoBehaviour
             _elapsedSecondsInWeek = 0f;
             WeekProgress = 0f;
             OnWeekProgressChanged?.Invoke(WeekProgress);
-            AdvanceMonth();
+            AdvanceWeek();
         }
     }
 

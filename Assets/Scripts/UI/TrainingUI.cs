@@ -32,7 +32,7 @@ public class TrainingUI : UIBase
 
         if (SeasonManager.Instance != null)
         {
-            SeasonManager.Instance.AdvanceMonth();
+            SeasonManager.Instance.AdvanceWeek();
         }
     }
 }
