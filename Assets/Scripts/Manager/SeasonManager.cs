@@ -7,19 +7,22 @@ public class SeasonManager : MonoBehaviour
 
     public const int MonthsPerSeason = 3;
     public const int MonthsPerYear = 12;
+    public const int WeeksPerMonth = 4;
 
-    [SerializeField] private float SecondsPerMonth = 5f;
+    [SerializeField] private float SecondsPerWeek = 5f;
 
     public int Year { get; private set; } = 1;
     public Season CurrentSeason { get; private set; } = Season.Spring;
     public int CurrentMonth { get; private set; } = 3;
+    public int CurrentWeek { get; private set; } = 1;
 
-    public float MonthProgress { get; private set; } = 0f; // 슬라이더용
+    public float WeekProgress { get; private set; } = 0f; // 슬라이더용
 
+    public event Action OnWeekAdvanced;
     public event Action OnMonthAdvanced;
-    public event Action<float> OnMonthProgressChanged;
+    public event Action<float> OnWeekProgressChanged;
 
-    private float _elapsedSecondsInMonth;
+    private float _elapsedSecondsInWeek;
 
     private void Awake()
     {
@@ -41,18 +44,31 @@ public class SeasonManager : MonoBehaviour
         }
 
         float speedMultiplier = GetSpeedMultiplier(GameManager.Instance.GameState.CurrentSpeed);
-        _elapsedSecondsInMonth += Time.deltaTime * speedMultiplier;
+        _elapsedSecondsInWeek += Time.deltaTime * speedMultiplier;
 
-        MonthProgress = Mathf.Clamp01(_elapsedSecondsInMonth / SecondsPerMonth);
-        OnMonthProgressChanged?.Invoke(MonthProgress);
+        WeekProgress = Mathf.Clamp01(_elapsedSecondsInWeek / SecondsPerWeek);
+        OnWeekProgressChanged?.Invoke(WeekProgress);
 
-        if (_elapsedSecondsInMonth >= SecondsPerMonth)
+        if (_elapsedSecondsInWeek >= SecondsPerWeek)
         {
-            _elapsedSecondsInMonth = 0f;
-            MonthProgress = 0f;
-            OnMonthProgressChanged?.Invoke(MonthProgress);
+            _elapsedSecondsInWeek = 0f;
+            WeekProgress = 0f;
+            OnWeekProgressChanged?.Invoke(WeekProgress);
             AdvanceMonth();
         }
+    }
+
+    public void AdvanceWeek()
+    {
+        CurrentWeek++;
+
+        if(CurrentWeek > WeeksPerMonth)
+        {
+            CurrentWeek = 1;
+            AdvanceMonth();
+        }
+
+        OnWeekAdvanced?.Invoke();
     }
 
     public void AdvanceMonth()
@@ -68,20 +84,6 @@ public class SeasonManager : MonoBehaviour
         CurrentSeason = GetSeasonByMonth(CurrentMonth);
         OnMonthAdvanced?.Invoke();
     }
-
-    // AdvanceMonth에서 안쓰여서 삭제대기
-    //public void AdvanceSeason()
-    //{
-    //    if (CurrentSeason == Season.Winter)
-    //    {
-    //        CurrentSeason = Season.Spring;
-    //        Year++;
-    //    }
-    //    else
-    //    {
-    //        CurrentSeason++;
-    //    }
-    //}
 
     private Season GetSeasonByMonth(int month)
     {
@@ -99,13 +101,5 @@ public class SeasonManager : MonoBehaviour
         }
 
         return 1f;
-    }
-
-
-    [ContextMenu("한달 진행 테스트")]
-    private void TestAdvanceWeek()
-    {
-        Debug.Log($"한달 테스트 진행");
-        AdvanceMonth();
     }
 }

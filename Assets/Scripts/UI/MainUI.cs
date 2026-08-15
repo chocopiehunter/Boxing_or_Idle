@@ -15,11 +15,11 @@ public class MainUI : UIBase
         }
 
         SeasonManager.Instance.OnMonthAdvanced += RefreshSeasonUI;
-        SeasonManager.Instance.OnMonthProgressChanged += RefreshMonthProgress;
+        SeasonManager.Instance.OnWeekProgressChanged += RefreshMonthProgress;
         Button_Menu.BindOnClickButtonEvent(OnClick_Menu);
 
         RefreshSeasonUI();
-        RefreshMonthProgress(SeasonManager.Instance.MonthProgress);
+        RefreshMonthProgress(SeasonManager.Instance.WeekProgress);
     }
 
     private void OnDisable()
@@ -27,7 +27,7 @@ public class MainUI : UIBase
         if(SeasonManager.Instance != null)
         {
             SeasonManager.Instance.OnMonthAdvanced -= RefreshSeasonUI;
-            SeasonManager.Instance.OnMonthProgressChanged -= RefreshMonthProgress;
+            SeasonManager.Instance.OnWeekProgressChanged -= RefreshMonthProgress;
         }
     }
 
