@@ -163,6 +163,10 @@ public class MatchScheduleUI : UIBase
 
         HideRequestPanel();
         UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
+        UIManager.Instance.ClosePopupUI(UIType.MenuUI);
+
+        GameManager.Instance.GameState.ChangeState(GameFlowState.Pause);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MatchUI);
     }
 
     private void OnClick_RequestNo()

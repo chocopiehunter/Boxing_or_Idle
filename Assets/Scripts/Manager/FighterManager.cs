@@ -5,7 +5,11 @@ public class FighterManager : MonoBehaviour
 {
     public static FighterManager Instance { get; private set; }
 
+    [SerializeField] private PlayerFighter Prefab_PlayerFighter;
+
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
+
+    private List<PlayerFighter> _playerFighters = new List<PlayerFighter>();
 
     private void Awake()
     {
@@ -31,7 +35,7 @@ public class FighterManager : MonoBehaviour
 
     public void CreateStartingRoster()
     {
-        PlayerFighters.Clear();
+        ClearRoster();
 
         FighterData data = GameDataManager.Instance.GetFighterData("fighter_01");
         if (data == null)
@@ -43,7 +47,37 @@ public class FighterManager : MonoBehaviour
         FighterModel fighter = new FighterModel(data, "training_00");
         PlayerFighters.Add(fighter);
 
+        SpawnPlayerFighter(fighter);
+
         Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련방침: {fighter.CurrentTrainingId}");
+    }
+
+    public void ClearRoster()
+    {
+        for (int i = 0; i < _playerFighters.Count; i++)
+        {
+            if (_playerFighters[i] != null)
+            {
+                Destroy(_playerFighters[i].gameObject);
+            }
+        }
+
+        _playerFighters.Clear();
+        PlayerFighters.Clear();
+    }
+
+    private void SpawnPlayerFighter(FighterModel fighter)
+    {
+        if (Prefab_PlayerFighter == null)
+        {
+            Debug.LogError("PlayerFighter 프리팹이 연결되지 않음");
+            return;
+        }
+
+        PlayerFighter player = Instantiate(Prefab_PlayerFighter);
+        player.transform.position = new Vector3(0f, 0f, 0f);
+        player.Bind(fighter);
+        _playerFighters.Add(player);
     }
 
     public FighterModel GetFirstFighter()

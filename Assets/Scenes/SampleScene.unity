@@ -604,6 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa87af0e71ba614ea753cd238120f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FighterManager
+  Prefab_PlayerFighter: {fileID: 1929459110601517481, guid: 85f25e1c736d6e444aedd6c74e184500, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
