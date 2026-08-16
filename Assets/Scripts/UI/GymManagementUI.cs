@@ -10,7 +10,7 @@ public class GymManagementUI : UIBase
 
     private void OnEnable()
     {
-        
+        Button_Close.BindOnClickButtonEvent(OnClick_Close);
     }
 
     private void RefreshUI()
@@ -25,6 +25,6 @@ public class GymManagementUI : UIBase
 
     private void OnClick_Close()
     {
-
+        UIManager.Instance.ClosePopupUI(UIType.GymManagementUI);
     }
 }
