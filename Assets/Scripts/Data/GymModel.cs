@@ -7,17 +7,18 @@ public class GymModel
 
     public GymModel (int startLevel, int startGold)
     {
-
+        Level = startLevel;
+        Gold = startGold;
     }
 
-    public void SetLevel()
+    public void SetLevel(int level)
     {
-
+        Level = level;
     }
 
-    public void AddGold()
+    public void AddGold(int amount)
     {
-
+        Gold = Gold + amount;
 
     }
 
