@@ -8,4 +8,5 @@ public class GymLevelData : GameDataBase
     public string Description;
     public int GoldCost;
     public string RequiredItem;
+    public string NextLevelId;
 }
