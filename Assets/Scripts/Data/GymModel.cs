@@ -2,18 +2,21 @@
 
 public class GymModel
 {
+    public string LevelId { get; private set; }
     public int Level { get; private set; }
     public int Gold { get; private set; }
 
-    public GymModel (int startLevel, int startGold)
+    public GymModel (GymLevelData data, int startGold)
     {
-        Level = startLevel;
+        LevelId = data.Id;
+        Level = data.Level;
         Gold = startGold;
     }
 
-    public void SetLevel(int level)
+    public void ApplyLevelData(GymLevelData data)
     {
-        Level = level;
+        LevelId = data.Id;
+        Level = data.Level;
     }
 
     public void AddGold(int amount)
@@ -22,5 +25,14 @@ public class GymModel
 
     }
 
-    
+    public bool TrySpendGold(int amount)
+    {
+        if (Gold < amount)
+        {
+            return false;
+        }
+
+        Gold = Gold - amount;
+        return true;
+    }
 }
