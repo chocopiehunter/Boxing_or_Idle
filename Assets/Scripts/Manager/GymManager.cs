@@ -73,9 +73,9 @@ public class GymManager : MonoBehaviour
             return false;
         }
 
-        if (nextLevelData.RequiredItem != "None") 
+        if (nextLevelData.RequiredUnlockIds != "None") 
         {
-            Debug.Log($"체육관 승급 조건 미구현 : {nextLevelData.RequiredItem}");
+            Debug.Log($"체육관 승급 조건 미구현 : {nextLevelData.RequiredUnlockIds}");
             return false;
         }
 

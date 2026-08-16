@@ -2,21 +2,21 @@
   {
     "Id": "cond_win_1",
     "Type": "TotalWinCount",
-    "Count": "1",
+    "Count": 1,
     "TargetId": "None",
     "Description": "전체 1승"
   },
   {
     "Id": "cond_streak_3",
     "Type": "WinStreak",
-    "Count": "3",
+    "Count": 3,
     "TargetId": "None",
-    "Description": "5연승"
+    "Description": "3연승"
   },
   {
     "Id": "cond_item_aaa",
     "Type": "HasItem",
-    "Count": "0",
+    "Count": 0,
     "TargetId": "item_aaa",
     "Description": "아이템 aaa보유"
   }

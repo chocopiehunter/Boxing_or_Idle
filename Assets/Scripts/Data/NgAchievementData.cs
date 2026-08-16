@@ -7,4 +7,5 @@ public class NgAchievementData : GameDataBase
     public string Description;
     public string AchievementType;
     public int Point;
+    public string RequiredUnlockIds;
 }
