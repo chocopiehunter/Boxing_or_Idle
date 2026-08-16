@@ -58,8 +58,42 @@ public class GymManager : MonoBehaviour
         return GameDataManager.Instance.GetGymLevelData(currentData.NextLevelId);
     }
 
-    //public bool TryUpgradeGym()
-    //{
+    public bool TryUpgradeGym()
+    {
+        if (CurrentGym == null)
+        {
+            Debug.LogError("체육관이 없음");
+            return false;
+        }
 
-    //}
+        GymLevelData nextLevelData = GetNextLevelData();
+        if (nextLevelData == null)
+        {
+            Debug.Log("체육관이 최대 레벨입니다");
+            return false;
+        }
+
+        if (nextLevelData.RequiredItem != "None") 
+        {
+            Debug.Log($"체육관 승급 조건 미구현 : {nextLevelData.RequiredItem}");
+            return false;
+        }
+
+        if (CurrentGym.TrySpendGold(nextLevelData.GoldCost) == false)
+        {
+            Debug.Log($"자금 부족. 필요: {nextLevelData.GoldCost} / 보유: {CurrentGym.Gold}");
+            return false;
+        }
+
+        CurrentGym.ApplyLevelData(nextLevelData);
+        Debug.Log($"체육관 업그레이드 {CurrentGym.Level} {nextLevelData.Name} / 남은 자금: {CurrentGym.Gold}");
+        return true;
+    }
+
+    // 테스트 코드
+    [ContextMenu("체육관 업그레이드 테스트")]
+    private void DebugUpgrade()
+    {
+        TryUpgradeGym();
+    }
 }
