@@ -3,7 +3,6 @@
 public class MainUI : UIBase
 {
     [SerializeField] private SeasonUI UI_Season;
-    [SerializeField] private TrainingUI UI_Training;
     [SerializeField] private UIButton Button_Menu;
 
     private void OnEnable()
