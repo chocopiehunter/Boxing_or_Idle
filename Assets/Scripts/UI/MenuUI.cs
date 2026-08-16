@@ -7,6 +7,7 @@ public class MenuUI : UIBase
     [SerializeField] private UIButton Button_Settings;
     [SerializeField] private UIButton Button_Close;
     [SerializeField] private UIButton Button_ToTitle;
+    [SerializeField] private UIButton Button_GymManagement;
 
     // 나중에 구현할 것
     // [SerializeField] private UIButton Button_Inventory;
@@ -19,6 +20,7 @@ public class MenuUI : UIBase
         Button_TrainingManagement.BindOnClickButtonEvent(OnClick_TrainingManagement);
         Button_MatchSchedule.BindOnClickButtonEvent(OnClick_MatchSchedule);
         Button_Settings.BindOnClickButtonEvent(OnClick_Settings);
+        Button_GymManagement.BindOnClickButtonEvent(OnClick_GymManagement);
     }
 
     private void OnClick_Close()
@@ -53,5 +55,10 @@ public class MenuUI : UIBase
     private void OnClick_Settings()
     {
         UIManager.Instance.OpenPopupUI(UIType.SettingUI);
+    }
+
+    private void OnClick_GymManagement()
+    {
+        UIManager.Instance.OpenPopupUI(UIType.GymManagementUI);
     }
 }

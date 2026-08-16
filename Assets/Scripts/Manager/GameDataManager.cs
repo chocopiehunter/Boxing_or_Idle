@@ -24,8 +24,8 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, FighterData> FighterDataList { get; private set; } = new Dictionary<string, FighterData>();
     public Dictionary<string, TrainingData> TrainingDataList { get; private set; } = new Dictionary<string, TrainingData>();
     public Dictionary<string, OrganizationData> OrganizationDataList { get; private set; } = new Dictionary<string, OrganizationData>();
-
     public Dictionary<string, NgAchievementData> NgAchievementDataList { get; private set; } = new Dictionary<string, NgAchievementData>();
+    public Dictionary<string, GymLevelData> GymLevelDataList { get; private set; } = new Dictionary<string, GymLevelData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -73,6 +73,7 @@ public class GameDataManager : MonoBehaviour
         TrainingDataList = LoadData<TrainingData>("TrainingData");
         OrganizationDataList = LoadData<OrganizationData>("OrganizationData");
         NgAchievementDataList = LoadData<NgAchievementData>("NgAchievementData");
+        GymLevelDataList = LoadData<GymLevelData>("GymLevelData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -103,5 +104,12 @@ public class GameDataManager : MonoBehaviour
         if (NgAchievementDataList == null || string.IsNullOrEmpty(Id)) return null;
 
         return NgAchievementDataList.TryGetValue(Id, out var item) ? item : null;
+    }
+
+    public GymLevelData GetGymLevelData(string Id)
+    {
+        if (GymLevelDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return GymLevelDataList.TryGetValue(Id,out var item) ? item : null;
     }
 }

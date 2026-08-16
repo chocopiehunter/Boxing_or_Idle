@@ -23,7 +23,8 @@ public enum UIType
     MenuUI,
     TrainingManagementUI,
     MatchScheduleUI,
-    MatchUI
+    MatchUI,
+    GymManagementUI
 }
 
 public static class UIManagerExtension

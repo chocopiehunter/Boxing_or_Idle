@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "gym_level_01",
+    "Type": "gym",
+    "Level": 1,
+    "Name": "허름한 체육관",
+    "Description": "시작 체육관이다.",
+    "GoldCost": 0,
+    "RequiredItem": "None",
+    "NextLevelId": "gym_level_02"
+  },
+  {
+    "Id": "gym_level_02",
+    "Type": "gym",
+    "Level": 2,
+    "Name": "낡은 체육관",
+    "Description": "선수 육성을 시작한 체육관이다.",
+    "GoldCost": 1000,
+    "RequiredItem": "None",
+    "NextLevelId": "None"
+  },
+  {
+    "Id": "rest_level_01",
+    "Type": "rest",
+    "Level": 1,
+    "Name": "낡은 휴식 공간",
+    "Description": "낡고 보잘것 없는 휴식 공간이다.",
+    "GoldCost": 500,
+    "RequiredItem": "1W",
+    "NextLevelId": "rest_level_02"
+  },
+  {
+    "Id": "rest_level_02",
+    "Type": "rest",
+    "Level": 2,
+    "Name": "좁은 휴식 공간",
+    "Description": "개선되었지만 여전히 좁고 불편한 휴식 공간이다.",
+    "GoldCost": 1500,
+    "RequiredItem": "None",
+    "NextLevelId": "None"
+  }
+]
