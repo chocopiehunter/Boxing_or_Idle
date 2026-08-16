@@ -1,6 +1,7 @@
 [
   {
     "Id": "gym_level_01",
+    "Level": 1,
     "Name": "허름한 체육관",
     "Description": "시작 체육관이다.",
     "GoldCost": 0,
