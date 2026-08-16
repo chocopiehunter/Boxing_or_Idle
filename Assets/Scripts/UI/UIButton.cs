@@ -77,4 +77,14 @@ public class UIButton : MonoBehaviour
 
         Text_Base.text = buttonStr;
     }
+
+    public void SetInteractable(bool interactable)
+    {
+        if (Button_Base == null)
+        {
+            return;
+        }
+
+        Button_Base.interactable = interactable;
+    }
 }
