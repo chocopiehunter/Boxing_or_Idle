@@ -26,6 +26,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, OrganizationData> OrganizationDataList { get; private set; } = new Dictionary<string, OrganizationData>();
     public Dictionary<string, NgAchievementData> NgAchievementDataList { get; private set; } = new Dictionary<string, NgAchievementData>();
     public Dictionary<string, GymLevelData> GymLevelDataList { get; private set; } = new Dictionary<string, GymLevelData>();
+    public Dictionary<string, UnlockConditionData> UnlockConditionDataList { get; private set; } = new Dictionary<string, UnlockConditionData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -74,6 +75,7 @@ public class GameDataManager : MonoBehaviour
         OrganizationDataList = LoadData<OrganizationData>("OrganizationData");
         NgAchievementDataList = LoadData<NgAchievementData>("NgAchievementData");
         GymLevelDataList = LoadData<GymLevelData>("GymLevelData");
+        UnlockConditionDataList = LoadData<UnlockConditionData>("UnlockConditionData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -111,5 +113,12 @@ public class GameDataManager : MonoBehaviour
         if (GymLevelDataList == null || string.IsNullOrEmpty(Id)) return null;
 
         return GymLevelDataList.TryGetValue(Id,out var item) ? item : null;
+    }
+
+    public UnlockConditionData GetUnlockConditionData(string Id)
+    {
+        if (UnlockConditionDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return UnlockConditionDataList.TryGetValue(Id, out var item) ? item : null;
     }
 }
