@@ -356,8 +356,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GymManagementUI
   Button_Close: {fileID: 6336741070650607182}
   Button_Dim: {fileID: 0}
-  Button_Upgrade_Gym: {fileID: 0}
-  Text_UpgradeName: {fileID: 0}
+  Button_Upgrade_Gym: {fileID: 2744134070195268108}
+  Text_UpgradeName: {fileID: 8679000336629306904}
 --- !u!1 &2831869757455295887
 GameObject:
   m_ObjectHideFlags: 0
