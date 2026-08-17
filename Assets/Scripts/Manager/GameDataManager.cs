@@ -115,6 +115,30 @@ public class GameDataManager : MonoBehaviour
         return GymLevelDataList.TryGetValue(Id,out var item) ? item : null;
     }
 
+    public GymLevelData GetGymLevelDataByTypeAndLevel(string type, int level)
+    {
+        if (GymLevelDataList == null || string.IsNullOrEmpty(type)) return null;
+
+        foreach (KeyValuePair<string, GymLevelData> pair in GymLevelDataList)
+        {
+            GymLevelData data = pair.Value;
+            if (data == null)
+            {
+                continue;
+            }
+
+            if(data.Type == type)
+            {
+                if (data.Level == level)
+                {
+                    return data;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public UnlockConditionData GetUnlockConditionData(string Id)
     {
         if (UnlockConditionDataList == null || string.IsNullOrEmpty(Id)) return null;
