@@ -74,11 +74,90 @@ public class UpgradeInfoUI : UIBase
         Text_Level_After.text = nextData.Level.ToString();
 
         int ownedGold = GymManager.Instance.CurrentGym.Gold;
+        bool enoughGold = true;
+        if (ownedGold < nextData.GoldCost)
+        {
+            enoughGold = false;
+        }
+
+        Text_Required_Gold.text = $"필요 {nextData.GoldCost} / 보유 {ownedGold}";
+        if (enoughGold == true)
+        {
+            Text_Required_Gold.color = Color_Enough;
+        }
+        else
+        {
+            Text_Required_Gold.color = Color_NotEnough;
+        }
+
+        bool hasUnlockCondition = false;
+        if (nextData.RequiredUnlockIds != NoneId)
+        {
+            hasUnlockCondition = true;
+        }
+
+        Text_Required_UnlockIds.text = GetUnlockText(nextData.RequiredUnlockIds);
+        if (hasUnlockCondition == true)
+        {
+            Text_Required_UnlockIds.color = Color_NotEnough;
+        }
+        else
+        {
+            Text_Required_UnlockIds.color = Color_Enough;
+        }
+
+        bool canConfirm = false;
+        if (enoughGold == true)
+        {
+            if (hasUnlockCondition == false)
+            {
+                canConfirm = true;
+            }
+        }
+
+        Button_Confirm.SetInteractable(canConfirm);
     }
 
-    private string GetUnlockText()
+    private string GetUnlockText(string requiredUnlockIds)
     {
-        return null;
+        if (string.IsNullOrEmpty(requiredUnlockIds) == true)
+        {
+            return "없음";
+        }
+
+        if (requiredUnlockIds == NoneId)
+        {
+            return "없음";
+        }
+
+        string result = "";
+        string[] splitIds = requiredUnlockIds.Split(',');
+        for (int i = 0; i < splitIds.Length; i++)
+        {
+            string id = splitIds[i].Trim();
+            if (string.IsNullOrEmpty(id) == true)
+            {
+                continue;
+            }
+
+            UnlockConditionData unlockConditionData = GameDataManager.Instance.GetUnlockConditionData(id);
+            string line = id;
+            if (unlockConditionData != null)
+            {
+                line = unlockConditionData.Description;
+            }
+
+            if (string.IsNullOrEmpty(result) == true)
+            {
+                result = line;
+            }
+            else
+            {
+                result = result + "|n" + line;
+            }
+        }
+
+        return result;
     }
 
     private void OnClick_Confirm()
@@ -93,7 +172,7 @@ public class UpgradeInfoUI : UIBase
         GymManagementUI gymUI = UIManager.Instance.GetOpenedUI(UIRootType.PopupUI, UIType.GymManagementUI) as GymManagementUI;
         if (gymUI != null)
         {
-            //gymUI.RefreshUI();
+            gymUI.RefreshUI();
         }
     }
 
