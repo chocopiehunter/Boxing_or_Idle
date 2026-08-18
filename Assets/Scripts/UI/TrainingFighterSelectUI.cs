@@ -47,7 +47,17 @@ public class TrainingFighterSelectUI : UIBase
 
     private void RefreshSlot(Button button, Text nameText, int index, List<FighterModel> fighters)
     {
+        bool hasFighter = index < fighters.Count;
+        button.interactable = hasFighter;
 
+        if (hasFighter == true)
+        {
+            nameText.text = fighters[index].Name;
+        }
+        else
+        {
+            nameText.text = "미등록";
+        }
     }
 
     private void OpenTrainingManagement(int index)
@@ -57,26 +67,26 @@ public class TrainingFighterSelectUI : UIBase
 
     private void OnClick_Fighter1()
     {
-
+        OpenTrainingManagement(0);
     }
 
     private void OnClick_Fighter2()
     {
-
+        OpenTrainingManagement(1);
     }
 
     private void OnClick_Fighter3()
     {
-
+        OpenTrainingManagement(2);
     }
 
     private void OnClick_Fighter4()
     {
-
+        OpenTrainingManagement(3);
     }
 
     private void OnClick_Close()
     {
-
+        UIManager.Instance.ClosePopupUI(UIType.TrainingFighterSelectUI);
     }
 }
