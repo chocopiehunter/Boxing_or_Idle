@@ -283,15 +283,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb9521bfbc4d81439911e1b0a188365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingFighterSelectUI
-  Button_Close: {fileID: 0}
-  Button_Fighter1: {fileID: 0}
-  Button_Fighter2: {fileID: 0}
-  Button_Fighter3: {fileID: 0}
-  Button_Fighter4: {fileID: 0}
-  Text_Name_Fighter1: {fileID: 0}
-  Text_Name_Fighter2: {fileID: 0}
-  Text_Name_Fighter3: {fileID: 0}
-  Text_Name_FIghter4: {fileID: 0}
+  Button_Close: {fileID: 3313250019078030126}
+  Button_Fighter1: {fileID: 7053058039035713680}
+  Button_Fighter2: {fileID: 6845983552537682027}
+  Button_Fighter3: {fileID: 7988153200523524352}
+  Button_Fighter4: {fileID: 8786423191298353909}
+  Text_Name_Fighter1: {fileID: 237578836400351578}
+  Text_Name_Fighter2: {fileID: 4527633613561300062}
+  Text_Name_Fighter3: {fileID: 4106532316666003161}
+  Text_Name_Fighter4: {fileID: 8481124978369898106}
 --- !u!1 &1616260540449376947
 GameObject:
   m_ObjectHideFlags: 0

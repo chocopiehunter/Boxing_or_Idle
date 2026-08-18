@@ -23,7 +23,12 @@ public class TrainingManagementUI : UIBase
         Button_DefTraining.BindOnClickButtonEvent(OnClick_DefTraining);
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
 
-        _targetFighter = FighterManager.Instance.GetFirstFighter();
+        if (_targetFighter == null)
+        {
+            _targetFighter = FighterManager.Instance.GetFirstFighter();
+
+        }
+
         RefreshUI();
     }
 
@@ -90,6 +95,12 @@ public class TrainingManagementUI : UIBase
         Button_HpTraining.SetChecked(currentId == "training_01");
         Button_AtkTraining.SetChecked(currentId == "training_02");
         Button_DefTraining.SetChecked(currentId == "training_03");
+    }
+
+    public void SetTargetFighter(FighterModel fighter)
+    {
+        _targetFighter = fighter;
+        RefreshUI();
     }
 
     private void OnClick_Rest()

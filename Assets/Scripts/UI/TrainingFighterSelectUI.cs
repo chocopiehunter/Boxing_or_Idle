@@ -62,7 +62,21 @@ public class TrainingFighterSelectUI : UIBase
 
     private void OpenTrainingManagement(int index)
     {
+        List<FighterModel> fighters = FighterManager.Instance.PlayerFighters;
+        if (index < 0 || index >= fighters.Count)
+        {
+            return;
+        }
 
+        TrainingManagementUI trainingUI = UIManager.Instance.OpenPopupUI(UIType.TrainingManagementUI) as TrainingManagementUI;
+        if (trainingUI == null)
+        {
+            Debug.LogError("TrainingManagementUI 열기 실패");
+            return;
+        }
+
+        trainingUI.SetTargetFighter(fighters[index]);
+        UIManager.Instance.ClosePopupUI(UIType.TrainingFighterSelectUI);
     }
 
     private void OnClick_Fighter1()

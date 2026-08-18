@@ -44,7 +44,7 @@ public class MenuUI : UIBase
 
     private void OnClick_TrainingManagement()
     {
-        UIManager.Instance.OpenPopupUI(UIType.TrainingManagementUI);
+        UIManager.Instance.OpenPopupUI(UIType.TrainingFighterSelectUI);
     }
 
     private void OnClick_MatchSchedule()
