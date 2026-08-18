@@ -6,14 +6,12 @@ public class GymManagementUI : UIBase
     private const string DefaultBuildingType = "gym";
 
     [SerializeField] private UIButton Button_Close;
-    [SerializeField] private UIButton Button_Dim;
     [SerializeField] private UIButton Button_Upgrade_Gym;
     [SerializeField] private Text Text_UpgradeName;
 
     private void OnEnable()
     {
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
-        // Button_Dim.BindOnClickButtonEvent(OnClick_Close);
         Button_Upgrade_Gym.BindOnClickButtonEvent(OnClick_UpgradeGym);
 
         RefreshUI();

@@ -47,7 +47,7 @@ public class MatchScheduleUI : UIBase
 
     private void OnEnable()
     {
-        // Button_Close.BindOnClickButtonEvent(OnClick_Close);
+        Button_Close.BindOnClickButtonEvent(OnClick_Close);
         Button_RequestYes.BindOnClickButtonEvent(OnClick_RequestYes);
         Button_RequestNo.BindOnClickButtonEvent(OnClick_RequestNo);
 
@@ -181,6 +181,7 @@ public class MatchScheduleUI : UIBase
 
     private void OnClick_Close()
     {
+        Debug.Log("MatchScheduleUI Close 버튼 눌림");
         HideRequestPanel();
         UIManager.Instance.ClosePopupUI(UIType.MatchScheduleUI);
     }
