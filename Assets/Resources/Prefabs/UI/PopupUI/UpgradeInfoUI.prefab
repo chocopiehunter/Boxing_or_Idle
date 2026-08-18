@@ -1320,6 +1320,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52111bb4defdc3742967d856088af5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeInfoUI
+  Button_Confirm: {fileID: 8213976168472567369}
+  Button_Cancel: {fileID: 8064695874775182944}
+  Text_UpgradeName_Before: {fileID: 6198731335158121182}
+  Text_UpgradeName_After: {fileID: 1655712791189844345}
+  Text_UpgradeInfo_Before: {fileID: 6330708209106734218}
+  Text_UpgradeInfo_After: {fileID: 7115553628692321062}
+  Text_Level_Before: {fileID: 3575124184677488120}
+  Text_Level_After: {fileID: 4653295766808177496}
+  Text_Required_Gold: {fileID: 7360098631521874109}
+  Text_Required_UnlockIds: {fileID: 3410599083385405437}
+  Color_Enough: {r: 0, g: 1, b: 0, a: 1}
+  Color_NotEnough: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8585596727702026183
 GameObject:
   m_ObjectHideFlags: 0
