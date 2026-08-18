@@ -174,6 +174,8 @@ public class UpgradeInfoUI : UIBase
         {
             gymUI.RefreshUI();
         }
+
+        OnClick_Cancel();
     }
 
     private void OnClick_Cancel()

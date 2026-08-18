@@ -37,6 +37,7 @@ public class GymManagementUI : UIBase
 
         if (nextData == null)
         {
+            Button_Upgrade_Gym.ChangeButtonText("Max");
             Button_Upgrade_Gym.SetInteractable(false);
             return;
         }
