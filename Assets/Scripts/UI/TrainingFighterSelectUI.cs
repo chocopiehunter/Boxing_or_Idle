@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,14 @@ public class TrainingFighterSelectUI : UIBase
     [SerializeField] private Text Text_Name_Fighter2;
     [SerializeField] private Text Text_Name_Fighter3;
     [SerializeField] private Text Text_Name_Fighter4;
+
+    [SerializeField] private Image Image_Fighter1;
+    [SerializeField] private Image Image_Fighter2;
+    [SerializeField] private Image Image_Fighter3;
+    [SerializeField] private Image Image_Fighter4;
+    [SerializeField] private Sprite DefaultFighterSprite;
+
+    private const string NoneId = "None";
 
     private void OnEnable()
     {
@@ -39,25 +48,66 @@ public class TrainingFighterSelectUI : UIBase
     {
         List<FighterModel> fighters = FighterManager.Instance.PlayerFighters;
 
-        RefreshSlot(Button_Fighter1, Text_Name_Fighter1, 0, fighters);
-        RefreshSlot(Button_Fighter2, Text_Name_Fighter2, 1, fighters);
-        RefreshSlot(Button_Fighter3, Text_Name_Fighter3, 2, fighters);
-        RefreshSlot(Button_Fighter4, Text_Name_Fighter4, 3, fighters);
+        RefreshSlot(Button_Fighter1, Text_Name_Fighter1, Image_Fighter1, 0, fighters);
+        RefreshSlot(Button_Fighter2, Text_Name_Fighter2, Image_Fighter2, 1, fighters);
+        RefreshSlot(Button_Fighter3, Text_Name_Fighter3, Image_Fighter3, 2, fighters);
+        RefreshSlot(Button_Fighter4, Text_Name_Fighter4, Image_Fighter4, 3, fighters);
     }
 
-    private void RefreshSlot(Button button, Text nameText, int index, List<FighterModel> fighters)
+    private void RefreshSlot(Button button, Text nameText, Image fighterImage, int index, List<FighterModel> fighters)
     {
         bool hasFighter = index < fighters.Count;
         button.interactable = hasFighter;
 
+        if (fighterImage != null)
+        {
+            fighterImage.sprite = DefaultFighterSprite;
+        }
+
         if (hasFighter == true)
         {
             nameText.text = fighters[index].Name;
+            TrySetFighterPortrait(fighterImage, fighters[index]);
         }
         else
         {
             nameText.text = "미등록";
         }
+    }
+
+    private void TrySetFighterPortrait(Image fighterImage, FighterModel fighter)
+    {
+        SetFighterPortraitAsync(fighterImage, fighter).Forget();
+    }
+
+    private async UniTaskVoid SetFighterPortraitAsync(Image fighterImage, FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return;
+        }
+
+        if (HasPortraitAddress(fighter.PortraitAddress) == false)
+        {
+            return;
+        }
+
+        await GameUtil.LoadAndSetSpriteImage(fighterImage, fighter.PortraitAddress);
+    }
+
+    private bool HasPortraitAddress(string address)
+    {
+        if (string.IsNullOrEmpty(address) == true)
+        {
+            return false;
+        }
+
+        if (address == NoneId)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void OpenTrainingManagement(int index)
