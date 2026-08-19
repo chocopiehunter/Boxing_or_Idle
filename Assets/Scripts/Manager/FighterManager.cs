@@ -25,7 +25,7 @@ public class FighterManager : MonoBehaviour
 
         for (int i = 0; i < PlayerFighters.Count; i++)
         {
-            
+            ProgressTraining(PlayerFighters[i], seconds);
         }
     }
 
@@ -88,17 +88,58 @@ public class FighterManager : MonoBehaviour
 
     private void ProgressTraining(FighterModel fighter, float seconds)
     {
+        if (fighter == null)
+        {
+            return;
+        }
 
+        string trainingId = GetActiveTrainingId(fighter);
+        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(trainingId);
+        if (trainingData == null)
+        {
+            Debug.LogError($"TrainingData 없음 {trainingId}");
+            return;
+        }
+
+        bool completed = fighter.AddTrainingProgress(trainingId, seconds, trainingData.Time);
+        if (completed == false)
+        {
+            return;
+        }
+
+        ApplyTraining(fighter, trainingData);
     }
 
-    private string PickTrainingId(FighterModel fighter)
+    private string GetActiveTrainingId(FighterModel fighter)
     {
-        return null;
+        if (fighter.TrainingHp <= RestTrainingHp)
+        {
+            string restId = GetRestTrainingId();
+            if (string.IsNullOrEmpty(restId) == false)
+            {
+                return restId;
+            }
+        }
+
+        return fighter.CurrentTrainingId;
     }
 
     private string GetRestTrainingId()
     {
+        Dictionary<string, TrainingData> list = GameDataManager.Instance.TrainingDataList;
+        if (list == null)
+        {
+            return null;
+        }
 
+        foreach (KeyValuePair<string, TrainingData> pair in list)
+        {
+            if (pair.Value.TrainingType == RestTrainingType)
+            {
+                return pair.Value.Id;
+            }
+        }
+        
         return null;
     }
 
