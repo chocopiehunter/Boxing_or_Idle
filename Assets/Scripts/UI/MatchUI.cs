@@ -15,7 +15,8 @@ public class MatchUI : UIBase
 
     [SerializeField] private Image Image_Fighter_Left;
     [SerializeField] private Image Image_Fighter_Right;
-    [SerializeField] private Sprite DefaultFighterSprite;
+    [SerializeField] private Sprite DefaultFighterSprite_Left;
+    [SerializeField] private Sprite DefaultFighterSprite_Right;
     [SerializeField] private UIButton Button_Close;
 
     [SerializeField] private Text Text_MatchWinner;
@@ -37,21 +38,21 @@ public class MatchUI : UIBase
         if(player != null)
         {
             Text_FighterName_Left.text = player.Name;
-            TrySetFighterBody(Image_Fighter_Left, player.BodyAddress);
+            TrySetFighterBody(Image_Fighter_Left, player.BodyAddress, DefaultFighterSprite_Left);
         }
         else
         {
-            SetDefaultBody(Image_Fighter_Left);
+            SetDefaultBody(Image_Fighter_Left, DefaultFighterSprite_Left);
         }
 
         if (opponent != null)
         {
             Text_FighterName_Right.text = opponent.Name;
-            TrySetFighterBody(Image_Fighter_Right, opponent.BodyAddress);
+            TrySetFighterBody(Image_Fighter_Right, opponent.BodyAddress, DefaultFighterSprite_Right);
         }
         else
         {
-            SetDefaultBody(Image_Fighter_Right);
+            SetDefaultBody(Image_Fighter_Right, DefaultFighterSprite_Right);
         }
 
         Text_Round.text = "경기 종료";
@@ -60,9 +61,9 @@ public class MatchUI : UIBase
         ApplyMatchWinnerText(result, player, opponent);
     }
 
-    private void TrySetFighterBody(Image fighterImage, string bodyAddress)
+    private void TrySetFighterBody(Image fighterImage, string bodyAddress, Sprite defaultSprite)
     {
-        SetDefaultBody(fighterImage);
+        SetDefaultBody(fighterImage, defaultSprite);
 
         if (HasBodyAddress(bodyAddress) == false)
         {
@@ -72,14 +73,14 @@ public class MatchUI : UIBase
         SetFighterBodyAsync(fighterImage, bodyAddress).Forget();
     }
 
-    private void SetDefaultBody(Image fighterImage)
+    private void SetDefaultBody(Image fighterImage, Sprite defaultSprite)
     {
         if (fighterImage == null)
         {
             return;
         }
 
-        fighterImage.sprite = DefaultFighterSprite;
+        fighterImage.sprite = defaultSprite;
     }
 
     private async UniTaskVoid SetFighterBodyAsync(Image fighterImage, string bodyAddress)

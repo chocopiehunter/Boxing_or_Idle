@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 197451400f526e746a28ea6da92bce19
+    m_Address: Silhouette
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1d8b49627029cfc4fba0e9cf5403aa21
     m_Address: KimBasic
     m_ReadOnly: 0
