@@ -27,6 +27,16 @@ public class FighterModel
         Atk = data.Atk;
         Def = data.Def;
         Condition = 100f;
+
+        if (data.TrainingHp > 0f)
+        {
+            TrainingHpMax = data.TrainingHp;
+        }
+        else
+        {
+            TrainingHpMax = 100f;
+        }
+
         TrainingHpMax = 100f;
         TrainingHp = TrainingHpMax;
         CurrentTrainingId = defaultTrainingId;
@@ -63,5 +73,30 @@ public class FighterModel
     public void ResetTrainingProgress(string trainingId)
     {
         SetTrainingProgress(trainingId, 0f);
+    }
+
+    public bool AddTrainingProgress(string trainingId, float seconds, float duration)
+    {
+        if (string.IsNullOrEmpty (trainingId) == true)
+        {
+            return false;
+        }
+
+        if (duration <= 0f)
+        {
+            return false;
+        }
+
+        float current = GetTrainingProgress(trainingId);
+        current = current + seconds;
+
+        if (current >= duration)
+        {
+            ResetTrainingProgress(trainingId);
+            return true;
+        }
+
+        SetTrainingProgress(trainingId, current);
+        return false;
     }
 }

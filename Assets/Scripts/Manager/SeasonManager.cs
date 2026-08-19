@@ -93,6 +93,16 @@ public class SeasonManager : MonoBehaviour
         return Season.Winter;
     }
 
+    public float GetCurrentSpeedMultiplier()
+    {
+        if (GameManager.Instance == null)
+        {
+            return 1f;
+        }
+
+        return GetSpeedMultiplier(GameManager.Instance.GameState.CurrentSpeed);
+    }
+
     private float GetSpeedMultiplier(GameSpeedType speedType)
     {
         if (speedType == GameSpeedType.Fast)

@@ -5,6 +5,9 @@ public class FighterManager : MonoBehaviour
 {
     public static FighterManager Instance { get; private set; }
 
+    private const float RestTrainingHp = 0f;
+    private const string RestTrainingType = "Rest";
+
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
 
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
@@ -16,20 +19,13 @@ public class FighterManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    private void Update()
     {
-        if (SeasonManager.Instance != null)
-        {
-            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
-            SeasonManager.Instance.OnMonthAdvanced += OnMonthAdvanced;
-        }
-    }
+        float seconds = UnityEngine.Time.deltaTime * SeasonManager.Instance.GetCurrentSpeedMultiplier();
 
-    private void OnDestroy()
-    {
-        if(SeasonManager.Instance != null)
+        for (int i = 0; i < PlayerFighters.Count; i++)
         {
-            SeasonManager.Instance.OnMonthAdvanced -= OnMonthAdvanced;
+            
         }
     }
 
@@ -90,41 +86,44 @@ public class FighterManager : MonoBehaviour
         return PlayerFighters[0];
     }
 
-    private void OnMonthAdvanced()
+    private void ProgressTraining(FighterModel fighter, float seconds)
     {
-        ApplyTrainingToFighter();
+
     }
 
-    private void ApplyTraining(FighterModel fighter)
+    private string PickTrainingId(FighterModel fighter)
     {
-        if (fighter == null)
+        return null;
+    }
+
+    private string GetRestTrainingId()
+    {
+
+        return null;
+    }
+
+    private void ApplyTraining(FighterModel fighter, TrainingData trainingData)
+    {
+        if (fighter == null || trainingData == null)
         {
             return;
         }
 
-        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(fighter.CurrentTrainingId);
-        if(trainingData == null)
-        {
-            Debug.LogError($"TrainingData 없음 {fighter.CurrentTrainingId}");
-            return;
-        }
+        float hpPlus = trainingData.HpUp - trainingData.HpDown;
+        float atkPlus = trainingData.AtkUp - trainingData.AtkDown;
+        float defPlus = trainingData.DefUp - trainingData.DefDown;
+        float conditionPlus = trainingData.ConditionUp - trainingData.ConditionDown;
 
-        fighter.Hp = fighter.Hp + trainingData.HpUp - trainingData.HpDown;
-        fighter.Atk = fighter.Atk + trainingData.AtkUp - trainingData.AtkDown;
-        fighter.Def = fighter.Def + trainingData.DefUp - trainingData.DefDown;
-        fighter.Condition = fighter.Condition + trainingData.ConditionUp - trainingData.ConditionDown;
+        fighter.Hp = fighter.Hp + hpPlus;
+        fighter.Atk = fighter.Atk + atkPlus;
+        fighter.Def = fighter.Def + defPlus;
+        fighter.Condition = fighter.Condition + conditionPlus;
 
         if (fighter.Condition < 0f)
         {
             fighter.Condition = 0f;
         }
-    }
 
-    private void ApplyTrainingToFighter()
-    {
-        for (int i = 0; i < PlayerFighters.Count; i++)
-        {
-            ApplyTraining(PlayerFighters[i]);
-        }
+        Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Atk {fighter.Atk} / Def {fighter.Def}");
     }
 }
