@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchUI : UIBase
@@ -12,11 +13,14 @@ public class MatchUI : UIBase
     [SerializeField] private Text Text_Round;
     [SerializeField] private Text Text_Time;
 
-    [SerializeField] private RawImage RawImage_Fighter_Left;
-    [SerializeField] private RawImage RawImage_Fighter_Right;
+    [SerializeField] private Image Image_Fighter_Left;
+    [SerializeField] private Image Image_Fighter_Right;
+    [SerializeField] private Sprite DefaultFighterSprite;
     [SerializeField] private UIButton Button_Close;
 
     [SerializeField] private Text Text_MatchWinner;
+
+    private const string NoneId = "None";
 
     private void OnEnable()
     {
@@ -33,17 +37,62 @@ public class MatchUI : UIBase
         if(player != null)
         {
             Text_FighterName_Left.text = player.Name;
+            TrySetFighterBody(Image_Fighter_Left, player.BodyAddress);
+        }
+        else
+        {
+            SetDefaultBody(Image_Fighter_Left);
         }
 
-        if(opponent != null)
+        if (opponent != null)
         {
             Text_FighterName_Right.text = opponent.Name;
+            TrySetFighterBody(Image_Fighter_Right, opponent.BodyAddress);
+        }
+        else
+        {
+            SetDefaultBody(Image_Fighter_Right);
         }
 
         Text_Round.text = "경기 종료";
         Text_Time.text = "-";
 
         ApplyMatchWinnerText(result, player, opponent);
+    }
+
+    private void TrySetFighterBody(Image fighterImage, string bodyAddress)
+    {
+
+    }
+
+    private void SetDefaultBody(Image fighterImage)
+    {
+        if (fighterImage == null)
+        {
+            return;
+        }
+
+        fighterImage.sprite = DefaultFighterSprite;
+    }
+
+    private async UniTaskVoid SetFighterBodyAsync(Image fighterImage, string bodyAddress)
+    {
+
+    }
+
+    private bool HasBodyAddress(string address)
+    {
+        if (string.IsNullOrEmpty(address) == true)
+        {
+            return false;
+        }
+
+        if (address == NoneId)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void ApplyMatchWinnerText(MatchResult result, FighterModel player, FighterData opponent)
