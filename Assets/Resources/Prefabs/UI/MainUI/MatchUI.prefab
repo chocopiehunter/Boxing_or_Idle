@@ -1158,8 +1158,9 @@ MonoBehaviour:
   Text_WLD_Right: {fileID: 767434454055309740}
   Text_Round: {fileID: 3008251354585329028}
   Text_Time: {fileID: 6666777497068043600}
-  RawImage_Fighter_Left: {fileID: 9062676710574272222}
-  RawImage_Fighter_Right: {fileID: 166159478360736371}
+  Image_Fighter_Left: {fileID: 0}
+  Image_Fighter_Right: {fileID: 0}
+  DefaultFighterSprite: {fileID: -758098703, guid: 197451400f526e746a28ea6da92bce19, type: 3}
   Button_Close: {fileID: 2498052597042323292}
   Text_MatchWinner: {fileID: 4476017711826044156}
 --- !u!1 &4000663496403210405

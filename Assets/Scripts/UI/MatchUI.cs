@@ -62,7 +62,14 @@ public class MatchUI : UIBase
 
     private void TrySetFighterBody(Image fighterImage, string bodyAddress)
     {
+        SetDefaultBody(fighterImage);
 
+        if (HasBodyAddress(bodyAddress) == false)
+        {
+            return;
+        }
+
+        SetFighterBodyAsync(fighterImage, bodyAddress).Forget();
     }
 
     private void SetDefaultBody(Image fighterImage)
@@ -77,7 +84,12 @@ public class MatchUI : UIBase
 
     private async UniTaskVoid SetFighterBodyAsync(Image fighterImage, string bodyAddress)
     {
+        if (fighterImage == null)
+        {
+            return;
+        }
 
+        await GameUtil.LoadAndSetSpriteImage(fighterImage, bodyAddress);
     }
 
     private bool HasBodyAddress(string address)
