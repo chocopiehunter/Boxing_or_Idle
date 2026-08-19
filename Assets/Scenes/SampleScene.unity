@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GymManager
   StartingLevelId: gym_level_01
-  StartingGold: 300
+  StartingGold: 8000
 --- !u!1 &2093169895
 GameObject:
   m_ObjectHideFlags: 0

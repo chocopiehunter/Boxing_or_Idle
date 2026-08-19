@@ -1,0 +1,156 @@
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TrainingFighterSelectUI : UIBase
+{
+    [SerializeField] private Button Button_Close;
+    [SerializeField] private Button Button_Fighter1;
+    [SerializeField] private Button Button_Fighter2;
+    [SerializeField] private Button Button_Fighter3;
+    [SerializeField] private Button Button_Fighter4;
+
+    [SerializeField] private Text Text_Name_Fighter1;
+    [SerializeField] private Text Text_Name_Fighter2;
+    [SerializeField] private Text Text_Name_Fighter3;
+    [SerializeField] private Text Text_Name_Fighter4;
+
+    [SerializeField] private Image Image_Fighter1;
+    [SerializeField] private Image Image_Fighter2;
+    [SerializeField] private Image Image_Fighter3;
+    [SerializeField] private Image Image_Fighter4;
+    [SerializeField] private Sprite DefaultFighterSprite;
+
+    private const string NoneId = "None";
+
+    private void OnEnable()
+    {
+        Button_Close.onClick.AddListener(OnClick_Close);
+        Button_Fighter1.onClick.AddListener(OnClick_Fighter1);
+        Button_Fighter2.onClick.AddListener(OnClick_Fighter2);
+        Button_Fighter3.onClick.AddListener(OnClick_Fighter3);
+        Button_Fighter4.onClick.AddListener(OnClick_Fighter4);
+
+        RefreshUI();
+    }
+
+    private void OnDisable()
+    {
+        Button_Close.onClick.RemoveListener(OnClick_Close);
+        Button_Fighter1.onClick.RemoveListener(OnClick_Fighter1);
+        Button_Fighter2.onClick.RemoveListener(OnClick_Fighter2);
+        Button_Fighter3.onClick.RemoveListener(OnClick_Fighter3);
+        Button_Fighter4.onClick.RemoveListener(OnClick_Fighter4);
+    }
+
+    private void RefreshUI()
+    {
+        List<FighterModel> fighters = FighterManager.Instance.PlayerFighters;
+
+        RefreshSlot(Button_Fighter1, Text_Name_Fighter1, Image_Fighter1, 0, fighters);
+        RefreshSlot(Button_Fighter2, Text_Name_Fighter2, Image_Fighter2, 1, fighters);
+        RefreshSlot(Button_Fighter3, Text_Name_Fighter3, Image_Fighter3, 2, fighters);
+        RefreshSlot(Button_Fighter4, Text_Name_Fighter4, Image_Fighter4, 3, fighters);
+    }
+
+    private void RefreshSlot(Button button, Text nameText, Image fighterImage, int index, List<FighterModel> fighters)
+    {
+        bool hasFighter = index < fighters.Count;
+        button.interactable = hasFighter;
+
+        if (fighterImage != null)
+        {
+            fighterImage.sprite = DefaultFighterSprite;
+        }
+
+        if (hasFighter == true)
+        {
+            nameText.text = fighters[index].Name;
+            TrySetFighterPortrait(fighterImage, fighters[index]);
+        }
+        else
+        {
+            nameText.text = "미등록";
+        }
+    }
+
+    private void TrySetFighterPortrait(Image fighterImage, FighterModel fighter)
+    {
+        SetFighterPortraitAsync(fighterImage, fighter).Forget();
+    }
+
+    private async UniTaskVoid SetFighterPortraitAsync(Image fighterImage, FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return;
+        }
+
+        if (HasPortraitAddress(fighter.PortraitAddress) == false)
+        {
+            return;
+        }
+
+        await GameUtil.LoadAndSetSpriteImage(fighterImage, fighter.PortraitAddress);
+    }
+
+    private bool HasPortraitAddress(string address)
+    {
+        if (string.IsNullOrEmpty(address) == true)
+        {
+            return false;
+        }
+
+        if (address == NoneId)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void OpenTrainingManagement(int index)
+    {
+        List<FighterModel> fighters = FighterManager.Instance.PlayerFighters;
+        if (index < 0 || index >= fighters.Count)
+        {
+            return;
+        }
+
+        TrainingManagementUI trainingUI = UIManager.Instance.OpenPopupUI(UIType.TrainingManagementUI) as TrainingManagementUI;
+        if (trainingUI == null)
+        {
+            Debug.LogError("TrainingManagementUI 열기 실패");
+            return;
+        }
+
+        trainingUI.SetTargetFighter(fighters[index]);
+        UIManager.Instance.ClosePopupUI(UIType.TrainingFighterSelectUI);
+    }
+
+    private void OnClick_Fighter1()
+    {
+        OpenTrainingManagement(0);
+    }
+
+    private void OnClick_Fighter2()
+    {
+        OpenTrainingManagement(1);
+    }
+
+    private void OnClick_Fighter3()
+    {
+        OpenTrainingManagement(2);
+    }
+
+    private void OnClick_Fighter4()
+    {
+        OpenTrainingManagement(3);
+    }
+
+    private void OnClick_Close()
+    {
+        UIManager.Instance.ClosePopupUI(UIType.TrainingFighterSelectUI);
+    }
+}

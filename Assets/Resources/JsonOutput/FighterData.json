@@ -3,6 +3,8 @@
     "Id": "fighter_01",
     "Name": "김기본",
     "Description": "기본 캐릭터이다",
+    "PortraitAddress": "KimBasic[south-east 1_1]",
+    "BodyAddress": "KimBasic[south-east 1_0]",
     "Hp": 100,
     "Atk": 10,
     "Def": 5
@@ -11,6 +13,8 @@
     "Id": "fighter_02",
     "Name": "상대1",
     "Description": "기본 상대1이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 150,
     "Atk": 12,
     "Def": 6
@@ -19,6 +23,8 @@
     "Id": "fighter_03",
     "Name": "상대2",
     "Description": "기본 상대2이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 170,
     "Atk": 10,
     "Def": 8
@@ -27,6 +33,8 @@
     "Id": "fighter_04",
     "Name": "상대3",
     "Description": "기본 상대3이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 250,
     "Atk": 20,
     "Def": 10
@@ -35,6 +43,8 @@
     "Id": "fighter_05",
     "Name": "상대4",
     "Description": "기본 상대4이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 270,
     "Atk": 18,
     "Def": 15
@@ -43,6 +53,8 @@
     "Id": "fighter_06",
     "Name": "상대5",
     "Description": "기본 상대5이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 300,
     "Atk": 20,
     "Def": 11
@@ -51,6 +63,8 @@
     "Id": "fighter_07",
     "Name": "상대6",
     "Description": "기본 상대6이다",
+    "PortraitAddress": "None",
+    "BodyAddress": "None",
     "Hp": 350,
     "Atk": 70,
     "Def": 20

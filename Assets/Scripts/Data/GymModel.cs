@@ -1,28 +1,36 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GymModel
 {
-    public string LevelId { get; private set; }
-    public int Level { get; private set; }
     public int Gold { get; private set; }
 
-    public GymModel (GymLevelData data, int startGold)
+    private Dictionary<string, string> _currentLevelIds = new Dictionary<string, string>();
+
+    public GymModel (int startGold)
     {
-        LevelId = data.Id;
-        Level = data.Level;
         Gold = startGold;
+    }
+
+    public string GetLevelId(string type)
+    {
+        string levelId;
+        if (_currentLevelIds.TryGetValue(type, out levelId) == true)
+        {
+            return levelId;
+        }
+
+        return null;
     }
 
     public void ApplyLevelData(GymLevelData data)
     {
-        LevelId = data.Id;
-        Level = data.Level;
+        _currentLevelIds[data.Type] = data.Id;
     }
 
     public void AddGold(int amount)
     {
         Gold = Gold + amount;
-
     }
 
     public bool TrySpendGold(int amount)

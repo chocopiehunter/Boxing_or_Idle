@@ -4,6 +4,10 @@ public class GymManager : MonoBehaviour
 {
     public static GymManager Instance { get; private set; }
 
+    private const string NoneId = "None";
+    private const int FirstLevel = 1;
+    private const string DefaultBuildingType = "gym";
+
     [SerializeField] private string StartingLevelId = "gym_level_01";
     [SerializeField] private int StartingGold = 300;
 
@@ -23,8 +27,10 @@ public class GymManager : MonoBehaviour
             return;
         }
 
-        CurrentGym = new GymModel(startData, StartingGold);
-        Debug.Log($"시작 체육관 생성완료. 레벨: {CurrentGym.Level} / 자금: {CurrentGym.Gold}");
+        CurrentGym = new GymModel(StartingGold);
+        CurrentGym.ApplyLevelData(startData);
+
+        Debug.Log($"시작 체육관 생성완료. Type: {startData.Type} / 레벨: {startData.Level} / 자금: {CurrentGym.Gold}");
     }
 
     public void ClearGym()
@@ -32,22 +38,28 @@ public class GymManager : MonoBehaviour
         CurrentGym = null;
     }
 
-    public GymLevelData GetCurrentLevelData()
+    public GymLevelData GetCurrentLevelData(string type)
     {
         if (CurrentGym == null)
         {
             return null;
         }
 
-        return GameDataManager.Instance.GetGymLevelData(CurrentGym.LevelId);
-    }
-
-    public GymLevelData GetNextLevelData()
-    {
-        GymLevelData currentData = GetCurrentLevelData();
-        if(currentData == null)
+        string levelId = CurrentGym.GetLevelId(type);
+        if(string.IsNullOrEmpty(levelId) == true)
         {
             return null;
+        }
+
+        return GameDataManager.Instance.GetGymLevelData(levelId);
+    }
+
+    public GymLevelData GetNextLevelData(string type)
+    {
+        GymLevelData currentData = GetCurrentLevelData(type);
+        if(currentData == null)
+        {
+            return GameDataManager.Instance.GetGymLevelDataByTypeAndLevel(type, FirstLevel);
         }
 
         if (string.IsNullOrEmpty(currentData.NextLevelId) == true)
@@ -55,10 +67,15 @@ public class GymManager : MonoBehaviour
             return null;
         }
 
+        if (currentData.NextLevelId == NoneId)
+        {
+            return null;
+        }
+
         return GameDataManager.Instance.GetGymLevelData(currentData.NextLevelId);
     }
 
-    public bool TryUpgradeGym()
+    public bool TryUpgrade(string type)
     {
         if (CurrentGym == null)
         {
@@ -66,28 +83,33 @@ public class GymManager : MonoBehaviour
             return false;
         }
 
-        GymLevelData nextLevelData = GetNextLevelData();
+        GymLevelData nextLevelData = GetNextLevelData(type);
         if (nextLevelData == null)
         {
-            Debug.Log("체육관이 최대 레벨입니다");
+            Debug.Log($"{type} 최대 레벨 입니다");
             return false;
         }
 
-        if (nextLevelData.RequiredUnlockIds != "None") 
+        if (nextLevelData.RequiredUnlockIds != NoneId)
         {
-            Debug.Log($"체육관 승급 조건 미구현 : {nextLevelData.RequiredUnlockIds}");
+            Debug.Log($"승급 조건 미구현 {nextLevelData.RequiredUnlockIds}");
             return false;
         }
 
         if (CurrentGym.TrySpendGold(nextLevelData.GoldCost) == false)
         {
-            Debug.Log($"자금 부족. 필요: {nextLevelData.GoldCost} / 보유: {CurrentGym.Gold}");
+            Debug.Log($"자금 부족. 필요 {nextLevelData.GoldCost} / 보유 {CurrentGym.Gold}");
             return false;
         }
 
         CurrentGym.ApplyLevelData(nextLevelData);
-        Debug.Log($"체육관 업그레이드 {CurrentGym.Level} {nextLevelData.Name} / 남은 자금: {CurrentGym.Gold}");
+        Debug.Log($"{type} 업그레이드 레벨 {nextLevelData.Level} {nextLevelData.Name} / 남은 자금: {CurrentGym.Gold}");
         return true;
+    }
+
+    public bool TryUpgradeGym()
+    {
+        return TryUpgrade(DefaultBuildingType);
     }
 
     // 테스트 코드

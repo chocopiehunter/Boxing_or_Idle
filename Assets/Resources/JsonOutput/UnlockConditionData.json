@@ -19,5 +19,12 @@
     "Count": 0,
     "TargetId": "item_aaa",
     "Description": "아이템 aaa보유"
+  },
+  {
+    "Id": "cond_streak_5",
+    "Type": "WinStreak",
+    "Count": 5,
+    "TargetId": "None",
+    "Description": "5연승"
   }
 ]

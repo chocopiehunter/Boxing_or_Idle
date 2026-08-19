@@ -10,6 +10,8 @@ public class FighterModel
     public float Condition { get; set; }
 
     public string CurrentTrainingId { get; set; }
+    public string PortraitAddress { get; private set; }
+    public string BodyAddress { get; private set; }
 
     public FighterModel(FighterData data, string defaultTrainingId)
     {
@@ -20,5 +22,7 @@ public class FighterModel
         Def = data.Def;
         Condition = 100f;
         CurrentTrainingId = defaultTrainingId;
+        PortraitAddress = data.PortraitAddress;
+        BodyAddress = data.BodyAddress;
     }
 }
