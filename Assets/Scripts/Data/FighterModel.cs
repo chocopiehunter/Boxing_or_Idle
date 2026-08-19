@@ -10,6 +10,7 @@ public class FighterModel
     public float Def { get; set; }
     public float Condition { get; set; }
 
+    public string ActiveTrainingId { get; set; }
     public string CurrentTrainingId { get; set; }
     public string PortraitAddress { get; private set; }
     public string BodyAddress { get; private set; }

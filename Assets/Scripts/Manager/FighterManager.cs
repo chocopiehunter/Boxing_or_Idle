@@ -109,6 +109,8 @@ public class FighterManager : MonoBehaviour
         }
 
         string trainingId = GetActiveTrainingId(fighter);
+        fighter.ActiveTrainingId = trainingId;
+
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(trainingId);
         if (trainingData == null)
         {
