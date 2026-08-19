@@ -7,7 +7,8 @@
     "BodyAddress": "KimBasic[south-east 1_0]",
     "Hp": 100,
     "Atk": 10,
-    "Def": 5
+    "Def": 5,
+    "TrainingHp": 100
   },
   {
     "Id": "fighter_02",
@@ -17,7 +18,8 @@
     "BodyAddress": "None",
     "Hp": 150,
     "Atk": 12,
-    "Def": 6
+    "Def": 6,
+    "TrainingHp": null
   },
   {
     "Id": "fighter_03",
@@ -27,7 +29,8 @@
     "BodyAddress": "None",
     "Hp": 170,
     "Atk": 10,
-    "Def": 8
+    "Def": 8,
+    "TrainingHp": null
   },
   {
     "Id": "fighter_04",
@@ -37,7 +40,8 @@
     "BodyAddress": "None",
     "Hp": 250,
     "Atk": 20,
-    "Def": 10
+    "Def": 10,
+    "TrainingHp": null
   },
   {
     "Id": "fighter_05",
@@ -47,7 +51,8 @@
     "BodyAddress": "None",
     "Hp": 270,
     "Atk": 18,
-    "Def": 15
+    "Def": 15,
+    "TrainingHp": null
   },
   {
     "Id": "fighter_06",
@@ -57,7 +62,8 @@
     "BodyAddress": "None",
     "Hp": 300,
     "Atk": 20,
-    "Def": 11
+    "Def": 11,
+    "TrainingHp": null
   },
   {
     "Id": "fighter_07",
@@ -67,6 +73,7 @@
     "BodyAddress": "None",
     "Hp": 350,
     "Atk": 70,
-    "Def": 20
+    "Def": 20,
+    "TrainingHp": null
   }
 ]

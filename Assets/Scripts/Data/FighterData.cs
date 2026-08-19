@@ -10,4 +10,5 @@ public class FighterData : GameDataBase
     public float Hp;
     public float Atk;
     public float Def;
+    public float TrainingHp;
 }

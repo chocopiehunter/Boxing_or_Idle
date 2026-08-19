@@ -13,6 +13,9 @@ public class FighterModel
     public string PortraitAddress { get; private set; }
     public string BodyAddress { get; private set; }
 
+    public float TrainingHp { get; set; }
+    public float TrainingHpMax { get; private set; }
+
     public FighterModel(FighterData data, string defaultTrainingId)
     {
         DataId = data.Id;
@@ -21,6 +24,8 @@ public class FighterModel
         Atk = data.Atk;
         Def = data.Def;
         Condition = 100f;
+        TrainingHpMax = 100f;
+        TrainingHp = TrainingHpMax;
         CurrentTrainingId = defaultTrainingId;
         PortraitAddress = data.PortraitAddress;
         BodyAddress = data.BodyAddress;
