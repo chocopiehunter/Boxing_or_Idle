@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FighterModel
@@ -16,6 +17,8 @@ public class FighterModel
     public float TrainingHp { get; set; }
     public float TrainingHpMax { get; private set; }
 
+    private Dictionary<string, float> _trainingProgressById;
+
     public FighterModel(FighterData data, string defaultTrainingId)
     {
         DataId = data.Id;
@@ -29,5 +32,36 @@ public class FighterModel
         CurrentTrainingId = defaultTrainingId;
         PortraitAddress = data.PortraitAddress;
         BodyAddress = data.BodyAddress;
+        _trainingProgressById = new Dictionary<string, float>();
+    }
+
+    public float GetTrainingProgress(string trainingId)
+    {
+        if (string.IsNullOrEmpty(trainingId) == true)
+        {
+            return 0f;
+        }
+
+        if (_trainingProgressById.ContainsKey(trainingId) == false)
+        {
+            return 0f;
+        }
+
+        return _trainingProgressById[trainingId];
+    }
+
+    public void SetTrainingProgress(string trainingId, float progress)
+    {
+        if (string.IsNullOrEmpty(trainingId) == true)
+        {
+            return;
+        }
+
+        _trainingProgressById[trainingId] = progress;
+    }
+
+    public void ResetTrainingProgress(string trainingId)
+    {
+        SetTrainingProgress(trainingId, 0f);
     }
 }
