@@ -6,6 +6,7 @@ public class TrainingData : GameDataBase
     public string Name;
     public string Description;
     public string TrainingType;
+    public float Time;
     public float HpUp;
     public float HpDown;
     public float AtkUp;
