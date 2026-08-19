@@ -21,6 +21,21 @@ public class FighterManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
+        if (GameManager.Instance.GameState.CurrentState != GameFlowState.Play)
+        {
+            return;
+        }
+
+        if (SeasonManager.Instance == null)
+        {
+            return;
+        }
+
         float seconds = UnityEngine.Time.deltaTime * SeasonManager.Instance.GetCurrentSpeedMultiplier();
 
         for (int i = 0; i < PlayerFighters.Count; i++)
