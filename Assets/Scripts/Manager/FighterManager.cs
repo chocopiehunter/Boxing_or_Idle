@@ -7,6 +7,7 @@ public class FighterManager : MonoBehaviour
 
     private const float RestTrainingHpMin = 0f;
     private const string RestTrainingType = "Rest";
+    private const float ArriveDistance = 0.15f;
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
     [SerializeField] private TrainingSpot Prefab_Sandbag;
@@ -178,6 +179,12 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        PlayerFighter playerView = FindPlayerView(fighter);
+        if (playerView == null)
+        {
+            return;
+        }
+
         string trainingId = GetActiveTrainingId(fighter);
         string previousId = fighter.ActiveTrainingId;
 
@@ -190,6 +197,21 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        ITrainingSpot spot = FindSpotByTrainingId(trainingId);
+        fighter.ActiveSpot = spot;
+
+        if (spot != null)
+        {
+            Vector3 targetPos = spot.GetTargetSpot().position;
+            float distance = Vector3.Distance(playerView.transform.position, targetPos);
+
+            if (distance > ArriveDistance)
+            {
+                fighter.ActivityState = FighterActivityState.Moving;
+                return;
+            }
+        }
+
         if (trainingData.TrainingType == RestTrainingType)
         {
             fighter.ActivityState = FighterActivityState.Resting;
@@ -197,11 +219,6 @@ public class FighterManager : MonoBehaviour
         else
         {
             fighter.ActivityState = FighterActivityState.Training;
-        }
-
-        if (fighter.ActivityState != FighterActivityState.Training && fighter.ActivityState != FighterActivityState.Resting)
-        {
-            return;
         }
 
         if (previousId != trainingId)
@@ -223,6 +240,48 @@ public class FighterManager : MonoBehaviour
         }
 
         ApplyTraining(fighter, trainingData);
+    }
+
+    private PlayerFighter FindPlayerView(FighterModel fighter)
+    {
+        for (int i = 0; i < _playerFighters.Count; i++)
+        {
+            if (_playerFighters[i] == null)
+            {
+                continue;
+            }
+
+            if (_playerFighters[i].Model == fighter)
+            {
+                return _playerFighters[i];
+            }
+        }
+
+        return null;
+    }
+
+    private ITrainingSpot FindSpotByTrainingId(string trainingId)
+    {
+        if (string.IsNullOrEmpty(trainingId) == true)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < _trainingSpots.Count; i++)
+        {
+            ITrainingSpot spot = _trainingSpots[i];
+            if (spot == null || spot.IsUnlocked == false)
+            {
+                continue;
+            }
+
+            if (spot.TrainingDataId == trainingId)
+            {
+                return spot;
+            }
+        }
+
+        return null;
     }
 
     private string GetActiveTrainingId(FighterModel fighter)

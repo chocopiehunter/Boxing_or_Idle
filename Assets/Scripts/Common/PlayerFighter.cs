@@ -9,6 +9,7 @@ public class PlayerFighter : MonoBehaviour
     [SerializeField] private Image Image_Fill;
     [SerializeField] private Color Color_Training = Color.red;
     [SerializeField] private Color Color_Rest = Color.green;
+    [SerializeField] private float MoveSpeed = 3f;
 
     public FighterModel Model { get; private set; }
 
@@ -21,6 +22,39 @@ public class PlayerFighter : MonoBehaviour
     private void Update()
     {
         RefreshTrainingProgress();
+        UpdateMove();
+    }
+
+    private void UpdateMove()
+    {
+        if (Model == null)
+        {
+            return;
+        }
+
+        if (Model.ActivityState != FighterActivityState.Moving)
+        {
+            return;
+        }
+
+        if (Model.ActiveSpot == null)
+        {
+            return;
+        }
+
+        Transform target = Model.ActiveSpot.GetTargetSpot();
+        if (target == null)
+        {
+            return;
+        }
+
+        float speed = MoveSpeed;
+        if (SeasonManager.Instance != null)
+        {
+            speed = MoveSpeed * SeasonManager.Instance.GetCurrentSpeedMultiplier();
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * UnityEngine.Time.deltaTime);
     }
 
     private void RefreshTrainingProgress()
@@ -43,7 +77,7 @@ public class PlayerFighter : MonoBehaviour
         }
 
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(Model.ActiveTrainingId);
-        if (trainingData == null || trainingData.Time <= 0f)
+        if (trainingData == null)
         {
             Slider_TrainingProgress.value = 0f;
             return;

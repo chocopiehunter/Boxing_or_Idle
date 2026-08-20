@@ -18,6 +18,7 @@ public class FighterModel
     public float TrainingHp { get; set; }
     public float TrainingHpMax { get; private set; }
     public FighterActivityState ActivityState { get; set; }
+    public ITrainingSpot ActiveSpot { get; set; }
 
     private Dictionary<string, float> _trainingProgressById;
 
@@ -45,6 +46,7 @@ public class FighterModel
         BodyAddress = data.BodyAddress;
         _trainingProgressById = new Dictionary<string, float>();
         ActivityState = FighterActivityState.Idle;
+        ActiveSpot = null;
     }
 
     public float GetTrainingProgress(string trainingId)
