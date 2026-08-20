@@ -9,6 +9,14 @@ public class FighterManager : MonoBehaviour
     private const string RestTrainingType = "Rest";
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
+    [SerializeField] private TrainingSpot Prefab_Sandbag;
+    [SerializeField] private TrainingSpot Prefab_Rest;
+    [SerializeField] private Transform Transform_TrainingSpotRoot;
+    [SerializeField] private Vector3 Position_Sandbag = new Vector3(-5f, 0f, 0f);
+    [SerializeField] private Vector3 Position_Rest = new Vector3(5f, 0f, 0f);
+
+    private List<TrainingSpot> _spawnedTrainingSpots = new List<TrainingSpot>();
+    private List<ITrainingSpot> _trainingSpots = new List<ITrainingSpot>();
 
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
 
@@ -61,6 +69,21 @@ public class FighterManager : MonoBehaviour
         SpawnPlayerFighter(fighter);
 
         Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련방침: {fighter.CurrentTrainingId}");
+
+        SpawnTrainingSpots();
+        RefreshTrainingSpotList();
+    }
+
+    private void SpawnTrainingSpots()
+    {
+        ClearTrainingSpots();
+
+    }
+
+    private void RefreshTrainingSpotList()
+    {
+        _trainingSpots.Clear();
+
     }
 
     public void ClearRoster()
@@ -75,6 +98,14 @@ public class FighterManager : MonoBehaviour
 
         _playerFighters.Clear();
         PlayerFighters.Clear();
+        ClearTrainingSpots();
+    }
+
+    public void ClearTrainingSpots()
+    {
+
+        _spawnedTrainingSpots.Clear();
+        _trainingSpots.Clear();
     }
 
     private void SpawnPlayerFighter(FighterModel fighter)
