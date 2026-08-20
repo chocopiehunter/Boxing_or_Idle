@@ -109,6 +109,8 @@ public class FighterManager : MonoBehaviour
         }
 
         string trainingId = GetActiveTrainingId(fighter);
+        string previousId = fighter.ActiveTrainingId;
+
         fighter.ActiveTrainingId = trainingId;
 
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(trainingId);
@@ -118,7 +120,17 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        if (previousId != trainingId)
+        {
+            TrainingData previousData = GameDataManager.Instance.GetTrainingData(previousId);
+            if (previousData != null && previousData.TrainingType == RestTrainingType)
+            {
+                fighter.ResetTrainingProgress(previousId);
+            }
+        }
+
         fighter.ApplyTrainingHpChange(trainingData.TrainingHpPerSecond * seconds);
+
 
         bool completed = fighter.AddTrainingProgress(trainingId, seconds, trainingData.Time);
         if (completed == false)

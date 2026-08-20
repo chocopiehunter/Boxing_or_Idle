@@ -49,10 +49,32 @@ public class PlayerFighter : MonoBehaviour
             return;
         }
 
-        float progress = Model.GetTrainingProgress(Model.ActiveTrainingId);
         Slider_TrainingProgress.minValue = 0f;
         Slider_TrainingProgress.maxValue = 1f;
-        Slider_TrainingProgress.value = progress / trainingData.Time;
+
+        if (trainingData.TrainingType == RestTrainingType)
+        {
+            if (Model.TrainingHpMax <= 0f)
+            {
+                Slider_TrainingProgress.value = 0f;
+            }
+            else
+            {
+                Slider_TrainingProgress.value = Model.TrainingHp / Model.TrainingHpMax;
+            }
+        }
+        else
+        {
+            if (trainingData.Time <= 0f)
+            {
+                Slider_TrainingProgress.value = 0f;
+            }
+            else
+            {
+                float progress = Model.GetTrainingProgress(Model.ActiveTrainingId);
+                Slider_TrainingProgress.value = progress / trainingData.Time;
+            }
+        }
 
         ChangeSliderBarColor(trainingData);
     }
