@@ -251,20 +251,27 @@ public class FighterManager : MonoBehaviour
 
     private string GetRestTrainingId()
     {
-        Dictionary<string, TrainingData> list = GameDataManager.Instance.TrainingDataList;
-        if (list == null)
+        for (int i = 0; i < _trainingSpots.Count; i++)
         {
-            return null;
-        }
-
-        foreach (KeyValuePair<string, TrainingData> pair in list)
-        {
-            if (pair.Value.TrainingType == RestTrainingType)
+            ITrainingSpot spot = _trainingSpots[i];
+            if (spot == null || spot.IsUnlocked == false)
             {
-                return pair.Value.Id;
+                continue;
+            }
+
+            string trainingId = spot.TrainingDataId;
+            TrainingData data = GameDataManager.Instance.GetTrainingData(trainingId);
+            if (data == null)
+            {
+                continue;
+            }
+
+            if (data.TrainingType == RestTrainingType)
+            {
+                return trainingId;
             }
         }
-        
+
         return null;
     }
 
