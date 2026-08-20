@@ -120,6 +120,20 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        if (trainingData.TrainingType == RestTrainingType)
+        {
+            fighter.ActivityState = FighterActivityState.Resting;
+        }
+        else
+        {
+            fighter.ActivityState = FighterActivityState.Training;
+        }
+
+        if (fighter.ActivityState != FighterActivityState.Training && fighter.ActivityState != FighterActivityState.Resting)
+        {
+            return;
+        }
+
         if (previousId != trainingId)
         {
             TrainingData previousData = GameDataManager.Instance.GetTrainingData(previousId);
