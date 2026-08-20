@@ -5,7 +5,7 @@ public class FighterManager : MonoBehaviour
 {
     public static FighterManager Instance { get; private set; }
 
-    private const float RestTrainingHp = 0f;
+    private const float RestTrainingHpMin = 0f;
     private const string RestTrainingType = "Rest";
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
@@ -118,6 +118,8 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
+        fighter.ApplyTrainingHpChange(trainingData.TrainingHpPerSecond * seconds);
+
         bool completed = fighter.AddTrainingProgress(trainingId, seconds, trainingData.Time);
         if (completed == false)
         {
@@ -129,10 +131,20 @@ public class FighterManager : MonoBehaviour
 
     private string GetActiveTrainingId(FighterModel fighter)
     {
-        if (fighter.TrainingHp <= RestTrainingHp)
+        string restId = GetRestTrainingId();
+
+        if (fighter.TrainingHp <= RestTrainingHpMin)
         {
-            string restId = GetRestTrainingId();
             if (string.IsNullOrEmpty(restId) == false)
+            {
+                return restId;
+            }
+        }
+
+        bool isResting = fighter.ActiveTrainingId == restId;
+        if (isResting == true && fighter.IsTrainingHpFull() == false)
+        {
+            if (string.IsNullOrEmpty (restId) == false)
             {
                 return restId;
             }

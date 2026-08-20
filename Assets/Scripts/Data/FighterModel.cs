@@ -38,7 +38,6 @@ public class FighterModel
             TrainingHpMax = 100f;
         }
 
-        TrainingHpMax = 100f;
         TrainingHp = TrainingHpMax;
         CurrentTrainingId = defaultTrainingId;
         PortraitAddress = data.PortraitAddress;
@@ -99,5 +98,25 @@ public class FighterModel
 
         SetTrainingProgress(trainingId, current);
         return false;
+    }
+
+    public void ApplyTrainingHpChange(float hpChange)
+    {
+        TrainingHp = TrainingHp + hpChange;
+
+        if (TrainingHp < 0f)
+        {
+            TrainingHp = 0f;
+        }
+
+        if (TrainingHp > TrainingHpMax)
+        {
+            TrainingHp = TrainingHpMax;
+        }
+    }
+
+    public bool IsTrainingHpFull()
+    {
+        return TrainingHp >= TrainingHpMax;
     }
 }
