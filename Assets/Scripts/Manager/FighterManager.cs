@@ -78,12 +78,45 @@ public class FighterManager : MonoBehaviour
     {
         ClearTrainingSpots();
 
+        if (Prefab_Sandbag != null)
+        {
+            TrainingSpot sandbag = Instantiate(Prefab_Sandbag);
+            sandbag.transform.position = Position_Sandbag;
+            if (Transform_TrainingSpotRoot != null)
+            {
+                sandbag.transform.SetParent(Transform_TrainingSpotRoot, false);
+            }
+
+            _spawnedTrainingSpots.Add(sandbag);
+        }
+
+        if (Prefab_Rest != null)
+        {
+            TrainingSpot rest = Instantiate(Prefab_Rest);
+            rest.transform.position = Position_Rest;
+            if (Transform_TrainingSpotRoot != null)
+            {
+                rest.transform.SetParent(Transform_TrainingSpotRoot);
+            }
+
+            _spawnedTrainingSpots.Add(rest);
+        }
+
     }
 
     private void RefreshTrainingSpotList()
     {
         _trainingSpots.Clear();
 
+        for (int i = 0; i < _spawnedTrainingSpots.Count; i++)
+        {
+            if (_spawnedTrainingSpots[i] == null)
+            {
+                continue;
+            }
+
+            _trainingSpots.Add(_spawnedTrainingSpots[i]);
+        }
     }
 
     public void ClearRoster()
@@ -103,7 +136,13 @@ public class FighterManager : MonoBehaviour
 
     public void ClearTrainingSpots()
     {
-
+        for (int i = 0; i < _spawnedTrainingSpots.Count; i++)
+        {
+            if (_spawnedTrainingSpots[i] != null)
+            {
+                Destroy(_spawnedTrainingSpots[i].gameObject);
+            }
+        }
         _spawnedTrainingSpots.Clear();
         _trainingSpots.Clear();
     }
