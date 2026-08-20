@@ -3,7 +3,13 @@ using UnityEngine.UI;
 
 public class PlayerFighter : MonoBehaviour
 {
+    private const string RestTrainingType = "Rest";
+
     [SerializeField] private Slider Slider_TrainingProgress;
+    [SerializeField] private Image Image_Fill;
+    [SerializeField] private Color Color_Training = Color.red;
+    [SerializeField] private Color Color_Rest = Color.green;
+
     public FighterModel Model { get; private set; }
 
     public void Bind(FighterModel model)
@@ -47,7 +53,24 @@ public class PlayerFighter : MonoBehaviour
         Slider_TrainingProgress.minValue = 0f;
         Slider_TrainingProgress.maxValue = 1f;
         Slider_TrainingProgress.value = progress / trainingData.Time;
+
+        ChangeSliderBarColor(trainingData);
     }
 
-    // 나중에 HUD넣을 곳
+    private void ChangeSliderBarColor(TrainingData trainingData)
+    {
+        if (Image_Fill == null)
+        {
+            return;
+        }
+
+        if (trainingData.TrainingType == RestTrainingType)
+        {
+            Image_Fill.color = Color_Rest;
+        }
+        else
+        {
+            Image_Fill.color = Color_Training;
+        }
+    }
 }
