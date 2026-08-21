@@ -358,4 +358,28 @@ public class FighterManager : MonoBehaviour
 
         Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Atk {fighter.Atk} / Def {fighter.Def}");
     }
+
+    private ITrainingSpot SelectBestSpot(FighterModel fighter)
+    {
+        ITrainingSpot bestSpot = null;
+        float bestScore = float.MinValue;
+
+        for (int i = 0; i < _trainingSpots.Count; i++)
+        {
+            ITrainingSpot spot = _trainingSpots[i];
+            if (spot == null || spot.IsUnlocked == false)
+            {
+                continue;
+            }
+
+            float score = spot.GetAttractionScore(fighter);
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestSpot = spot;
+            }
+        }
+
+        return bestSpot;
+    }
 }
