@@ -172,6 +172,16 @@ public class FighterManager : MonoBehaviour
         return PlayerFighters[0];
     }
 
+    public void NotifyAttractionChanged(FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return;
+        }
+
+        fighter.IsAttractionChanged = true;
+    }
+
     private void ProgressTraining(FighterModel fighter, float seconds)
     {
         if (fighter == null)
@@ -185,10 +195,35 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        string trainingId = GetActiveTrainingId(fighter);
+        float trainingHpBefore = fighter.TrainingHp;
         string previousId = fighter.ActiveTrainingId;
 
-        fighter.ActiveTrainingId = trainingId;
+        if (fighter.IsAttractionChanged == true || fighter.ActiveSpot == null)
+        {
+            ITrainingSpot bestSpot = SelectBestSpot(fighter);
+            fighter.ActiveSpot = bestSpot;
+            fighter.IsAttractionChanged = false;
+
+            if (bestSpot != null)
+            {
+                fighter.ActiveTrainingId = bestSpot.TrainingDataId;
+            }
+            else
+            {
+                fighter.ActiveTrainingId = fighter.CurrentTrainingId;
+            }
+        }
+
+        string trainingId = fighter.ActiveTrainingId;
+
+        if (previousId != trainingId)
+        {
+            TrainingData previousData = GameDataManager.Instance.GetTrainingData(previousId);
+            if (previousData != null && previousData.TrainingType == RestTrainingType)
+            {
+                fighter.ResetTrainingProgress(previousId);
+            }
+        }
 
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(trainingId);
         if (trainingData == null)
@@ -197,8 +232,12 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        ITrainingSpot spot = FindSpotByTrainingId(trainingId);
-        fighter.ActiveSpot = spot;
+        ITrainingSpot spot = fighter.ActiveSpot;
+        if (spot == null)
+        {
+            spot = FindSpotByTrainingId(trainingId);
+            fighter.ActiveSpot = spot;
+        }
 
         if (spot != null)
         {
@@ -221,17 +260,17 @@ public class FighterManager : MonoBehaviour
             fighter.ActivityState = FighterActivityState.Training;
         }
 
-        if (previousId != trainingId)
-        {
-            TrainingData previousData = GameDataManager.Instance.GetTrainingData(previousId);
-            if (previousData != null && previousData.TrainingType == RestTrainingType)
-            {
-                fighter.ResetTrainingProgress(previousId);
-            }
-        }
-
         fighter.ApplyTrainingHpChange(trainingData.TrainingHpPerSecond * seconds);
 
+        if (trainingHpBefore > RestTrainingHpMin && fighter.TrainingHp <= RestTrainingHpMin)
+        {
+            fighter.IsAttractionChanged = true;
+        }
+
+        if (fighter.ActivityState == FighterActivityState.Resting && fighter.IsTrainingHpFull() == true)
+        {
+            fighter.IsAttractionChanged = true;
+        }
 
         bool completed = fighter.AddTrainingProgress(trainingId, seconds, trainingData.Time);
         if (completed == false)
@@ -240,6 +279,7 @@ public class FighterManager : MonoBehaviour
         }
 
         ApplyTraining(fighter, trainingData);
+        fighter.IsAttractionChanged = true;
     }
 
     private PlayerFighter FindPlayerView(FighterModel fighter)

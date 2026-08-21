@@ -74,6 +74,7 @@ public class TrainingManagementUI : UIBase
         }
 
         _targetFighter.CurrentTrainingId = trainingId;
+        FighterManager.Instance.NotifyAttractionChanged(_targetFighter);
         Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {trainingId}");
         RefreshUI();
     }
