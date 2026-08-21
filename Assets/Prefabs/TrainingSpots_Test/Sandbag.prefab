@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf92f1698f246f49ac1ffd4576e7d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingSpot
-  TrainingDataIdValue: training_02
+  TrainingDataIdValue: standing_strike_01
   IsUnlockedValue: 1
   BaseAttraction: 10
   PolicyBonus: 50

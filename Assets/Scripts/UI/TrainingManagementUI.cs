@@ -14,6 +14,10 @@ public class TrainingManagementUI : UIBase
     [SerializeField] private UIButton Button_Close;
 
     private FighterModel _targetFighter;
+    private const string RestTrainingId = "rest_01";
+    private const string CardioTrainingId = "cardio_01";
+    private const string StandingStrikeTrainingId = "standing_strike_01";
+    private const string StandingDefTrainingId = "standing_def_01";
 
     private void OnEnable()
     {
@@ -31,8 +35,6 @@ public class TrainingManagementUI : UIBase
 
         RefreshUI();
     }
-
-
 
     private void RefreshUI()
     {
@@ -92,10 +94,10 @@ public class TrainingManagementUI : UIBase
 
         string currentId = _targetFighter.CurrentTrainingId;
 
-        Button_Rest.SetChecked(currentId == "training_00");
-        Button_HpTraining.SetChecked(currentId == "training_01");
-        Button_AtkTraining.SetChecked(currentId == "training_02");
-        Button_DefTraining.SetChecked(currentId == "training_03");
+        Button_Rest.SetChecked(currentId == RestTrainingId);
+        Button_HpTraining.SetChecked(currentId == CardioTrainingId);
+        Button_AtkTraining.SetChecked(currentId == StandingStrikeTrainingId);
+        Button_DefTraining.SetChecked(currentId == StandingDefTrainingId);
     }
 
     public void SetTargetFighter(FighterModel fighter)
@@ -106,21 +108,21 @@ public class TrainingManagementUI : UIBase
 
     private void OnClick_Rest()
     {
-        ChangeTraining("training_00");
+        ChangeTraining(RestTrainingId);
     }
 
     private void OnClick_HpTraining()
     {
-        ChangeTraining("training_01");
+        ChangeTraining(CardioTrainingId);
     }
     private void OnClick_AtkTraining()
     {
-        ChangeTraining("training_02");
+        ChangeTraining(StandingStrikeTrainingId);
     }
 
     private void OnClick_DefTraining()
     {
-        ChangeTraining("training_03");
+        ChangeTraining(StandingDefTrainingId);
     }
 
     private void OnClick_Close()

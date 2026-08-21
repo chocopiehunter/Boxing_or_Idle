@@ -64,7 +64,7 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        FighterModel fighter = new FighterModel(data, "training_00");
+        FighterModel fighter = new FighterModel(data, "rest_01");
         PlayerFighters.Add(fighter);
 
         SpawnPlayerFighter(fighter);
@@ -260,7 +260,8 @@ public class FighterManager : MonoBehaviour
             fighter.ActivityState = FighterActivityState.Training;
         }
 
-        fighter.ApplyTrainingHpChange(trainingData.TrainingHpPerSecond * seconds);
+        float staminaPerSecond = GetTrainingStaminaPerSecond(trainingId);
+        fighter.ApplyTrainingHpChange(staminaPerSecond * seconds);
 
         if (trainingHpBefore > RestTrainingHpMin && fighter.TrainingHp <= RestTrainingHpMin)
         {
@@ -280,6 +281,18 @@ public class FighterManager : MonoBehaviour
 
         ApplyTraining(fighter, trainingData);
         fighter.IsAttractionChanged = true;
+    }
+
+    private float GetTrainingStaminaPerSecond(string trainingId)
+    {
+        TrainingFacilityData facilityData = GameDataManager.Instance.GetTrainingFacilityDataByTrainingId(trainingId);
+        if (facilityData == null)
+        {
+            Debug.LogError($"TrainingFacilityData 없음. TrainingDataId : {trainingId}");
+            return 0f;
+        }
+
+        return facilityData.TrainingStaminaPerSecond;
     }
 
     private PlayerFighter FindPlayerView(FighterModel fighter)

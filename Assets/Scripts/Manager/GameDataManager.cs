@@ -154,4 +154,28 @@ public class GameDataManager : MonoBehaviour
 
         return TrainingFacilityDataList.TryGetValue(Id, out var item) ? item : null;
     }
+
+    public TrainingFacilityData GetTrainingFacilityDataByTrainingId(string trainingDataId)
+    {
+        if (TrainingFacilityDataList == null || string.IsNullOrEmpty(trainingDataId) == true)
+        {
+            return null;
+        }
+        
+        foreach (KeyValuePair<string, TrainingFacilityData> pair in TrainingFacilityDataList)
+        {
+            TrainingFacilityData data = pair.Value;
+            if (data == null)
+            {
+                continue;
+            }
+
+            if (data.TrainingDataId == trainingDataId)
+            {
+                return data;
+            }
+        }
+
+        return null;
+    }
 }
