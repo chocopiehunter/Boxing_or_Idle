@@ -12,8 +12,13 @@ public class TrainingFacilityData : GameDataBase
     public string TrainingDataId;
     public string NextLevelId;
     public float TrainingStaminaPerSecond;
+
     public float Hp;
-    public float Standing_Atk;
-    public float Standing_Def;
-    public float MatchStamina;
+    public float Stamina;
+    public float StandingOffense;
+    public float StandingDefense;
+    public float WrestlingOffense;
+    public float WrestlingDefense;
+    public float JiuJitsuOffense;
+    public float JiuJitsuDefense;
 }

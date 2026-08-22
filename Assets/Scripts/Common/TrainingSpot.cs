@@ -3,7 +3,7 @@
 public class TrainingSpot : MonoBehaviour, ITrainingSpot
 {
     private const string RestTrainingType = "Rest";
-    private const float RestTrainingHpMin = 0f;
+    private const float RestTrainingStaminaMin = 0f;
 
     [SerializeField] private string TrainingDataIdValue;
     [SerializeField] private bool IsUnlockedValue = true;
@@ -49,7 +49,7 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
 
         if (trainingData.TrainingType == RestTrainingType)
         {
-            if (fighter.TrainingHp <= RestTrainingHpMin)
+            if (fighter.TrainingStamina <= RestTrainingStaminaMin)
             {
                 score = score + RestMinBonus;
             }

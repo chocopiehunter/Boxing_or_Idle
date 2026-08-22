@@ -5,7 +5,7 @@ public class FighterManager : MonoBehaviour
 {
     public static FighterManager Instance { get; private set; }
 
-    private const float RestTrainingHpMin = 0f;
+    private const float RestTrainingStaminaMin = 0f;
     private const string RestTrainingType = "Rest";
     private const float ArriveDistance = 0.15f;
 
@@ -195,7 +195,7 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        float trainingHpBefore = fighter.TrainingHp;
+        float trainingStaminaBefore = fighter.TrainingStamina;
         string previousId = fighter.ActiveTrainingId;
 
         if (fighter.IsAttractionChanged == true || fighter.ActiveSpot == null)
@@ -261,14 +261,14 @@ public class FighterManager : MonoBehaviour
         }
 
         float staminaPerSecond = GetTrainingStaminaPerSecond(trainingId);
-        fighter.ApplyTrainingHpChange(staminaPerSecond * seconds);
+        fighter.ApplyTrainingStaminaChange(staminaPerSecond * seconds);
 
-        if (trainingHpBefore > RestTrainingHpMin && fighter.TrainingHp <= RestTrainingHpMin)
+        if (trainingStaminaBefore > RestTrainingStaminaMin && fighter.TrainingStamina <= RestTrainingStaminaMin)
         {
             fighter.IsAttractionChanged = true;
         }
 
-        if (fighter.ActivityState == FighterActivityState.Resting && fighter.IsTrainingHpFull() == true)
+        if (fighter.ActivityState == FighterActivityState.Resting && fighter.IsTrainingStaminaFull() == true)
         {
             fighter.IsAttractionChanged = true;
         }
@@ -279,7 +279,7 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        ApplyTraining(fighter, trainingData);
+        ApplyTraining(fighter, trainingData, trainingId);
         fighter.IsAttractionChanged = true;
     }
 
@@ -341,7 +341,7 @@ public class FighterManager : MonoBehaviour
     {
         string restId = GetRestTrainingId();
 
-        if (fighter.TrainingHp <= RestTrainingHpMin)
+        if (fighter.TrainingStamina <= RestTrainingStaminaMin)
         {
             if (string.IsNullOrEmpty(restId) == false)
             {
@@ -350,7 +350,7 @@ public class FighterManager : MonoBehaviour
         }
 
         bool isResting = fighter.ActiveTrainingId == restId;
-        if (isResting == true && fighter.IsTrainingHpFull() == false)
+        if (isResting == true && fighter.IsTrainingStaminaFull() == false)
         {
             if (string.IsNullOrEmpty (restId) == false)
             {
@@ -387,29 +387,30 @@ public class FighterManager : MonoBehaviour
         return null;
     }
 
-    private void ApplyTraining(FighterModel fighter, TrainingData trainingData)
+    private void ApplyTraining(FighterModel fighter, TrainingData trainingData, string trainingId)
     {
         if (fighter == null || trainingData == null)
         {
             return;
         }
-
-        float hpPlus = trainingData.HpUp - trainingData.HpDown;
-        float atkPlus = trainingData.AtkUp - trainingData.AtkDown;
-        float defPlus = trainingData.DefUp - trainingData.DefDown;
-        float conditionPlus = trainingData.ConditionUp - trainingData.ConditionDown;
-
-        fighter.Hp = fighter.Hp + hpPlus;
-        fighter.Atk = fighter.Atk + atkPlus;
-        fighter.Def = fighter.Def + defPlus;
-        fighter.Condition = fighter.Condition + conditionPlus;
-
-        if (fighter.Condition < 0f)
+        
+        TrainingFacilityData facilityData = GameDataManager.Instance.GetTrainingFacilityDataByTrainingId(trainingId);
+        if (facilityData == null)
         {
-            fighter.Condition = 0f;
+            Debug.LogError($"TrainingFacilityData 없음 {trainingId}");
+            return;
         }
 
-        Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Atk {fighter.Atk} / Def {fighter.Def}");
+        fighter.Hp = fighter.Hp + facilityData.Hp;
+        fighter.Stamina = fighter.Stamina + facilityData.Stamina;
+        fighter.StandingOffense = fighter.StandingOffense + facilityData.StandingOffense;
+        fighter.StandingDefense = fighter.StandingDefense + facilityData.StandingDefense;
+        fighter.WrestlingOffense = fighter.WrestlingOffense + facilityData.WrestlingOffense;
+        fighter.WrestlingDefense = fighter.WrestlingDefense + facilityData.WrestlingDefense;
+        fighter.JiuJitsuOffense = fighter.JiuJitsuOffense + facilityData.JiuJitsuOffense;
+        fighter.JiuJitsuDefense = fighter.JiuJitsuDefense + facilityData.JiuJitsuDefense;
+
+        Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Stamina {fighter.Stamina} / StandingOffense {fighter.StandingOffense} / StandingDefense {fighter.StandingDefense}");
     }
 
     private ITrainingSpot SelectBestSpot(FighterModel fighter)

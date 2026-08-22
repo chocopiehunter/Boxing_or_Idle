@@ -16,8 +16,8 @@ public class TrainingManagementUI : UIBase
     private FighterModel _targetFighter;
     private const string RestTrainingId = "rest_01";
     private const string CardioTrainingId = "cardio_01";
-    private const string StandingStrikeTrainingId = "standing_strike_01";
-    private const string StandingDefTrainingId = "standing_def_01";
+    private const string StandingOffenseTrainingId = "standing_offense_01";
+    private const string StandingDefenseTrainingId = "standing_defense_01";
 
     private void OnEnable()
     {
@@ -62,7 +62,7 @@ public class TrainingManagementUI : UIBase
 
         Text_CurrentTraining.text = $"현재 훈련 정책: {trainingName}";
 
-        Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.Atk} / Def {_targetFighter.Def} / Condition {_targetFighter.Condition}";
+        Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.StandingOffense} / Def {_targetFighter.StandingDefense} / Condition {_targetFighter.Condition}";
         
         RefreshCheckUI();
     }
@@ -96,8 +96,8 @@ public class TrainingManagementUI : UIBase
 
         Button_Rest.SetChecked(currentId == RestTrainingId);
         Button_HpTraining.SetChecked(currentId == CardioTrainingId);
-        Button_AtkTraining.SetChecked(currentId == StandingStrikeTrainingId);
-        Button_DefTraining.SetChecked(currentId == StandingDefTrainingId);
+        Button_AtkTraining.SetChecked(currentId == StandingOffenseTrainingId);
+        Button_DefTraining.SetChecked(currentId == StandingDefenseTrainingId);
     }
 
     public void SetTargetFighter(FighterModel fighter)
@@ -117,12 +117,12 @@ public class TrainingManagementUI : UIBase
     }
     private void OnClick_AtkTraining()
     {
-        ChangeTraining(StandingStrikeTrainingId);
+        ChangeTraining(StandingOffenseTrainingId);
     }
 
     private void OnClick_DefTraining()
     {
-        ChangeTraining(StandingDefTrainingId);
+        ChangeTraining(StandingDefenseTrainingId);
     }
 
     private void OnClick_Close()

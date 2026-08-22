@@ -88,13 +88,13 @@ public class PlayerFighter : MonoBehaviour
 
         if (trainingData.TrainingType == RestTrainingType)
         {
-            if (Model.TrainingHpMax <= 0f)
+            if (Model.TrainingStaminaMax <= 0f)
             {
                 Slider_TrainingProgress.value = 0f;
             }
             else
             {
-                Slider_TrainingProgress.value = Model.TrainingHp / Model.TrainingHpMax;
+                Slider_TrainingProgress.value = Model.TrainingStamina / Model.TrainingStaminaMax;
             }
         }
         else

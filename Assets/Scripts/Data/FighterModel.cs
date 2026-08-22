@@ -6,8 +6,13 @@ public class FighterModel
     public string DataId { get; private set; }
     public string Name { get; private set; }
     public float Hp { get; set; }
-    public float Atk { get; set; }
-    public float Def { get; set; }
+    public float Stamina { get; set; }
+    public float StandingOffense { get; set; }
+    public float StandingDefense { get; set; }
+    public float WrestlingOffense { get; set; }
+    public float WrestlingDefense { get; set; }
+    public float JiuJitsuOffense { get; set; }
+    public float JiuJitsuDefense { get; set; }
     public float Condition { get; set; }
 
     public string ActiveTrainingId { get; set; }
@@ -15,8 +20,8 @@ public class FighterModel
     public string PortraitAddress { get; private set; }
     public string BodyAddress { get; private set; }
 
-    public float TrainingHp { get; set; }
-    public float TrainingHpMax { get; private set; }
+    public float TrainingStamina { get; set; }
+    public float TrainingStaminaMax { get; private set; }
     public FighterActivityState ActivityState { get; set; }
     public ITrainingSpot ActiveSpot { get; set; }
     public bool IsAttractionChanged { get; set; }
@@ -28,20 +33,28 @@ public class FighterModel
         DataId = data.Id;
         Name = data.Name;
         Hp = data.Hp;
-        Atk = data.Atk;
-        Def = data.Def;
+        Stamina = data.Stamina;
+        StandingOffense = data.StandingOffense;
+        StandingDefense = data.StandingDefense;
+        WrestlingOffense = data.WrestlingOffense;
+        WrestlingDefense = data.WrestlingDefense;
+        JiuJitsuOffense = data.JiuJitsuOffense;
+        JiuJitsuDefense = data.JiuJitsuDefense;
         Condition = 100f;
 
-        if (data.TrainingHp > 0f)
+        TrainingStamina = 100f;
+        TrainingStaminaMax = TrainingStamina;
+
+        if (data.TrainingStamina > 0f)
         {
-            TrainingHpMax = data.TrainingHp;
+            TrainingStaminaMax = data.TrainingStamina;
         }
         else
         {
-            TrainingHpMax = 100f;
+            TrainingStaminaMax = 100f;
         }
 
-        TrainingHp = TrainingHpMax;
+        TrainingStamina = TrainingStaminaMax;
         CurrentTrainingId = defaultTrainingId;
         PortraitAddress = data.PortraitAddress;
         BodyAddress = data.BodyAddress;
@@ -106,23 +119,23 @@ public class FighterModel
         return false;
     }
 
-    public void ApplyTrainingHpChange(float hpChange)
+    public void ApplyTrainingStaminaChange(float staminaChange)
     {
-        TrainingHp = TrainingHp + hpChange;
+        TrainingStamina = TrainingStamina + staminaChange;
 
-        if (TrainingHp < 0f)
+        if (TrainingStamina < 0f)
         {
-            TrainingHp = 0f;
+            TrainingStamina = 0f;
         }
 
-        if (TrainingHp > TrainingHpMax)
+        if (TrainingStamina > TrainingStaminaMax)
         {
-            TrainingHp = TrainingHpMax;
+            TrainingStamina = TrainingStaminaMax;
         }
     }
 
-    public bool IsTrainingHpFull()
+    public bool IsTrainingStaminaFull()
     {
-        return TrainingHp >= TrainingHpMax;
+        return TrainingStamina >= TrainingStaminaMax;
     }
 }

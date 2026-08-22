@@ -28,7 +28,7 @@ public class MatchOpponentRowUI : MonoBehaviour
 
         if (Text_Stats != null)
         {
-            Text_Stats.text = $"Hp : {fighterData.Hp} / Atk : {fighterData.Atk} / Def : {fighterData.Def}";
+            Text_Stats.text = $"Hp: {fighterData.Hp} / Stamina: {fighterData.Stamina} / StandingOffense: {fighterData.StandingOffense} / StandingDefense: {fighterData.StandingDefense}";
         }
 
         Button_Row.UnBindAllOnClickButtonEvent();
