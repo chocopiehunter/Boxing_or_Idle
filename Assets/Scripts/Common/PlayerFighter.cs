@@ -27,6 +27,16 @@ public class PlayerFighter : MonoBehaviour
 
     private void UpdateMove()
     {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
+        if (GameManager.Instance.GameState.CurrentState != GameFlowState.Play)
+        {
+            return;
+        }
+
         if (Model == null)
         {
             return;
