@@ -140,6 +140,60 @@ public class GymManager : MonoBehaviour
         }
     }
 
+    public TrainingFacilityData GetCurrentFacilityData(string facilityType)
+    {
+        if (CurrentGym == null)
+        {
+            return null;
+        }
+
+        string facilityId = CurrentGym.GetFacilityId(facilityType);
+        if (string.IsNullOrEmpty(facilityId) == true)
+        {
+            return null;
+        }
+
+        return GameDataManager.Instance.GetTrainingFacilityData(facilityId);
+    }
+
+    public TrainingFacilityData GetNextFacilityData(string facilityType)
+    {
+        TrainingFacilityData currentData = GetCurrentFacilityData(facilityType);
+        TrainingFacilityData nextData = null;
+
+        if (currentData == null)
+        {
+            nextData = GameDataManager.Instance.GetTrainingFacilityDataByTypeAndLevel(facilityType, FirstLevel);
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(currentData.NextLevelId) == true)
+            {
+                return null;
+            }
+
+            if (currentData.NextLevelId == NoneId)
+            {
+                return null;
+            }
+
+            nextData = GameDataManager.Instance.GetTrainingFacilityData(currentData.NextLevelId);
+        }
+
+        if (nextData == null)
+        {
+            return null;
+        }
+
+        List<string> unlockedIds = GetUnlockedFacilityIds();
+        if (unlockedIds.Contains(nextData.Id) == false)
+        {
+            return null;
+        }
+
+        return nextData;
+    }
+
     public void ClearGym()
     {
         if (TrainingSpotManager.Instance != null)
@@ -216,6 +270,59 @@ public class GymManager : MonoBehaviour
 
         CurrentGym.ApplyLevelData(nextLevelData);
         Debug.Log($"{type} 업그레이드 레벨 {nextLevelData.Level} {nextLevelData.Name} / 남은 자금: {CurrentGym.Gold}");
+        return true;
+    }
+
+    public bool TryUpgradeFacility(string facilityType)
+    {
+        if (CurrentGym == null)
+        {
+            Debug.LogError("체육관이 없음");
+            return false;
+        }
+
+        TrainingFacilityData nextData = GetNextFacilityData(facilityType);
+        if (nextData == null)
+        {
+            Debug.Log($"{facilityType} 건설 또는 업그레이드 대상이 없음");
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(nextData.RequiredUnlockIds) == false && nextData.RequiredUnlockIds != NoneId)
+        {
+            Debug.Log($"시설 조건 검사 미구현 {nextData.RequiredUnlockIds}");
+            return false;
+        }
+
+        if (TrainingSpotManager.Instance == null)
+        {
+            Debug.LogError($"TrainingSpotManager가 없음");
+            return false;
+        }
+
+        if (TrainingSpotManager.Instance.CanSpawnOrUpdate(nextData.Type) == false)
+        {
+            Debug.LogError($"시설 Spot 생성 설정 없음 {nextData.Type}");
+            return false;
+        }
+
+        if (CurrentGym.TrySpendGold(nextData.GoldCost) == false)
+        {
+            Debug.Log($"자금 부족. 필요 {nextData.GoldCost} / 보유 {CurrentGym.Gold}");
+            return false;
+        }
+
+        bool spawned = TrainingSpotManager.Instance.SpawnOrUpdate(nextData);
+        if (spawned == false)
+        {
+            CurrentGym.AddGold(nextData.GoldCost);
+            Debug.LogError($"시설 Spot 생성 실패 {nextData.Id}");
+            return false;
+        }
+
+        CurrentGym.ApplyFacilityData(nextData);
+
+        Debug.Log($"{nextData.Type} 시설 적용 완료. 레벨 {nextData.Level} {nextData.Name} / 남은 자금 {CurrentGym.Gold}");
         return true;
     }
 

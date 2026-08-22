@@ -46,6 +46,32 @@ public class TrainingSpotManager : MonoBehaviour
         }
     }
 
+    public bool CanSpawnOrUpdate(string facilityType)
+    {
+        if (string.IsNullOrEmpty(facilityType) == true)
+        {
+            return false;
+        }
+
+        if (_spawnedSpots.ContainsKey(facilityType) == true)
+        {
+            return true;
+        }
+
+        SpawnSetting setting = FindSetting(facilityType);
+        if (setting == null)
+        {
+            return false;
+        }
+
+        if (setting.SpotPrefab == null || setting.Point == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public bool SpawnOrUpdate(TrainingFacilityData facilityData)
     {
         if (facilityData == null)
