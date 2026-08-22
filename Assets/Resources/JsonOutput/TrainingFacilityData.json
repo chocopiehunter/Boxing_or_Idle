@@ -41,7 +41,7 @@
   },
   {
     "Id": "Standing_Offense_01",
-    "Type": "standing",
+    "Type": "standing_offense",
     "Level": 1,
     "Name": "허름한 샌드백",
     "Description": "때리면 터질 것 같은 허름한 샌드백이다.",
@@ -61,7 +61,7 @@
   },
   {
     "Id": "Standing_Offense_02",
-    "Type": "standing",
+    "Type": "standing_offense",
     "Level": 2,
     "Name": "낡은 샌드백",
     "Description": "세월의 흔적이 느껴지는 낡은 샌드백이다.",
@@ -101,7 +101,7 @@
   },
   {
     "Id": "Standing_Defense_01",
-    "Type": "standing",
+    "Type": "standing_defense",
     "Level": 1,
     "Name": "찢어진 펀칭볼",
     "Description": "한대 때리기 미안한 펀칭볼이다. 그래도 방심하다가 맞으면 꽤 아프다.",
