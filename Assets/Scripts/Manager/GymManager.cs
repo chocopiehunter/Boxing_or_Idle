@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GymManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GymManager : MonoBehaviour
 
     [SerializeField] private string StartingLevelId = "gym_level_01";
     [SerializeField] private int StartingGold = 300;
+    [SerializeField] private List<string> StartingFacilityIds = new List<string>();
 
     public GymModel CurrentGym {  get; private set; }
 
@@ -21,20 +23,50 @@ public class GymManager : MonoBehaviour
     public void CreateStartingGym()
     {
         GymLevelData startData = GameDataManager.Instance.GetGymLevelData(StartingLevelId);
+
         if (startData == null)
         {
             Debug.LogError($"시작 체육관 데이터 없음. {StartingLevelId}");
             return;
         }
 
+        if (TrainingSpotManager.Instance != null)
+        {
+            TrainingSpotManager.Instance.ClearAll();
+        }
+
         CurrentGym = new GymModel(StartingGold);
         CurrentGym.ApplyLevelData(startData);
+
+        CreateStartingFacility();
 
         Debug.Log($"시작 체육관 생성완료. Type: {startData.Type} / 레벨: {startData.Level} / 자금: {CurrentGym.Gold}");
     }
 
+    private void CreateStartingFacility()
+    {
+
+    }
+
+    public List<string> GetUnlockedFacilityIds()
+    {
+        List<string> result = new List<string>();
+
+        return result;
+    }
+
+    private void AddFacilityIds()
+    {
+
+    }
+
     public void ClearGym()
     {
+        if (TrainingSpotManager.Instance != null)
+        {
+            TrainingSpotManager.Instance.ClearAll();
+        }
+
         CurrentGym = null;
     }
 
