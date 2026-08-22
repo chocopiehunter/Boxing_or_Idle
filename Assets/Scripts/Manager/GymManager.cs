@@ -83,6 +83,11 @@ public class GymManager : MonoBehaviour
 
         GymLevelData currentData = GetCurrentLevelData(DefaultBuildingType);
 
+        if (currentData == null)
+        {
+            return result;
+        }
+
         GymLevelData levelData = GameDataManager.Instance.GetGymLevelDataByTypeAndLevel(DefaultBuildingType, FirstLevel);
 
         while (levelData != null)
@@ -136,6 +141,48 @@ public class GymManager : MonoBehaviour
             if (result.Contains (facilityId) == false)
             {
                 result.Add (facilityId);
+            }
+        }
+    }
+
+    public List<string> GetVisibleFacilityTypes()
+    {
+        List<string> result = new List<string>();
+
+        if (CurrentGym == null)
+        {
+            return result;
+        }
+
+        List<string> unlockedFacilityIds = GetUnlockedFacilityIds();
+        AddFacilityTypes(result, unlockedFacilityIds);
+
+        List<string> ownedFacilityIds = CurrentGym.GetOwnedFacilityIds();
+        AddFacilityTypes(result, ownedFacilityIds);
+
+        return result;
+    }
+
+    private void AddFacilityTypes(List<string> result, List<string> facilityIds)
+    {
+        for (int i = 0; i < facilityIds.Count; i++)
+        {
+            TrainingFacilityData facilityData = GameDataManager.Instance.GetTrainingFacilityData(facilityIds[i]);
+
+            if (facilityData == null)
+            {
+                Debug.LogError($"시설 데이터 없음 {facilityIds[i]}");
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(facilityData.Type) == true)
+            {
+                continue;
+            }
+
+            if (result.Contains(facilityData.Type) == false)
+            {
+                result.Add(facilityData.Type);
             }
         }
     }

@@ -11,6 +11,7 @@ public class GymFacilityRowUI : MonoBehaviour
 
     private string _facilityType;
     private Action<string> _onClick; // 버튼 누를때 시설 타입을 GymManagementUI로 전달하는 함수 보관용
+    private const string NoneId = "None";
 
     public void Setup(string facilityType, TrainingFacilityData currentData, TrainingFacilityData nextData, Action<string> onClick)
     {
@@ -30,7 +31,19 @@ public class GymFacilityRowUI : MonoBehaviour
         {
             Text_Level.text = $"Lv.{currentData.Level}";
             Text_Name.text = currentData.Name;
-            Text_State.text = nextData != null ? $"다음 Lv.{nextData.Level}" : "최대 레벨";
+
+            if (nextData != null)
+            {
+                Text_State.text = $"다음 Lv.{nextData.Level}";
+            }
+            else if (string.IsNullOrEmpty(currentData.NextLevelId) == false && currentData.NextLevelId != NoneId)
+            {
+                Text_State.text = "상위 체육관 필요";
+            }
+            else
+            {
+                Text_State.text = "최대 레벨";
+            }
         }
 
         Button_Action.SetInteractable(nextData != null);
