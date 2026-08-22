@@ -7,12 +7,6 @@ public class TrainingData : GameDataBase
     public string Description;
     public string TrainingType;
     public float Time;
-    public float HpUp;
-    public float HpDown;
-    public float AtkUp;
-    public float AtkDown;
-    public float DefUp;
-    public float DefDown;
-    public float ConditionUp;
-    public float ConditionDown;
+    public string Category;
+    public string Focus;
 }

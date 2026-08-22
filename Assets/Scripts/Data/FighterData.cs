@@ -7,8 +7,15 @@ public class FighterData : GameDataBase
     public string Description;
     public string PortraitAddress;
     public string BodyAddress;
+
     public float Hp;
-    public float Atk;
-    public float Def;
-    public float TrainingHp;
+    public float Stamina;
+    public float StandingOffense;
+    public float StandingDefense;
+    public float WrestlingOffense;
+    public float WrestlingDefense;
+    public float JiuJitsuOffense;
+    public float JiuJitsuDefense;
+    public float TrainingStamina;
+
 }

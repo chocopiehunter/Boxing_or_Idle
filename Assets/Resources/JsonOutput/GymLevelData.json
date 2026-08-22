@@ -5,7 +5,7 @@
     "Level": 1,
     "Name": "허름한 체육관",
     "Description": "허름한 체육관이다.",
-    "FacilityIds": "Rest_01,Standing_Strike_01,Cardio_01",
+    "FacilityIds": "Rest_01,Standing_Offense_01,Cardio_01",
     "GoldCost": 0,
     "RequiredUnlockIds": "None",
     "NextLevelId": "gym_level_02"
@@ -16,7 +16,7 @@
     "Level": 2,
     "Name": "낡은 체육관",
     "Description": "선수 육성을 시작한 낡은 체육관이다.",
-    "FacilityIds": "Rest_02,Standing_Strike_02,Standing_Def_01",
+    "FacilityIds": "Rest_02,Standing_Offense_02,Standing_Defense_01",
     "GoldCost": 1000,
     "RequiredUnlockIds": "None",
     "NextLevelId": "None"

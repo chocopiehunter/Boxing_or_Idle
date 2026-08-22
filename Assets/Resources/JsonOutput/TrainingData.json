@@ -5,14 +5,8 @@
     "Description": "선수의 컨디션을 회복한다.",
     "TrainingType": "Rest",
     "Time": 10,
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 20,
-    "ConditionDown": 0
+    "Category": "Rest",
+    "Focus": "Recovery"
   },
   {
     "Id": "rest_02",
@@ -20,14 +14,8 @@
     "Description": "선수의 컨디션을 조금 더 회복한다.",
     "TrainingType": "Rest",
     "Time": 10,
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 25,
-    "ConditionDown": 0
+    "Category": "Rest",
+    "Focus": "Recovery"
   },
   {
     "Id": "cardio_01",
@@ -35,58 +23,34 @@
     "Description": "체력과 경기 스태미너를 기르는 기본 훈련이다.",
     "TrainingType": "Training",
     "Time": 20,
-    "HpUp": 15,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 2,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Category": "Cardio",
+    "Focus": "Stamina"
   },
   {
-    "Id": "standing_strike_01",
+    "Id": "standing_offense_01",
     "Name": "스탠딩 타격 훈련",
     "Description": "선수의 스탠딩 타격 능력을 향상시키는 훈련이다.",
     "TrainingType": "Training",
     "Time": 20,
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 5,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Category": "Standing",
+    "Focus": "Offense"
   },
   {
-    "Id": "standing_strike_02",
+    "Id": "standing_offense_02",
     "Name": "개선된 스탠딩 타격 훈련",
     "Description": "더 나은 시설에서 스탠딩 타격 능력을 향상 시키는 훈련이다.",
     "TrainingType": "Training",
-    "Time": 20,
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 7,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Time": 22,
+    "Category": "Standing",
+    "Focus": "Offense"
   },
   {
-    "Id": "standing_def_01",
+    "Id": "standing_defense_01",
     "Name": "스탠딩 방어 훈련",
     "Description": "선수의 스탠딩 방어 능력을 향상시키는 훈련이다.",
     "TrainingType": "Training",
     "Time": 20,
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 5,
-    "DefDown": 0,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Category": "Standing",
+    "Focus": "Defense"
   }
 ]
