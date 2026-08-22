@@ -21,6 +21,42 @@ public class FighterManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        if (TrainingSpotManager.Instance == null)
+        {
+            Debug.LogError("TrainingSpotManager가 없음");
+            return;
+        }
+
+        TrainingSpotManager.Instance.OnTrainingSpotsChanged += HandleTrainingSpotChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (TrainingSpotManager.Instance == null)
+        {
+            return;
+        }
+
+        TrainingSpotManager.Instance.OnTrainingSpotsChanged -= HandleTrainingSpotChanged;
+    }
+
+    private void HandleTrainingSpotChanged()
+    {
+        for (int i = 0; i < PlayerFighters.Count; i++)
+        {
+            FighterModel fighter = PlayerFighters[i];
+            if (fighter == null)
+            {
+                continue;
+            }
+
+            fighter.ActiveSpot = null;
+            fighter.IsAttractionChanged = true;
+        }
+    }
+
     private void Update()
     {
         if (GameManager.Instance == null)
@@ -170,16 +206,19 @@ public class FighterManager : MonoBehaviour
             fighter.ActiveSpot = spot;
         }
 
-        if (spot != null)
+        if (spot == null)
         {
-            Vector3 targetPos = spot.GetTargetSpot().position;
-            float distance = Vector3.Distance(playerView.transform.position, targetPos);
+            fighter.ActivityState = FighterActivityState.Idle;
+            return;
+        }
 
-            if (distance > ArriveDistance)
-            {
-                fighter.ActivityState = FighterActivityState.Moving;
-                return;
-            }
+        Vector3 targetPos = spot.GetTargetSpot().position;
+        float distance = Vector3.Distance(playerView.transform.position, targetPos);
+
+        if (distance > ArriveDistance)
+        {
+            fighter.ActivityState = FighterActivityState.Moving;
+            return;
         }
 
         if (trainingData.TrainingType == RestTrainingType)
