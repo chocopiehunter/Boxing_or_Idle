@@ -155,6 +155,35 @@ public class GameDataManager : MonoBehaviour
         return TrainingFacilityDataList.TryGetValue(Id, out var item) ? item : null;
     }
 
+    public TrainingFacilityData GetTrainingFacilityDataByTypeAndLevel(string type, int level)
+    {
+        if (TrainingFacilityDataList == null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(type) == true)
+        {
+            return null;
+        }
+
+        foreach (KeyValuePair<string, TrainingFacilityData> pair in TrainingFacilityDataList)
+        {
+            TrainingFacilityData data = pair.Value;
+            if (data == null)
+            {
+                continue;
+            }
+
+            if (data.Type == type && data.Level == level)
+            {
+                return data;
+            }
+        }
+
+        return null;
+    }
+
     public TrainingFacilityData GetTrainingFacilityDataByTrainingId(string trainingDataId)
     {
         if (TrainingFacilityDataList == null || string.IsNullOrEmpty(trainingDataId) == true)
