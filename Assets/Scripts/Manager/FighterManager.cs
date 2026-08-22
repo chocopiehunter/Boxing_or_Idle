@@ -10,14 +10,7 @@ public class FighterManager : MonoBehaviour
     private const float ArriveDistance = 0.15f;
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
-    [SerializeField] private TrainingSpot Prefab_Sandbag;
-    [SerializeField] private TrainingSpot Prefab_Rest;
-    [SerializeField] private Transform Transform_TrainingSpotRoot;
-    [SerializeField] private Vector3 Position_Sandbag = new Vector3(-5f, 0f, 0f);
-    [SerializeField] private Vector3 Position_Rest = new Vector3(5f, 0f, 0f);
 
-    private List<TrainingSpot> _spawnedTrainingSpots = new List<TrainingSpot>();
-    private List<ITrainingSpot> _trainingSpots = new List<ITrainingSpot>();
 
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
 
@@ -70,54 +63,6 @@ public class FighterManager : MonoBehaviour
         SpawnPlayerFighter(fighter);
 
         Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련방침: {fighter.CurrentTrainingId}");
-
-        SpawnTrainingSpots();
-        RefreshTrainingSpotList();
-    }
-
-    private void SpawnTrainingSpots()
-    {
-        ClearTrainingSpots();
-
-        if (Prefab_Sandbag != null)
-        {
-            TrainingSpot sandbag = Instantiate(Prefab_Sandbag);
-            sandbag.transform.position = Position_Sandbag;
-            if (Transform_TrainingSpotRoot != null)
-            {
-                sandbag.transform.SetParent(Transform_TrainingSpotRoot, false);
-            }
-
-            _spawnedTrainingSpots.Add(sandbag);
-        }
-
-        if (Prefab_Rest != null)
-        {
-            TrainingSpot rest = Instantiate(Prefab_Rest);
-            rest.transform.position = Position_Rest;
-            if (Transform_TrainingSpotRoot != null)
-            {
-                rest.transform.SetParent(Transform_TrainingSpotRoot);
-            }
-
-            _spawnedTrainingSpots.Add(rest);
-        }
-
-    }
-
-    private void RefreshTrainingSpotList()
-    {
-        _trainingSpots.Clear();
-
-        for (int i = 0; i < _spawnedTrainingSpots.Count; i++)
-        {
-            if (_spawnedTrainingSpots[i] == null)
-            {
-                continue;
-            }
-
-            _trainingSpots.Add(_spawnedTrainingSpots[i]);
-        }
     }
 
     public void ClearRoster()
@@ -132,20 +77,6 @@ public class FighterManager : MonoBehaviour
 
         _playerFighters.Clear();
         PlayerFighters.Clear();
-        ClearTrainingSpots();
-    }
-
-    public void ClearTrainingSpots()
-    {
-        for (int i = 0; i < _spawnedTrainingSpots.Count; i++)
-        {
-            if (_spawnedTrainingSpots[i] != null)
-            {
-                Destroy(_spawnedTrainingSpots[i].gameObject);
-            }
-        }
-        _spawnedTrainingSpots.Clear();
-        _trainingSpots.Clear();
     }
 
     private void SpawnPlayerFighter(FighterModel fighter)
@@ -313,6 +244,16 @@ public class FighterManager : MonoBehaviour
         return null;
     }
 
+    private IReadOnlyList<ITrainingSpot> GetTrainingSpots()
+    {
+        if (TrainingSpotManager.Instance == null)
+        {
+            return null;
+        }
+
+        return TrainingSpotManager.Instance.TrainingSpots;
+    }
+
     private ITrainingSpot FindSpotByTrainingId(string trainingId)
     {
         if (string.IsNullOrEmpty(trainingId) == true)
@@ -320,9 +261,15 @@ public class FighterManager : MonoBehaviour
             return null;
         }
 
-        for (int i = 0; i < _trainingSpots.Count; i++)
+        IReadOnlyList<ITrainingSpot> spots = GetTrainingSpots();
+        if (spots == null)
         {
-            ITrainingSpot spot = _trainingSpots[i];
+            return null;
+        }
+
+        for (int i = 0; i < spots.Count; i++)
+        {
+            ITrainingSpot spot = spots[i];
             if (spot == null || spot.IsUnlocked == false)
             {
                 continue;
@@ -363,9 +310,15 @@ public class FighterManager : MonoBehaviour
 
     private string GetRestTrainingId()
     {
-        for (int i = 0; i < _trainingSpots.Count; i++)
+        IReadOnlyList<ITrainingSpot> spots = GetTrainingSpots();
+        if (spots == null)
         {
-            ITrainingSpot spot = _trainingSpots[i];
+            return null;
+        }
+
+        for (int i = 0; i < spots.Count; i++)
+        {
+            ITrainingSpot spot = spots[i];
             if (spot == null || spot.IsUnlocked == false)
             {
                 continue;
@@ -415,12 +368,18 @@ public class FighterManager : MonoBehaviour
 
     private ITrainingSpot SelectBestSpot(FighterModel fighter)
     {
+        IReadOnlyList<ITrainingSpot> spots = GetTrainingSpots();
+        if (spots == null)
+        {
+            return null;
+        }
+
         ITrainingSpot bestSpot = null;
         float bestScore = float.MinValue;
 
-        for (int i = 0; i < _trainingSpots.Count; i++)
+        for (int i = 0; i < spots.Count; i++)
         {
-            ITrainingSpot spot = _trainingSpots[i];
+            ITrainingSpot spot = spots[i];
             if (spot == null || spot.IsUnlocked == false)
             {
                 continue;
