@@ -22,6 +22,12 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
         get { return IsUnlockedValue; }
     }
 
+    public void Bind(string trainingDataId, bool isUnlocked)
+    {
+        TrainingDataIdValue = trainingDataId;
+        IsUnlockedValue = isUnlocked;
+    }
+
     public float GetAttractionScore(FighterModel fighter)
     {
         if (IsUnlocked == false)
