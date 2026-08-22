@@ -19,8 +19,9 @@ public class TitleUI : UIBase
     {
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
-        FighterManager.Instance.CreateStartingRoster();
+
         GymManager.Instance.CreateStartingGym();
+        FighterManager.Instance.CreateStartingRoster();
 
         GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
     }

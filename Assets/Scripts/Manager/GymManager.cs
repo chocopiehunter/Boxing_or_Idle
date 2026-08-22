@@ -45,19 +45,99 @@ public class GymManager : MonoBehaviour
 
     private void CreateStartingFacility()
     {
+        List<string> unlockedIds = GetUnlockedFacilityIds();
 
+        for (int i = 0; i < StartingFacilityIds.Count; i++)
+        {
+            string facilityId = StartingFacilityIds[i];
+
+            if (unlockedIds.Contains(facilityId) == false)
+            {
+                Debug.LogError($"시작 시설이 현재 체육관에서 해금되지 않음 {facilityId}");
+                continue;
+            }
+
+            TrainingFacilityData facilityData = GameDataManager.Instance.GetTrainingFacilityData(facilityId);
+
+            if (facilityData == null)
+            {
+                Debug.LogError($"시작 시설 데이터 없음 {facilityId}");
+                continue;
+            }
+
+            CurrentGym.ApplyFacilityData(facilityData);
+
+            if (TrainingSpotManager.Instance == null)
+            {
+                Debug.LogError("TrainingSpotManager가 없음");
+                continue;
+            }
+
+            TrainingSpotManager.Instance.SpawnOrUpdate(facilityData);
+        }
     }
 
     public List<string> GetUnlockedFacilityIds()
     {
         List<string> result = new List<string>();
 
+        GymLevelData currentData = GetCurrentLevelData(DefaultBuildingType);
+
+        GymLevelData levelData = GameDataManager.Instance.GetGymLevelDataByTypeAndLevel(DefaultBuildingType, FirstLevel);
+
+        while (levelData != null)
+        {
+            AddFacilityIds(result, levelData.FacilityIds);
+
+            if (currentData != null && levelData.Id == currentData.Id)
+            {
+                break;
+            }
+
+            if (string.IsNullOrEmpty(levelData.NextLevelId) == true)
+            {
+                break;
+            }
+
+            if (levelData.NextLevelId == NoneId)
+            {
+                break;
+            }
+
+            levelData = GameDataManager.Instance.GetGymLevelData(levelData.NextLevelId);
+        }
+
         return result;
     }
 
-    private void AddFacilityIds()
+    private void AddFacilityIds(List<string> result, string facilityIds)
     {
+        if (string.IsNullOrEmpty (facilityIds) == true)
+        {
+            return;
+        }
 
+        if (facilityIds == NoneId)
+        {
+            return;
+        }
+
+        string[] splitIds = facilityIds.Split(',');
+
+        for (int i = 0; i < splitIds.Length; i++)
+        {
+            string facilityId = splitIds[i].Trim();
+
+            if (string.IsNullOrEmpty (facilityId) == true)
+            {
+                continue;
+            }
+
+            if (result.Contains (facilityId) == false)
+            {
+                result.Add (facilityId);
+            }
+        }
     }
 
     public void ClearGym()
