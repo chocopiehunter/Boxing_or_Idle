@@ -52,7 +52,7 @@ public class GymManagementUI : UIBase
             return;
         }
 
-        upgradeInfoUI.Open(DefaultBuildingType);
+        upgradeInfoUI.OpenGym(DefaultBuildingType);
     }
 
     private void OnClick_Close()
