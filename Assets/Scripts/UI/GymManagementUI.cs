@@ -46,6 +46,7 @@ public class GymManagementUI : UIBase
     private void OnClick_UpgradeGym()
     {
         UpgradeInfoUI upgradeInfoUI = UIManager.Instance.OpenPopupUI(UIType.UpgradeInfoUI) as UpgradeInfoUI;
+
         if (upgradeInfoUI == null)
         {
             Debug.LogError("UpgradeInfoUI 열기 실패");

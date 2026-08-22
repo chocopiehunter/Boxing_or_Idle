@@ -85,17 +85,93 @@ public class UpgradeInfoUI : UIBase
 
     private void RefreshFacilityUI()
     {
+        TrainingFacilityData currentData = GymManager.Instance.GetCurrentFacilityData(_targetType);
+        TrainingFacilityData nextData = GymManager.Instance.GetNextFacilityData(_targetType);
 
+        if (nextData == null)
+        {
+            ApplyMaxLevelUI();
+            return;
+        }
+
+        if (currentData == null)
+        {
+            ApplyUpgradeUI(false, null, null, 0, nextData.Name, nextData.Description, nextData.Level, nextData.GoldCost, nextData.RequiredUnlockIds);
+            return;
+        }
+
+        ApplyUpgradeUI(true, currentData.Name, currentData.Description, currentData.Level, nextData.Name, nextData.Description, nextData.Level, nextData.GoldCost, nextData.RequiredUnlockIds);
     }
 
     private void ApplyMaxLevelUI()
     {
-
+        Text_UpgradeName_Before.text = EmptyLabel;
+        Text_UpgradeName_After.text = EmptyLabel;
+        Text_UpgradeInfo_Before.text = EmptyLabel;
+        Text_UpgradeInfo_After.text = EmptyLabel;
+        Text_Level_Before.text = EmptyLabel;
+        Text_Level_After.text = EmptyLabel;
+        Text_Required_Gold.text = "최대 레벨";
+        Text_Required_UnlockIds.text = EmptyLabel;
+        Text_Required_Gold.color = Color_Enough;
+        Text_Required_UnlockIds.color = Color_Enough;
+        Button_Confirm.SetInteractable(false);
     }
 
     private void ApplyUpgradeUI(bool hasCurrentData, string currentName, string currentDescription, int currentLevel, string nextName, string nextDescription, int nextLevel, int goldCost, string requiredUnlockIds)
     {
+        if (hasCurrentData == false)
+        {
+            Text_UpgradeName_Before.text = "없음";
+            Text_UpgradeInfo_Before.text = EmptyLabel;
+            Text_Level_Before.text = EmptyLabel;
+        }
+        else
+        {
+            Text_UpgradeName_Before.text = currentName;
+            Text_UpgradeInfo_Before.text = currentDescription;
+            Text_Level_Before.text = currentLevel.ToString();
+        }
 
+        Text_UpgradeName_After.text = nextName;
+        Text_UpgradeInfo_After.text = nextDescription;
+        Text_Level_After.text = nextLevel.ToString();
+
+        int ownedGold = GymManager.Instance.CurrentGym.Gold;
+        bool enoughGold = ownedGold >= goldCost;
+
+        Text_Required_Gold.text = $"필요 {goldCost} / 보유 {ownedGold}";
+
+        if (enoughGold == true)
+        {
+            Text_Required_Gold.color = Color_Enough;
+        }
+        else
+        {
+            Text_Required_Gold.color = Color_NotEnough;
+        }
+
+        bool hasUnlockCondition = string.IsNullOrEmpty(requiredUnlockIds) == false && requiredUnlockIds != NoneId;
+
+        Text_Required_UnlockIds.text = GetUnlockText(requiredUnlockIds);
+
+        if (hasUnlockCondition == true)
+        {
+            Text_Required_UnlockIds.color = Color_NotEnough;
+        }
+        else
+        {
+            Text_Required_UnlockIds.color = Color_Enough;
+        }
+
+        bool canConfirm = false;
+
+        if (enoughGold == true && hasUnlockCondition == false)
+        {
+            canConfirm = true;
+        }
+
+        Button_Confirm.SetInteractable(canConfirm);
     }
 
     private string GetUnlockText(string requiredUnlockIds)
@@ -133,7 +209,7 @@ public class UpgradeInfoUI : UIBase
             }
             else
             {
-                result = result + "|n" + line;
+                result = result + "\n" + line;
             }
         }
 
@@ -142,7 +218,17 @@ public class UpgradeInfoUI : UIBase
 
     private void OnClick_Confirm()
     {
-        bool success = GymManager.Instance.TryUpgrade(_targetType);
+        bool success = false;
+        
+        if (_upgradeTargetType == UpgradeTargetType.Facility)
+        {
+            success = GymManager.Instance.TryUpgradeFacility(_targetType);
+        }
+        else
+        {
+            success = GymManager.Instance.TryUpgrade(_targetType);
+        }
+
         if (success == false)
         {
             RefreshUI();
@@ -150,6 +236,7 @@ public class UpgradeInfoUI : UIBase
         }
 
         GymManagementUI gymUI = UIManager.Instance.GetOpenedUI(UIRootType.PopupUI, UIType.GymManagementUI) as GymManagementUI;
+
         if (gymUI != null)
         {
             gymUI.RefreshUI();
