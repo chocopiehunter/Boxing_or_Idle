@@ -1334,7 +1334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfbaef3ac14d0b648892ddd6527bc4c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GymManager
-  StartingLevelId: gym_level_02
+  StartingLevelId: gym_level_01
   StartingGold: 8000
   StartingFacilityIds:
   - Rest_01

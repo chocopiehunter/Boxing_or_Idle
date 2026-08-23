@@ -555,6 +555,8 @@ MonoBehaviour:
   Button_Close: {fileID: 1614601578271958359}
   Button_Upgrade_Gym: {fileID: 2744134070195268108}
   Text_UpgradeName: {fileID: 8679000336629306904}
+  Transform_FacilityContent: {fileID: 6828436526504793666}
+  Prefab_FacilityRow: {fileID: 6393809280309734837, guid: 78f955275a5efbd4ea83525bb91674db, type: 3}
 --- !u!1 &2551458335789290843
 GameObject:
   m_ObjectHideFlags: 0

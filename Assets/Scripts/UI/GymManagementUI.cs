@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GymManagementUI : UIBase
@@ -9,6 +10,9 @@ public class GymManagementUI : UIBase
     [SerializeField] private UIButton Button_Upgrade_Gym;
     [SerializeField] private Text Text_UpgradeName;
 
+    [SerializeField] private Transform Transform_FacilityContent;
+    [SerializeField] private GymFacilityRowUI Prefab_FacilityRow;
+
     private void OnEnable()
     {
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
@@ -18,6 +22,12 @@ public class GymManagementUI : UIBase
     }
 
     public void RefreshUI()
+    {
+        RefreshGymUI();
+        RefreshFacilityListUI();
+    }
+
+    private void RefreshGymUI()
     {
         GymLevelData currentData = GymManager.Instance.GetCurrentLevelData(DefaultBuildingType);
         GymLevelData nextData = GymManager.Instance.GetNextLevelData(DefaultBuildingType);
@@ -41,6 +51,44 @@ public class GymManagementUI : UIBase
         }
 
         Button_Upgrade_Gym.SetInteractable(true);
+    }
+
+    private void RefreshFacilityListUI()
+    {
+        ClearFacilityRowUI();
+
+        List<string> facilityTypes = GymManager.Instance.GetVisibleFacilityTypes();
+
+        for (int i = 0; i < facilityTypes.Count; i++)
+        {
+            string facilityType = facilityTypes[i];
+            TrainingFacilityData currentData = GymManager.Instance.GetCurrentFacilityData(facilityType);
+            TrainingFacilityData nextData = GymManager.Instance.GetNextFacilityData(facilityType);
+
+            GymFacilityRowUI rowUI = Instantiate(Prefab_FacilityRow, Transform_FacilityContent);
+            rowUI.Setup(facilityType, currentData, nextData, OnClick_Facility);
+        }
+    }
+
+    private void ClearFacilityRowUI()
+    {
+        for (int i = Transform_FacilityContent.childCount -1; i >= 0; i--)
+        {
+            Destroy(Transform_FacilityContent.GetChild(i).gameObject);
+        }
+    }
+
+    private void OnClick_Facility(string facilityType)
+    {
+        UpgradeInfoUI upgradeInfoUI = UIManager.Instance.OpenPopupUI(UIType.UpgradeInfoUI) as UpgradeInfoUI;
+
+        if (upgradeInfoUI == null)
+        {
+            Debug.LogError("UpgradeInfoUI 열기 실패");
+            return;
+        }
+
+        upgradeInfoUI.OpenFacility(facilityType);
     }
 
     private void OnClick_UpgradeGym()
