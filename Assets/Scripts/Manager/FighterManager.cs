@@ -149,6 +149,39 @@ public class FighterManager : MonoBehaviour
         fighter.IsAttractionChanged = true;
     }
 
+    public void UpdateTrainingPolicyId(string previousTrainingId, string nextTrainingId)
+    {
+        if (string.IsNullOrEmpty(previousTrainingId) == true || string.IsNullOrEmpty(nextTrainingId) == true)
+        {
+            return;
+        }
+
+        if (previousTrainingId == nextTrainingId)
+        {
+            return;
+        }
+
+        for (int i = 0; i < PlayerFighters.Count; i++)
+        {
+            FighterModel fighter = PlayerFighters[i];
+
+            if (fighter == null)
+            {
+                continue;
+            }
+
+            if (fighter.CurrentTrainingId != previousTrainingId)
+            {
+                continue;
+            }
+
+            fighter.CurrentTrainingId = nextTrainingId;
+            fighter.IsAttractionChanged = true;
+
+            Debug.Log($"{fighter.Name} 선수 시설 업그레이드로 훈련 정책 갱신 -> {nextTrainingId})");
+        }
+    }
+
     private void ProgressTraining(FighterModel fighter, float seconds)
     {
         if (fighter == null)

@@ -107,8 +107,6 @@ public class TrainingManagementUI : UIBase
             return;
         }
 
-        string currentId = _targetFighter.CurrentTrainingId;
-
         Button_Rest.SetChecked(IsCurrentFacilityTraining(RestFacilityType));
         Button_HpTraining.SetChecked(IsCurrentFacilityTraining(CardioFacilityType));
         Button_AtkTraining.SetChecked(IsCurrentFacilityTraining(StandingOffenseFacilityType));
