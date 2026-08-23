@@ -7,6 +7,13 @@
     "Description": "전체 1승"
   },
   {
+    "Id": "cond_win_3",
+    "Type": "TotalWinCount",
+    "Count": 3,
+    "TargetId": "None",
+    "Description": "전체 3승"
+  },
+  {
     "Id": "cond_streak_3",
     "Type": "WinStreak",
     "Count": 3,
