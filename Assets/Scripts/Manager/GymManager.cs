@@ -303,9 +303,9 @@ public class GymManager : MonoBehaviour
             return false;
         }
 
-        if (nextLevelData.RequiredUnlockIds != NoneId)
+        if (UnlockConditionChecker.CanUnlockAll(nextLevelData.RequiredUnlockIds) == false)
         {
-            Debug.Log($"승급 조건 미구현 {nextLevelData.RequiredUnlockIds}");
+            Debug.Log($"승급 조건 미충족 {nextLevelData.RequiredUnlockIds}");
             return false;
         }
 
@@ -335,9 +335,9 @@ public class GymManager : MonoBehaviour
             return false;
         }
 
-        if (string.IsNullOrEmpty(nextData.RequiredUnlockIds) == false && nextData.RequiredUnlockIds != NoneId)
+        if (UnlockConditionChecker.CanUnlockAll(nextData.RequiredUnlockIds) == false)
         {
-            Debug.Log($"시설 조건 검사 미구현 {nextData.RequiredUnlockIds}");
+            Debug.Log($"시설 조건 미충족 {nextData.RequiredUnlockIds}");
             return false;
         }
 

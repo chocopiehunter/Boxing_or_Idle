@@ -151,22 +151,22 @@ public class UpgradeInfoUI : UIBase
             Text_Required_Gold.color = Color_NotEnough;
         }
 
-        bool hasUnlockCondition = string.IsNullOrEmpty(requiredUnlockIds) == false && requiredUnlockIds != NoneId;
+        bool canUnlock = UnlockConditionChecker.CanUnlockAll(requiredUnlockIds);
 
         Text_Required_UnlockIds.text = GetUnlockText(requiredUnlockIds);
 
-        if (hasUnlockCondition == true)
+        if (canUnlock == true)
         {
-            Text_Required_UnlockIds.color = Color_NotEnough;
+            Text_Required_UnlockIds.color = Color_Enough;
         }
         else
         {
-            Text_Required_UnlockIds.color = Color_Enough;
+            Text_Required_UnlockIds.color = Color_NotEnough;
         }
 
         bool canConfirm = false;
 
-        if (enoughGold == true && hasUnlockCondition == false)
+        if (enoughGold == true && canUnlock == true)
         {
             canConfirm = true;
         }
