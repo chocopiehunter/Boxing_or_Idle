@@ -17,7 +17,6 @@ public class FighterModel
 
     public string LastCompletedTrainingId { get; set; }
     public string ActiveTrainingId { get; set; }
-    public string CurrentTrainingId { get; set; }
     public string CurrentTrainingPolicyId { get; set; }
     public string PortraitAddress { get; private set; }
     public string BodyAddress { get; private set; }
@@ -30,7 +29,7 @@ public class FighterModel
 
     private Dictionary<string, float> _trainingProgressById;
 
-    public FighterModel(FighterData data, string defaultTrainingId, string defaultTrainingPolicyId)
+    public FighterModel(FighterData data, string defaultTrainingPolicyId)
     {
         DataId = data.Id;
         Name = data.Name;
@@ -57,9 +56,9 @@ public class FighterModel
         }
 
         TrainingStamina = TrainingStaminaMax;
-        CurrentTrainingId = defaultTrainingId;
         CurrentTrainingPolicyId = defaultTrainingPolicyId;
         LastCompletedTrainingId = null;
+        ActiveTrainingId = null;
         PortraitAddress = data.PortraitAddress;
         BodyAddress = data.BodyAddress;
         _trainingProgressById = new Dictionary<string, float>();

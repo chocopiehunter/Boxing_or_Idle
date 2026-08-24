@@ -328,7 +328,6 @@ public class GymManager : MonoBehaviour
             return false;
         }
 
-        TrainingFacilityData currentData = GetCurrentFacilityData(facilityType);
         TrainingFacilityData nextData = GetNextFacilityData(facilityType);
 
         if (nextData == null)
@@ -370,11 +369,6 @@ public class GymManager : MonoBehaviour
         }
 
         CurrentGym.ApplyFacilityData(nextData);
-
-        if (currentData != null && FighterManager.Instance != null)
-        {
-            FighterManager.Instance.UpdateTrainingPolicyId(currentData.TrainingDataId, nextData.TrainingDataId);
-        }
 
         Debug.Log($"{nextData.Type} 시설 적용 완료. 레벨 {nextData.Level} {nextData.Name} / 남은 자금 {CurrentGym.Gold}");
         return true;

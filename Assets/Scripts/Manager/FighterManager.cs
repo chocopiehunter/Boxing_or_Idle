@@ -101,7 +101,7 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        FighterModel fighter = new FighterModel(data, "rest_01", policyData.Id);
+        FighterModel fighter = new FighterModel(data, policyData.Id);
         PlayerFighters.Add(fighter);
 
         SpawnPlayerFighter(fighter);
@@ -157,39 +157,6 @@ public class FighterManager : MonoBehaviour
         fighter.IsAttractionChanged = true;
     }
 
-    public void UpdateTrainingPolicyId(string previousTrainingId, string nextTrainingId)
-    {
-        if (string.IsNullOrEmpty(previousTrainingId) == true || string.IsNullOrEmpty(nextTrainingId) == true)
-        {
-            return;
-        }
-
-        if (previousTrainingId == nextTrainingId)
-        {
-            return;
-        }
-
-        for (int i = 0; i < PlayerFighters.Count; i++)
-        {
-            FighterModel fighter = PlayerFighters[i];
-
-            if (fighter == null)
-            {
-                continue;
-            }
-
-            if (fighter.CurrentTrainingId != previousTrainingId)
-            {
-                continue;
-            }
-
-            fighter.CurrentTrainingId = nextTrainingId;
-            fighter.IsAttractionChanged = true;
-
-            Debug.Log($"{fighter.Name} 선수 시설 업그레이드로 훈련 정책 갱신 -> {nextTrainingId})");
-        }
-    }
-
     private void ProgressTraining(FighterModel fighter, float seconds)
     {
         if (fighter == null)
@@ -206,7 +173,7 @@ public class FighterManager : MonoBehaviour
         float trainingStaminaBefore = fighter.TrainingStamina;
         string previousId = fighter.ActiveTrainingId;
 
-        if (fighter.IsAttractionChanged == true || fighter.ActiveSpot == null)
+        if (fighter.IsAttractionChanged == true)
         {
             ITrainingSpot selectedSpot = SelectTrainingSpot(fighter);
             fighter.ActiveSpot = selectedSpot;
@@ -218,7 +185,7 @@ public class FighterManager : MonoBehaviour
             }
             else
             {
-                fighter.ActiveTrainingId = fighter.CurrentTrainingId;
+                fighter.ActiveTrainingId = null;
             }
         }
 
@@ -233,23 +200,17 @@ public class FighterManager : MonoBehaviour
             }
         }
 
+        ITrainingSpot spot = fighter.ActiveSpot;
+        if (spot == null)
+        {
+            fighter.ActivityState = FighterActivityState.Idle;
+            return;
+        }
+
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(trainingId);
         if (trainingData == null)
         {
             Debug.LogError($"TrainingData 없음 {trainingId}");
-            return;
-        }
-
-        ITrainingSpot spot = fighter.ActiveSpot;
-        if (spot == null)
-        {
-            spot = FindSpotByTrainingId(trainingId);
-            fighter.ActiveSpot = spot;
-        }
-
-        if (spot == null)
-        {
-            fighter.ActivityState = FighterActivityState.Idle;
             return;
         }
 
@@ -362,30 +323,6 @@ public class FighterManager : MonoBehaviour
         }
 
         return null;
-    }
-
-    private string GetActiveTrainingId(FighterModel fighter)
-    {
-        string restId = GetRestTrainingId();
-
-        if (fighter.TrainingStamina <= RestTrainingStaminaMin)
-        {
-            if (string.IsNullOrEmpty(restId) == false)
-            {
-                return restId;
-            }
-        }
-
-        bool isResting = fighter.ActiveTrainingId == restId;
-        if (isResting == true && fighter.IsTrainingStaminaFull() == false)
-        {
-            if (string.IsNullOrEmpty (restId) == false)
-            {
-                return restId;
-            }
-        }
-
-        return fighter.CurrentTrainingId;
     }
 
     private string GetRestTrainingId()
