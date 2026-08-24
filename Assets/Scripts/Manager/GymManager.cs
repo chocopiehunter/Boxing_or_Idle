@@ -378,11 +378,4 @@ public class GymManager : MonoBehaviour
     {
         return TryUpgrade(DefaultBuildingType);
     }
-
-    // 테스트 코드
-    [ContextMenu("체육관 업그레이드 테스트")]
-    private void DebugUpgrade()
-    {
-        TryUpgradeGym();
-    }
 }
