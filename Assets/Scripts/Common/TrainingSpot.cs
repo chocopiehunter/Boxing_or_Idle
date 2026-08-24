@@ -2,9 +2,6 @@
 
 public class TrainingSpot : MonoBehaviour, ITrainingSpot
 {
-    private const string RestTrainingType = "Rest";
-    private const float RestTrainingStaminaMin = 0f;
-
     [SerializeField] private string TrainingDataIdValue;
     [SerializeField] private bool IsUnlockedValue = true;
     [SerializeField] private float BaseAttraction = 10f;
@@ -34,39 +31,7 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
             return float.MinValue;
         }
 
-        if (fighter == null)
-        {
-            return BaseAttraction;
-        }
-
-        float score = BaseAttraction;
-
-        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(TrainingDataIdValue);
-
-        if (trainingData == null)
-        {
-            return score;
-        }
-
-        TrainingPolicyData policyData = GameDataManager.Instance.GetTrainingPolicyData(fighter.CurrentTrainingPolicyId);
-
-        if (policyData != null)
-        {
-            if (trainingData.Category == policyData.Category && trainingData.Focus == policyData.Focus)
-            {
-                score = score + policyData.AttractionBonus;
-            }
-        }
-
-        if (trainingData.TrainingType == RestTrainingType)
-        {
-            if (fighter.TrainingStamina <= RestTrainingStaminaMin)
-            {
-                score = score + RestMinBonus;
-            }
-        }
-
-        return score;
+        return AttractionCalculator.Caculate(BaseAttraction, RestMinBonus, TrainingDataIdValue, fighter);
     }
 
     public Transform GetTargetSpot()
