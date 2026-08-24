@@ -31,7 +31,7 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
             return float.MinValue;
         }
 
-        return AttractionCalculator.Caculate(BaseAttraction, RestMinBonus, TrainingDataIdValue, fighter);
+        return AttractionCalculator.Calculate(BaseAttraction, RestMinBonus, TrainingDataIdValue, fighter);
     }
 
     public Transform GetTargetSpot()
