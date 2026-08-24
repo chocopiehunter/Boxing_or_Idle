@@ -10,7 +10,7 @@ public class FighterManager : MonoBehaviour
     private const float ArriveDistance = 0.15f;
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
-
+    [SerializeField] private string StartingTrainingPolicyId = "policy_rest";
 
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
 
@@ -93,12 +93,20 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        FighterModel fighter = new FighterModel(data, "rest_01");
+        TrainingPolicyData policyData = GameDataManager.Instance.GetTrainingPolicyData(StartingTrainingPolicyId);
+
+        if (policyData == null)
+        {
+            Debug.LogError($"스타팅 훈련 정책 데이터 없음 {StartingTrainingPolicyId}");
+            return;
+        }
+
+        FighterModel fighter = new FighterModel(data, "rest_01", policyData.Id);
         PlayerFighters.Add(fighter);
 
         SpawnPlayerFighter(fighter);
 
-        Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련방침: {fighter.CurrentTrainingId}");
+        Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련 정책: {fighter.CurrentTrainingPolicyId}");
     }
 
     public void ClearRoster()
