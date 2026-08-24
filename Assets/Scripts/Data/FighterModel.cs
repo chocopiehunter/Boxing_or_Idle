@@ -122,6 +122,23 @@ public class FighterModel
         return false;
     }
 
+    public void ApplyTrainingStatValue(TrainingStatValue value)
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        Hp = Hp + value.Hp;
+        Stamina = Stamina + value.Stamina;
+        StandingOffense = StandingOffense + value.StandingOffense;
+        StandingDefense = StandingDefense + value.StandingDefense;
+        WrestlingOffense = WrestlingOffense + value.WrestlingOffense;
+        WrestlingDefense = WrestlingDefense + value.WrestlingDefense;
+        JiuJitsuOffense = JiuJitsuOffense + value.JiuJitsuOffense;
+        JiuJitsuDefense = JiuJitsuDefense + value.JiuJitsuDefense;
+    }
+
     public void ApplyTrainingStaminaChange(float staminaChange)
     {
         TrainingStamina = TrainingStamina + staminaChange;

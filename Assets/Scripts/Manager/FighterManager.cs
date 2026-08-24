@@ -371,14 +371,14 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        fighter.Hp = fighter.Hp + facilityData.Hp;
-        fighter.Stamina = fighter.Stamina + facilityData.Stamina;
-        fighter.StandingOffense = fighter.StandingOffense + facilityData.StandingOffense;
-        fighter.StandingDefense = fighter.StandingDefense + facilityData.StandingDefense;
-        fighter.WrestlingOffense = fighter.WrestlingOffense + facilityData.WrestlingOffense;
-        fighter.WrestlingDefense = fighter.WrestlingDefense + facilityData.WrestlingDefense;
-        fighter.JiuJitsuOffense = fighter.JiuJitsuOffense + facilityData.JiuJitsuOffense;
-        fighter.JiuJitsuDefense = fighter.JiuJitsuDefense + facilityData.JiuJitsuDefense;
+        TrainingStatValue finalValue = TrainingResultCalculator.Calculate(fighter, trainingData, facilityData);
+        if (finalValue == null)
+        {
+            Debug.LogError($"훈련 최종 상승치 계산 실패 {trainingId}");
+            return;
+        }
+
+        fighter.ApplyTrainingStatValue(finalValue);
 
         if (trainingData.TrainingType != RestTrainingType)
         {
