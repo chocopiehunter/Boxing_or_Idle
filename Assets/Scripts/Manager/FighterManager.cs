@@ -208,13 +208,13 @@ public class FighterManager : MonoBehaviour
 
         if (fighter.IsAttractionChanged == true || fighter.ActiveSpot == null)
         {
-            ITrainingSpot bestSpot = SelectBestSpot(fighter);
-            fighter.ActiveSpot = bestSpot;
+            ITrainingSpot selectedSpot = SelectTrainingSpot(fighter);
+            fighter.ActiveSpot = selectedSpot;
             fighter.IsAttractionChanged = false;
 
-            if (bestSpot != null)
+            if (selectedSpot != null)
             {
-                fighter.ActiveTrainingId = bestSpot.TrainingDataId;
+                fighter.ActiveTrainingId = selectedSpot.TrainingDataId;
             }
             else
             {
@@ -446,7 +446,38 @@ public class FighterManager : MonoBehaviour
         Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Stamina {fighter.Stamina} / StandingOffense {fighter.StandingOffense} / StandingDefense {fighter.StandingDefense}");
     }
 
-    private ITrainingSpot SelectBestSpot(FighterModel fighter)
+    private ITrainingSpot SelectTrainingSpot(FighterModel fighter)
+    {
+        if (fighter == null)
+        {
+            return null;
+        }
+
+        if (ShouldForceRest(fighter) == true)
+        {
+            string restTrainingId = GetRestTrainingId();
+            return FindSpotByTrainingId(restTrainingId);
+        }
+
+        return SelectSpotByAttractionScore(fighter);
+    }
+
+    private bool ShouldForceRest(FighterModel fighter)
+    {
+        if (fighter.TrainingStamina <= RestTrainingStaminaMin)
+        {
+            return true;
+        }
+
+        if (fighter.ActivityState != FighterActivityState.Resting)
+        {
+            return false;
+        }
+
+        return fighter.IsTrainingStaminaFull() == false;
+    }
+
+    private ITrainingSpot SelectSpotByAttractionScore(FighterModel fighter)
     {
         IReadOnlyList<ITrainingSpot> spots = GetTrainingSpots();
         if (spots == null)
@@ -454,25 +485,60 @@ public class FighterManager : MonoBehaviour
             return null;
         }
 
-        ITrainingSpot bestSpot = null;
-        float bestScore = float.MinValue;
+        float totalAttractionScore = 0f;
 
         for (int i = 0; i < spots.Count; i++)
         {
             ITrainingSpot spot = spots[i];
-            if (spot == null || spot.IsUnlocked == false)
+            if(spot == null || spot.IsUnlocked == false)
             {
                 continue;
             }
 
-            float score = spot.GetAttractionScore(fighter);
-            if (score > bestScore)
+            float attractionScore = spot.GetAttractionScore(fighter);
+
+            if(attractionScore <= 0f)
             {
-                bestScore = score;
-                bestSpot = spot;
+                continue;
+            }
+
+            totalAttractionScore = totalAttractionScore + attractionScore;
+        }
+
+        if (totalAttractionScore <= 0f)
+        {
+            return null;
+        }
+
+        float randomScore = Random.Range(0f, totalAttractionScore);
+
+        float currentScoreSum = 0f;
+        ITrainingSpot lastSpot = null;
+
+        for (int i = 0; i < spots.Count; i++)
+        {
+            ITrainingSpot spot = spots[i];
+            if(spot == null || spot.IsUnlocked == false)
+            {
+                continue;
+            }
+
+            float attractionScore = spot.GetAttractionScore(fighter);
+
+            if (attractionScore <= 0f)
+            {
+                continue;
+            }
+
+            lastSpot = spot;
+            currentScoreSum = currentScoreSum + attractionScore;
+
+            if (randomScore <= currentScoreSum)
+            {
+                return spot;
             }
         }
 
-        return bestSpot;
+        return lastSpot;
     }
 }
