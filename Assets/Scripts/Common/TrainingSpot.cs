@@ -8,7 +8,6 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
     [SerializeField] private string TrainingDataIdValue;
     [SerializeField] private bool IsUnlockedValue = true;
     [SerializeField] private float BaseAttraction = 10f;
-    [SerializeField] private float PolicyBonus = 50f;
     [SerializeField] private float RestMinBonus = 1000f;
     [SerializeField] private Transform TargetSpot;
 
@@ -42,15 +41,21 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
 
         float score = BaseAttraction;
 
-        if (fighter.CurrentTrainingId == TrainingDataIdValue)
-        {
-            score = score + PolicyBonus;
-        }
-
         TrainingData trainingData = GameDataManager.Instance.GetTrainingData(TrainingDataIdValue);
+
         if (trainingData == null)
         {
             return score;
+        }
+
+        TrainingPolicyData policyData = GameDataManager.Instance.GetTrainingPolicyData(fighter.CurrentTrainingPolicyId);
+
+        if (policyData != null)
+        {
+            if (trainingData.Category == policyData.Category && trainingData.Focus == policyData.Focus)
+            {
+                score = score + policyData.AttractionBonus;
+            }
         }
 
         if (trainingData.TrainingType == RestTrainingType)

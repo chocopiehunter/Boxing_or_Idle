@@ -48,19 +48,20 @@ public class TrainingManagementUI : UIBase
 
         Text_Name.text = _targetFighter.Name;
 
-        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(_targetFighter.CurrentTrainingId);
+        TrainingPolicyData policyData = GameDataManager.Instance.GetTrainingPolicyData(_targetFighter.CurrentTrainingPolicyId);
 
-        string trainingName;
-        if (trainingData != null)
+        string policyName;
+
+        if (policyData != null)
         {
-            trainingName = trainingData.Name;
+            policyName = policyData.Name;
         }
         else
         {
-            trainingName = _targetFighter.CurrentTrainingId;
+            policyName = _targetFighter.CurrentTrainingPolicyId;
         }
 
-        Text_CurrentTraining.text = $"현재 훈련 정책: {trainingName}";
+        Text_CurrentTraining.text = $"현재 훈련 정책: {policyName}";
 
         Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.StandingOffense} / Def {_targetFighter.StandingDefense} / Condition {_targetFighter.Condition}";
         
@@ -75,24 +76,18 @@ public class TrainingManagementUI : UIBase
             return;
         }
 
-        TrainingFacilityData facilityData = GymManager.Instance.GetCurrentFacilityData(facilityType);
+        TrainingPolicyData policyData = GetTrainingPolicyByFacilityType(facilityType);
 
-        if (facilityData == null)
+        if (policyData == null)
         {
-            Debug.LogError($"보유하지 않은 훈련 시설입니다 Type: {facilityType}");
+            Debug.LogError($"시설과 연결된 훈련 정책 데이터 없음 Type: {facilityType}");
             return;
         }
 
-        if (string.IsNullOrEmpty(facilityData.TrainingDataId) == true)
-        {
-            Debug.LogError($"시설 TrainingDataId가 없음 FacilityId : {facilityData.Id}");
-            return;
-        }
-
-        _targetFighter.CurrentTrainingId = facilityData.TrainingDataId;
+        _targetFighter.CurrentTrainingPolicyId = policyData.Id;
         FighterManager.Instance.NotifyAttractionChanged(_targetFighter);
 
-        Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {facilityData.TrainingDataId}");
+        Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {policyData.Id}");
         RefreshUI();
     }
 
@@ -107,22 +102,41 @@ public class TrainingManagementUI : UIBase
             return;
         }
 
-        Button_Rest.SetChecked(IsCurrentFacilityTraining(RestFacilityType));
-        Button_HpTraining.SetChecked(IsCurrentFacilityTraining(CardioFacilityType));
-        Button_AtkTraining.SetChecked(IsCurrentFacilityTraining(StandingOffenseFacilityType));
-        Button_DefTraining.SetChecked(IsCurrentFacilityTraining(StandingDefenseFacilityType));
+        Button_Rest.SetChecked(IsCurrentFacilityPolicy(RestFacilityType));
+        Button_HpTraining.SetChecked(IsCurrentFacilityPolicy(CardioFacilityType));
+        Button_AtkTraining.SetChecked(IsCurrentFacilityPolicy(StandingOffenseFacilityType));
+        Button_DefTraining.SetChecked(IsCurrentFacilityPolicy(StandingDefenseFacilityType));
     }
 
-    private bool IsCurrentFacilityTraining(string facilityType)
+    private bool IsCurrentFacilityPolicy(string facilityType)
+    {
+        TrainingPolicyData policyData = GetTrainingPolicyByFacilityType(facilityType);
+
+        if (policyData == null)
+        {
+            return false;
+        }
+
+        return _targetFighter.CurrentTrainingPolicyId == policyData.Id;
+    }
+
+    private TrainingPolicyData GetTrainingPolicyByFacilityType(string facilityType)
     {
         TrainingFacilityData facilityData = GymManager.Instance.GetCurrentFacilityData(facilityType);
 
         if (facilityData == null)
         {
-            return false;
+            return null;
         }
 
-        return _targetFighter.CurrentTrainingId == facilityData.TrainingDataId;
+        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(facilityData.TrainingDataId);
+
+        if (trainingData == null)
+        {
+            return null;
+        }
+
+        return GameDataManager.Instance.GetTrainingPolicyDataByCategoryAndFocus(trainingData.Category, trainingData.Focus);
     }
 
     public void SetTargetFighter(FighterModel fighter)

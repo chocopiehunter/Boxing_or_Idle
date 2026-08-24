@@ -216,4 +216,34 @@ public class GameDataManager : MonoBehaviour
 
         return TrainingPolicyDataList.TryGetValue(Id, out var item) ? item : null;
     }
+    
+    public TrainingPolicyData GetTrainingPolicyDataByCategoryAndFocus(string category, string focus)
+    {
+        if (TrainingPolicyDataList == null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(category) == true || string.IsNullOrEmpty(focus) == true)
+        {
+            return null;
+        }
+
+        foreach(KeyValuePair<string, TrainingPolicyData> pair in TrainingPolicyDataList)
+        {
+            TrainingPolicyData policyData = pair.Value;
+
+            if (policyData == null)
+            {
+                continue;
+            }
+
+            if (policyData.Category == category && policyData.Focus == focus)
+            {
+                return policyData;
+            }
+        }
+
+        return null;
+    }
 }
