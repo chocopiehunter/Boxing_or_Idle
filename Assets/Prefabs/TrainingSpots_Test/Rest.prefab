@@ -107,6 +107,5 @@ MonoBehaviour:
   TrainingDataIdValue: rest_01
   IsUnlockedValue: 1
   BaseAttraction: 10
-  PolicyBonus: 50
-  RestMinBonus: 1000
+  RepeatPenalty: 30
   TargetSpot: {fileID: 0}
