@@ -443,6 +443,11 @@ public class FighterManager : MonoBehaviour
         fighter.JiuJitsuOffense = fighter.JiuJitsuOffense + facilityData.JiuJitsuOffense;
         fighter.JiuJitsuDefense = fighter.JiuJitsuDefense + facilityData.JiuJitsuDefense;
 
+        if (trainingData.TrainingType != RestTrainingType)
+        {
+            fighter.LastCompletedTrainingId = trainingId;
+        }
+
         Debug.Log($"{fighter.Name} 훈련 완료 {trainingData.Name} : Hp {fighter.Hp} / Stamina {fighter.Stamina} / StandingOffense {fighter.StandingOffense} / StandingDefense {fighter.StandingDefense}");
     }
 

@@ -5,7 +5,7 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
     [SerializeField] private string TrainingDataIdValue;
     [SerializeField] private bool IsUnlockedValue = true;
     [SerializeField] private float BaseAttraction = 10f;
-    [SerializeField] private float RestMinBonus = 1000f;
+    [SerializeField] private float RepeatPenalty = 5f;
     [SerializeField] private Transform TargetSpot;
 
     public string TrainingDataId
@@ -31,7 +31,7 @@ public class TrainingSpot : MonoBehaviour, ITrainingSpot
             return float.MinValue;
         }
 
-        return AttractionCalculator.Calculate(BaseAttraction, RestMinBonus, TrainingDataIdValue, fighter);
+        return AttractionCalculator.Calculate(BaseAttraction, RepeatPenalty, TrainingDataIdValue, fighter);
     }
 
     public Transform GetTargetSpot()

@@ -2,10 +2,7 @@
 
 public static class AttractionCalculator
 {
-    private const string RestTrainingType = "Rest";
-    private const float RestTrainingStaminaMin = 0f;
-
-    public static float Calculate(float baseAttraction, float restMinBonus, string trainingDataId, FighterModel fighter)
+    public static float Calculate(float baseAttraction, float repeatPenalty, string trainingDataId, FighterModel fighter)
     {
         float attractionScore = baseAttraction;
 
@@ -27,7 +24,7 @@ public static class AttractionCalculator
         }
 
         attractionScore = AddPolicyAttractionBonus(attractionScore, trainingData, fighter);
-        attractionScore = AddRestAttractionBonus(attractionScore, restMinBonus, trainingData, fighter);
+        attractionScore = AddRepeatPenalty(attractionScore, repeatPenalty, trainingDataId, fighter);
 
         return Mathf.Max(0f, attractionScore);
     }
@@ -49,18 +46,13 @@ public static class AttractionCalculator
         return attractionScore + policyData.AttractionBonus;
     }
 
-    private static float AddRestAttractionBonus(float attractionScore, float restMinBonus, TrainingData trainingData, FighterModel fighter)
+    private static float AddRepeatPenalty(float attractionScore, float repeatPenalty, string trainingDataId, FighterModel fighter)
     {
-        if (trainingData.TrainingType != RestTrainingType)
+        if (fighter.LastCompletedTrainingId != trainingDataId)
         {
             return attractionScore;
         }
 
-        if (fighter.TrainingStamina > RestTrainingStaminaMin)
-        {
-            return attractionScore;
-        }
-
-        return attractionScore + restMinBonus;
+        return Mathf.Max(0.01f, attractionScore - Mathf.Max(0f, repeatPenalty));
     }
 }

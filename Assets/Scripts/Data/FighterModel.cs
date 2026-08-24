@@ -15,6 +15,7 @@ public class FighterModel
     public float JiuJitsuDefense { get; set; }
     public float Condition { get; set; }
 
+    public string LastCompletedTrainingId { get; set; }
     public string ActiveTrainingId { get; set; }
     public string CurrentTrainingId { get; set; }
     public string CurrentTrainingPolicyId { get; set; }
@@ -58,6 +59,7 @@ public class FighterModel
         TrainingStamina = TrainingStaminaMax;
         CurrentTrainingId = defaultTrainingId;
         CurrentTrainingPolicyId = defaultTrainingPolicyId;
+        LastCompletedTrainingId = null;
         PortraitAddress = data.PortraitAddress;
         BodyAddress = data.BodyAddress;
         _trainingProgressById = new Dictionary<string, float>();
