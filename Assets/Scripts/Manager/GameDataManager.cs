@@ -28,6 +28,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, GymLevelData> GymLevelDataList { get; private set; } = new Dictionary<string, GymLevelData>();
     public Dictionary<string, UnlockConditionData> UnlockConditionDataList { get; private set; } = new Dictionary<string, UnlockConditionData>();
     public Dictionary<string, TrainingFacilityData> TrainingFacilityDataList { get; private set; } = new Dictionary<string, TrainingFacilityData>();
+    public Dictionary<string, TrainingPolicyData> TrainingPolicyDataList { get; private set; } = new Dictionary<string, TrainingPolicyData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -78,6 +79,7 @@ public class GameDataManager : MonoBehaviour
         GymLevelDataList = LoadData<GymLevelData>("GymLevelData");
         UnlockConditionDataList = LoadData<UnlockConditionData>("UnlockConditionData");
         TrainingFacilityDataList = LoadData<TrainingFacilityData>("TrainingFacilityData");
+        TrainingPolicyDataList = LoadData<TrainingPolicyData>("TrainingPolicyData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -206,5 +208,12 @@ public class GameDataManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public TrainingPolicyData GetTrainingPolicyData(string Id)
+    {
+        if (TrainingPolicyDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return TrainingPolicyDataList.TryGetValue(Id, out var item) ? item : null;
     }
 }
