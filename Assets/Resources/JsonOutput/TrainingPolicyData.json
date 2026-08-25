@@ -1,0 +1,74 @@
+[
+  {
+    "Id": "policy_rest",
+    "Name": "휴식 중심",
+    "Description": "훈련 체력 회복을 우선한다.",
+    "Category": "Rest",
+    "Focus": "Recovery",
+    "AttractionBonus": 50,
+    "SortOrder": 0
+  },
+  {
+    "Id": "policy_cardio",
+    "Name": "체력과 카디오 집중 훈련",
+    "Description": "체력과 카디오 시설의 훈련 우선도를 높인다.",
+    "Category": "Cardio",
+    "Focus": "Stamina",
+    "AttractionBonus": 50,
+    "SortOrder": 1
+  },
+  {
+    "Id": "policy_standing_offense",
+    "Name": "스탠딩 타격 공격 집중 훈련",
+    "Description": "스탠딩 타격 공격 중심의 훈련 우선도를 높인다.",
+    "Category": "Standing",
+    "Focus": "Offense",
+    "AttractionBonus": 50,
+    "SortOrder": 2
+  },
+  {
+    "Id": "policy_standing_defense",
+    "Name": "스탠딩 타격 방어 집중 훈련",
+    "Description": "스탠딩 타격 방어 중심의 훈련 우선도를 높인다.",
+    "Category": "Standing",
+    "Focus": "Defense",
+    "AttractionBonus": 50,
+    "SortOrder": 3
+  },
+  {
+    "Id": "policy_wrestling_offense",
+    "Name": "공격적 레슬링 집중 훈련",
+    "Description": "공격적 레슬링 중심 훈련 우선도를 높인다.",
+    "Category": "Wrestling",
+    "Focus": "Offense",
+    "AttractionBonus": 50,
+    "SortOrder": 4
+  },
+  {
+    "Id": "policy_wrestling_defense",
+    "Name": "레슬링 방어 집중 훈련",
+    "Description": "레슬링 방어 중심 훈련 우선도를 높인다.",
+    "Category": "Wrestling",
+    "Focus": "Defense",
+    "AttractionBonus": 50,
+    "SortOrder": 5
+  },
+  {
+    "Id": "policy_jiujitsu_offense",
+    "Name": "공격적인 주짓수 집중 훈련",
+    "Description": "피니쉬를 노리는 공격적인 주짓수 훈련 우선도를 높인다.",
+    "Category": "JiuJitsu",
+    "Focus": "Offense",
+    "AttractionBonus": 50,
+    "SortOrder": 6
+  },
+  {
+    "Id": "policy_jiujitsu_defense",
+    "Name": "주짓수 방어 집중 훈련",
+    "Description": "주짓수 방어 중심 훈련 우선도를 높인다.",
+    "Category": "JiuJitsu",
+    "Focus": "Defense",
+    "AttractionBonus": 50,
+    "SortOrder": 7
+  }
+]

@@ -191,3 +191,4 @@ Assets/ThirdParty/
 Assets/ThirdParty.meta
 .cursor
 JsonConverter/ExcelFiles/DN
+*.md

@@ -10,6 +10,9 @@ public class GameState
     public bool HasClearedFirstGame { get; private set; } = false;
 
     public int NgPlusPoints { get; private set; } = 0;
+    public int TotalWinCount { get; private set; }
+    public int CurrentWinStreak { get; private set; }
+
     private List<string> _receivedNgAchievementIds = new List<string>();
 
     public void ChangeState(GameFlowState newState)
@@ -25,6 +28,18 @@ public class GameState
     public void SetFirstGameCleared(bool cleared)
     {
         HasClearedFirstGame = cleared;
+    }
+
+    public void RecordMatchResult(MatchResult result)
+    {
+        if (result == MatchResult.Win)
+        {
+            TotalWinCount = TotalWinCount + 1;
+            CurrentWinStreak = CurrentWinStreak + 1;
+            return;
+        }
+
+        CurrentWinStreak = 0;
     }
 
     public void AddNgPlusPoints(int amount)

@@ -1,58 +1,56 @@
 [
   {
-    "Id": "training_00",
+    "Id": "rest_01",
     "Name": "휴식",
     "Description": "선수의 컨디션을 회복한다.",
     "TrainingType": "Rest",
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 20,
-    "ConditionDown": 0
+    "Time": 10,
+    "Category": "Rest",
+    "Focus": "Recovery"
   },
   {
-    "Id": "training_01",
-    "Name": "체력훈련",
-    "Description": "체력을 올려주는 기본 훈련이다.",
-    "TrainingType": "Training",
-    "HpUp": 15,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 0,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Id": "rest_02",
+    "Name": "개선된 휴식",
+    "Description": "선수의 컨디션을 조금 더 회복한다.",
+    "TrainingType": "Rest",
+    "Time": 10,
+    "Category": "Rest",
+    "Focus": "Recovery"
   },
   {
-    "Id": "training_02",
-    "Name": "공격력훈련",
-    "Description": "선수의 펀치력을 향상시키는 훈련이다.",
+    "Id": "cardio_01",
+    "Name": "카디오 훈련",
+    "Description": "체력과 경기 스태미너를 기르는 기본 훈련이다.",
     "TrainingType": "Training",
-    "HpUp": 0,
-    "HpDown": 0,
-    "AtkUp": 5,
-    "AtkDown": 0,
-    "DefUp": 0,
-    "DefDown": 2,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Time": 20,
+    "Category": "Cardio",
+    "Focus": "Stamina"
   },
   {
-    "Id": "training_03",
-    "Name": "방어력훈련",
-    "Description": "선수의 방어능력을 향상시키는 훈련이다.",
+    "Id": "standing_offense_01",
+    "Name": "스탠딩 타격 훈련",
+    "Description": "선수의 스탠딩 타격 능력을 향상시키는 훈련이다.",
     "TrainingType": "Training",
-    "HpUp": 5,
-    "HpDown": 0,
-    "AtkUp": 0,
-    "AtkDown": 0,
-    "DefUp": 5,
-    "DefDown": 0,
-    "ConditionUp": 0,
-    "ConditionDown": 10
+    "Time": 20,
+    "Category": "Standing",
+    "Focus": "Offense"
+  },
+  {
+    "Id": "standing_offense_02",
+    "Name": "개선된 스탠딩 타격 훈련",
+    "Description": "더 나은 시설에서 스탠딩 타격 능력을 향상 시키는 훈련이다.",
+    "TrainingType": "Training",
+    "Time": 22,
+    "Category": "Standing",
+    "Focus": "Offense"
+  },
+  {
+    "Id": "standing_defense_01",
+    "Name": "스탠딩 방어 훈련",
+    "Description": "선수의 스탠딩 방어 능력을 향상시키는 훈련이다.",
+    "TrainingType": "Training",
+    "Time": 20,
+    "Category": "Standing",
+    "Focus": "Defense"
   }
 ]

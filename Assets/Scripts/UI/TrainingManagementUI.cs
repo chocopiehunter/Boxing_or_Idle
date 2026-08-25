@@ -14,6 +14,10 @@ public class TrainingManagementUI : UIBase
     [SerializeField] private UIButton Button_Close;
 
     private FighterModel _targetFighter;
+    private const string RestFacilityType = "rest";
+    private const string CardioFacilityType = "cardio";
+    private const string StandingOffenseFacilityType = "standing_offense";
+    private const string StandingDefenseFacilityType = "standing_defense";
 
     private void OnEnable()
     {
@@ -32,8 +36,6 @@ public class TrainingManagementUI : UIBase
         RefreshUI();
     }
 
-
-
     private void RefreshUI()
     {
         if (_targetFighter == null)
@@ -46,26 +48,27 @@ public class TrainingManagementUI : UIBase
 
         Text_Name.text = _targetFighter.Name;
 
-        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(_targetFighter.CurrentTrainingId);
+        TrainingPolicyData policyData = GameDataManager.Instance.GetTrainingPolicyData(_targetFighter.CurrentTrainingPolicyId);
 
-        string trainingName;
-        if (trainingData != null)
+        string policyName;
+
+        if (policyData != null)
         {
-            trainingName = trainingData.Name;
+            policyName = policyData.Name;
         }
         else
         {
-            trainingName = _targetFighter.CurrentTrainingId;
+            policyName = _targetFighter.CurrentTrainingPolicyId;
         }
 
-        Text_CurrentTraining.text = $"현재 훈련 정책: {trainingName}";
+        Text_CurrentTraining.text = $"현재 훈련 정책: {policyName}";
 
-        Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.Atk} / Def {_targetFighter.Def} / Condition {_targetFighter.Condition}";
+        Text_Stats.text = $"Hp {_targetFighter.Hp} / Atk {_targetFighter.StandingOffense} / Def {_targetFighter.StandingDefense} / Condition {_targetFighter.Condition}";
         
         RefreshCheckUI();
     }
 
-    private void ChangeTraining(string trainingId)
+    private void ChangeTraining(string facilityType)
     {
         if (_targetFighter == null)
         {
@@ -73,8 +76,18 @@ public class TrainingManagementUI : UIBase
             return;
         }
 
-        _targetFighter.CurrentTrainingId = trainingId;
-        Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {trainingId}");
+        TrainingPolicyData policyData = GetTrainingPolicyByFacilityType(facilityType);
+
+        if (policyData == null)
+        {
+            Debug.LogError($"시설과 연결된 훈련 정책 데이터 없음 Type: {facilityType}");
+            return;
+        }
+
+        _targetFighter.CurrentTrainingPolicyId = policyData.Id;
+        FighterManager.Instance.NotifyAttractionChanged(_targetFighter);
+
+        Debug.Log($"{_targetFighter.Name} 훈련 정책 변경 -> {policyData.Id}");
         RefreshUI();
     }
 
@@ -89,12 +102,41 @@ public class TrainingManagementUI : UIBase
             return;
         }
 
-        string currentId = _targetFighter.CurrentTrainingId;
+        Button_Rest.SetChecked(IsCurrentFacilityPolicy(RestFacilityType));
+        Button_HpTraining.SetChecked(IsCurrentFacilityPolicy(CardioFacilityType));
+        Button_AtkTraining.SetChecked(IsCurrentFacilityPolicy(StandingOffenseFacilityType));
+        Button_DefTraining.SetChecked(IsCurrentFacilityPolicy(StandingDefenseFacilityType));
+    }
 
-        Button_Rest.SetChecked(currentId == "training_00");
-        Button_HpTraining.SetChecked(currentId == "training_01");
-        Button_AtkTraining.SetChecked(currentId == "training_02");
-        Button_DefTraining.SetChecked(currentId == "training_03");
+    private bool IsCurrentFacilityPolicy(string facilityType)
+    {
+        TrainingPolicyData policyData = GetTrainingPolicyByFacilityType(facilityType);
+
+        if (policyData == null)
+        {
+            return false;
+        }
+
+        return _targetFighter.CurrentTrainingPolicyId == policyData.Id;
+    }
+
+    private TrainingPolicyData GetTrainingPolicyByFacilityType(string facilityType)
+    {
+        TrainingFacilityData facilityData = GymManager.Instance.GetCurrentFacilityData(facilityType);
+
+        if (facilityData == null)
+        {
+            return null;
+        }
+
+        TrainingData trainingData = GameDataManager.Instance.GetTrainingData(facilityData.TrainingDataId);
+
+        if (trainingData == null)
+        {
+            return null;
+        }
+
+        return GameDataManager.Instance.GetTrainingPolicyDataByCategoryAndFocus(trainingData.Category, trainingData.Focus);
     }
 
     public void SetTargetFighter(FighterModel fighter)
@@ -105,21 +147,21 @@ public class TrainingManagementUI : UIBase
 
     private void OnClick_Rest()
     {
-        ChangeTraining("training_00");
+        ChangeTraining(RestFacilityType);
     }
 
     private void OnClick_HpTraining()
     {
-        ChangeTraining("training_01");
+        ChangeTraining(CardioFacilityType);
     }
     private void OnClick_AtkTraining()
     {
-        ChangeTraining("training_02");
+        ChangeTraining(StandingOffenseFacilityType);
     }
 
     private void OnClick_DefTraining()
     {
-        ChangeTraining("training_03");
+        ChangeTraining(StandingDefenseFacilityType);
     }
 
     private void OnClick_Close()

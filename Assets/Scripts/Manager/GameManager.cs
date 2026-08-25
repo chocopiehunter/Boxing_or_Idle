@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void RecordMatchResult(MatchResult result)
+    {
+        GameState.RecordMatchResult(result);
+    }
+
     public void SaveData()
     {
 

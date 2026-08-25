@@ -6,8 +6,14 @@
     "PortraitAddress": "KimBasic[south-east 1_1]",
     "BodyAddress": "KimBasic[south-east 1_0]",
     "Hp": 100,
-    "Atk": 10,
-    "Def": 5
+    "Stamina": 100,
+    "StandingOffense": 10,
+    "StandingDefense": 10,
+    "WrestlingOffense": 10,
+    "WrestlingDefense": 10,
+    "JiuJitsuOffense": 10,
+    "JiuJitsuDefense": 10,
+    "TrainingStamina": 100
   },
   {
     "Id": "fighter_02",
@@ -16,8 +22,14 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 150,
-    "Atk": 12,
-    "Def": 6
+    "Stamina": 120,
+    "StandingOffense": 12,
+    "StandingDefense": 10,
+    "WrestlingOffense": 12,
+    "WrestlingDefense": 10,
+    "JiuJitsuOffense": 10,
+    "JiuJitsuDefense": 10,
+    "TrainingStamina": 0
   },
   {
     "Id": "fighter_03",
@@ -26,8 +38,14 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 170,
-    "Atk": 10,
-    "Def": 8
+    "Stamina": 130,
+    "StandingOffense": 10,
+    "StandingDefense": 15,
+    "WrestlingOffense": 18,
+    "WrestlingDefense": 18,
+    "JiuJitsuOffense": 15,
+    "JiuJitsuDefense": 10,
+    "TrainingStamina": 0
   },
   {
     "Id": "fighter_04",
@@ -36,8 +54,14 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 250,
-    "Atk": 20,
-    "Def": 10
+    "Stamina": 200,
+    "StandingOffense": 22,
+    "StandingDefense": 15,
+    "WrestlingOffense": 10,
+    "WrestlingDefense": 15,
+    "JiuJitsuOffense": 10,
+    "JiuJitsuDefense": 13,
+    "TrainingStamina": 0
   },
   {
     "Id": "fighter_05",
@@ -46,8 +70,14 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 270,
-    "Atk": 18,
-    "Def": 15
+    "Stamina": 230,
+    "StandingOffense": 15,
+    "StandingDefense": 18,
+    "WrestlingOffense": 25,
+    "WrestlingDefense": 25,
+    "JiuJitsuOffense": 20,
+    "JiuJitsuDefense": 18,
+    "TrainingStamina": 0
   },
   {
     "Id": "fighter_06",
@@ -56,8 +86,14 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 300,
-    "Atk": 20,
-    "Def": 11
+    "Stamina": 250,
+    "StandingOffense": 25,
+    "StandingDefense": 20,
+    "WrestlingOffense": 20,
+    "WrestlingDefense": 20,
+    "JiuJitsuOffense": 15,
+    "JiuJitsuDefense": 20,
+    "TrainingStamina": 0
   },
   {
     "Id": "fighter_07",
@@ -66,7 +102,13 @@
     "PortraitAddress": "None",
     "BodyAddress": "None",
     "Hp": 350,
-    "Atk": 70,
-    "Def": 20
+    "Stamina": 300,
+    "StandingOffense": 30,
+    "StandingDefense": 35,
+    "WrestlingOffense": 35,
+    "WrestlingDefense": 30,
+    "JiuJitsuOffense": 25,
+    "JiuJitsuDefense": 25,
+    "TrainingStamina": 0
   }
 ]

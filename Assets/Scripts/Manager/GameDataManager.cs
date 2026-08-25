@@ -27,6 +27,11 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, NgAchievementData> NgAchievementDataList { get; private set; } = new Dictionary<string, NgAchievementData>();
     public Dictionary<string, GymLevelData> GymLevelDataList { get; private set; } = new Dictionary<string, GymLevelData>();
     public Dictionary<string, UnlockConditionData> UnlockConditionDataList { get; private set; } = new Dictionary<string, UnlockConditionData>();
+    public Dictionary<string, TrainingFacilityData> TrainingFacilityDataList { get; private set; } = new Dictionary<string, TrainingFacilityData>();
+    public Dictionary<string, TrainingPolicyData> TrainingPolicyDataList { get; private set; } = new Dictionary<string, TrainingPolicyData>();
+    public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
+    public Dictionary<string, SkillUseConditionData> SkillUseConditionDataList { get; private set; } = new Dictionary<string, SkillUseConditionData>();
+    public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -76,6 +81,11 @@ public class GameDataManager : MonoBehaviour
         NgAchievementDataList = LoadData<NgAchievementData>("NgAchievementData");
         GymLevelDataList = LoadData<GymLevelData>("GymLevelData");
         UnlockConditionDataList = LoadData<UnlockConditionData>("UnlockConditionData");
+        TrainingFacilityDataList = LoadData<TrainingFacilityData>("TrainingFacilityData");
+        TrainingPolicyDataList = LoadData<TrainingPolicyData>("TrainingPolicyData");
+        SkillDataList = LoadData<SkillData>("SkillData");
+        SkillUseConditionDataList = LoadData<SkillUseConditionData>("SkillUseConditionData");
+        MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -144,5 +154,152 @@ public class GameDataManager : MonoBehaviour
         if (UnlockConditionDataList == null || string.IsNullOrEmpty(Id)) return null;
 
         return UnlockConditionDataList.TryGetValue(Id, out var item) ? item : null;
+    }
+
+    public TrainingFacilityData GetTrainingFacilityData(string Id)
+    {
+        if (TrainingFacilityDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return TrainingFacilityDataList.TryGetValue(Id, out var item) ? item : null;
+    }
+
+    public TrainingFacilityData GetTrainingFacilityDataByTypeAndLevel(string type, int level)
+    {
+        if (TrainingFacilityDataList == null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(type) == true)
+        {
+            return null;
+        }
+
+        foreach (KeyValuePair<string, TrainingFacilityData> pair in TrainingFacilityDataList)
+        {
+            TrainingFacilityData data = pair.Value;
+            if (data == null)
+            {
+                continue;
+            }
+
+            if (data.Type == type && data.Level == level)
+            {
+                return data;
+            }
+        }
+
+        return null;
+    }
+
+    public TrainingFacilityData GetTrainingFacilityDataByTrainingId(string trainingDataId)
+    {
+        if (TrainingFacilityDataList == null || string.IsNullOrEmpty(trainingDataId) == true)
+        {
+            return null;
+        }
+        
+        foreach (KeyValuePair<string, TrainingFacilityData> pair in TrainingFacilityDataList)
+        {
+            TrainingFacilityData data = pair.Value;
+            if (data == null)
+            {
+                continue;
+            }
+
+            if (data.TrainingDataId == trainingDataId)
+            {
+                return data;
+            }
+        }
+
+        return null;
+    }
+
+    public TrainingPolicyData GetTrainingPolicyData(string Id)
+    {
+        if (TrainingPolicyDataList == null || string.IsNullOrEmpty(Id)) return null;
+
+        return TrainingPolicyDataList.TryGetValue(Id, out var item) ? item : null;
+    }
+    
+    public TrainingPolicyData GetTrainingPolicyDataByCategoryAndFocus(string category, string focus)
+    {
+        if (TrainingPolicyDataList == null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(category) == true || string.IsNullOrEmpty(focus) == true)
+        {
+            return null;
+        }
+
+        foreach(KeyValuePair<string, TrainingPolicyData> pair in TrainingPolicyDataList)
+        {
+            TrainingPolicyData policyData = pair.Value;
+
+            if (policyData == null)
+            {
+                continue;
+            }
+
+            if (policyData.Category == category && policyData.Focus == focus)
+            {
+                return policyData;
+            }
+        }
+
+        return null;
+    }
+
+    public SkillData GetSkillData(string id)
+    {
+        if (SkillDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public SkillUseConditionData GetSkillUseConditionData(string id)
+    {
+        if (SkillUseConditionDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillUseConditionDataList.TryGetValue(id,out var item) ? item : null;
+    }
+
+    public List<SkillUseConditionData> GetSkillUseConditions(string skillId)
+    {
+        List<SkillUseConditionData> result = new List<SkillUseConditionData>();
+
+        if (SkillUseConditionDataList == null || string.IsNullOrEmpty(skillId))
+        {
+            return result;
+        }
+
+        foreach (KeyValuePair<string, SkillUseConditionData> pair in SkillUseConditionDataList)
+        {
+            SkillUseConditionData conditionData = pair.Value;
+
+            if (conditionData == null)
+            {
+                continue;
+            }
+
+            if (conditionData.SkillId != skillId)
+            {
+                continue;
+            }
+
+            result.Add(conditionData);
+        }
+
+        return result;
+    }
+
+    public MatchRuleData GetMatchRuleData(string id)
+    {
+        if (MatchRuleDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchRuleDataList.TryGetValue(id, out var item) ? item : null;
     }
 }

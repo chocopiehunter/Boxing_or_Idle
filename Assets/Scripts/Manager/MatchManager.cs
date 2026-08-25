@@ -61,9 +61,9 @@ public class MatchManager : MonoBehaviour
 
         for (int round = 1; round <= DefaultRoundCount; round++)
         {
-            float playerRemainingHp = HpCalculator.CalculateRemainingHp(playerCurrentHp, PlayerFighter.Def, OpponentData.Atk);
+            float playerRemainingHp = HpCalculator.CalculateRemainingHp(playerCurrentHp, PlayerFighter.StandingDefense, OpponentData.StandingOffense);
 
-            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(opponentCurrentHp, OpponentData.Def, PlayerFighter.Atk);
+            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(opponentCurrentHp, OpponentData.StandingDefense, PlayerFighter.StandingOffense);
 
             float playerLostRate = HpCalculator.CalculateLostHpRate(playerCurrentHp, playerRemainingHp);
             float opponentLostRate = HpCalculator.CalculateLostHpRate(opponentCurrentHp, opponentRemainingHp);
@@ -73,24 +73,21 @@ public class MatchManager : MonoBehaviour
             // KO시 즉시 경기 종료 로직
             if (playerRemainingHp <= 0f && opponentRemainingHp <= 0f)
             {
-                LastResult = MatchResult.Draw;
-                CurrentState = MatchState.Finished;
+                CompleteMatch(MatchResult.Draw);
                 Debug.Log("동시 KO. 경기 종료 무승부");
                 return true;
             }
 
             if(playerRemainingHp <= 0f)
             {
-                LastResult = MatchResult.Lose;
-                CurrentState = MatchState.Finished;
+                CompleteMatch(MatchResult.Lose);
                 Debug.Log($"{PlayerFighter.Name} {round}라운드 KO 패배");
                 return true;
             }
 
             if(opponentRemainingHp <= 0f)
             {
-                LastResult = MatchResult.Win;
-                CurrentState = MatchState.Finished;
+                CompleteMatch(MatchResult.Win);
                 Debug.Log($"{PlayerFighter.Name} {round}라운드 KO 승리");
                 return true;
             }
@@ -111,12 +108,25 @@ public class MatchManager : MonoBehaviour
             opponentCurrentHp = opponentRemainingHp;
         }
 
-        LastResult = JudgeMatchByRoundWins(playerRoundWins, opponentRoundWins);
-        CurrentState = MatchState.Finished;
+        CompleteMatch(JudgeMatchByRoundWins(playerRoundWins, opponentRoundWins));
 
         Debug.Log($"경기 종료 {playerRoundWins} 대 {opponentRoundWins} {LastResult}");
 
         return true;
+    }
+
+    private void CompleteMatch(MatchResult result)
+    {
+        LastResult = result;
+        CurrentState = MatchState.Finished;
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError($"GameManager가 없어서 경기 결과를 기록못함");
+            return;
+        }
+
+        GameManager.Instance.RecordMatchResult(result);
     }
 
     private MatchResult JudgeRoundByLostHpRate(float playerLostRate, float opponentLostRate)
