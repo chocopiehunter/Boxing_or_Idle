@@ -264,7 +264,36 @@ public class GameDataManager : MonoBehaviour
     {
         if (SkillUseConditionDataList == null || string.IsNullOrEmpty(id)) return null;
 
-        return SkillUseConditionDataList.TryGetValue(id, out var item) ? item : null;
+        return SkillUseConditionDataList.TryGetValue(id,out var item) ? item : null;
+    }
+
+    public List<SkillUseConditionData> GetSkillUseConditions(string skillId)
+    {
+        List<SkillUseConditionData> result = new List<SkillUseConditionData>();
+
+        if (SkillUseConditionDataList == null || string.IsNullOrEmpty(skillId))
+        {
+            return result;
+        }
+
+        foreach (KeyValuePair<string, SkillUseConditionData> pair in SkillUseConditionDataList)
+        {
+            SkillUseConditionData conditionData = pair.Value;
+
+            if (conditionData == null)
+            {
+                continue;
+            }
+
+            if (conditionData.SkillId != skillId)
+            {
+                continue;
+            }
+
+            result.Add(conditionData);
+        }
+
+        return result;
     }
 
     public MatchRuleData GetMatchRuleData(string id)
