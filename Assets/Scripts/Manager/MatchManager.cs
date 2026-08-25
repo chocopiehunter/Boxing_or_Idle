@@ -4,11 +4,10 @@ public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
 
-    private const int DefaultRoundCount = 3;
-
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
+    public MatchRuleData CurrentRuleData { get; private set; }
 
     public MatchResult LastResult { get; private set; }
 
@@ -17,7 +16,7 @@ public class MatchManager : MonoBehaviour
         Instance = this;
     }
 
-    public bool TryScheduleMatch(FighterModel player, FighterData opponent)
+    public bool TryScheduleMatch(FighterModel player, FighterData opponent, MatchRuleData ruleData)
     {
         if (player == null)
         {
@@ -37,11 +36,24 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
+        if (ruleData == null)
+        {
+            Debug.LogError("경기 신청 실패. 경기 규칙 데이터 없음");
+            return false;
+        }
+
+        if (ruleData.RoundCount <= 0 || ruleData.RoundSeconds <= 0f || ruleData.RoundBreakSeconds < 0f)
+        {
+            Debug.LogError($"경기 신청 실패. 경기 규칙 데이터 오류 {ruleData.Id}");
+            return false;
+        }
+
         PlayerFighter = player;
         OpponentData = opponent;
+        CurrentRuleData = ruleData;
         CurrentState = MatchState.Scheduled;
 
-        Debug.Log($"경기 신청 완료 {player.Name} vs {opponent.Name}");
+        Debug.Log($"경기 신청 완료 {player.Name} vs {opponent.Name} / 경기 규칙: {ruleData.Name}");
         return true;
     }
 
@@ -59,7 +71,7 @@ public class MatchManager : MonoBehaviour
         float playerCurrentHp = PlayerFighter.Hp;
         float opponentCurrentHp = OpponentData.Hp;
 
-        for (int round = 1; round <= DefaultRoundCount; round++)
+        for (int round = 1; round <= CurrentRuleData.RoundCount; round++)
         {
             float playerRemainingHp = HpCalculator.CalculateRemainingHp(playerCurrentHp, PlayerFighter.StandingDefense, OpponentData.StandingOffense);
 
@@ -153,6 +165,7 @@ public class MatchManager : MonoBehaviour
     {
         PlayerFighter = null;
         OpponentData = null;
+        CurrentRuleData = null;
         CurrentState = MatchState.None;
     }
 }

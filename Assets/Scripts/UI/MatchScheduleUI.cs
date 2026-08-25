@@ -153,7 +153,17 @@ public class MatchScheduleUI : UIBase
         FighterModel player = FighterManager.Instance.GetFirstFighter();
         FighterData opponent = _opponentList[_selectedIndex];
 
-        bool success = MatchManager.Instance.TryScheduleMatch(player, opponent);
+        int opponentRank = _selectedIndex + 1;
+
+        MatchRuleData ruleData = GameDataManager.Instance.GetMatchRuleDataByOpponent(opponentRank, false, false);
+        if (ruleData == null)
+        {
+            Debug.LogError($"상대에게 적용할 경기 규칙 없음 Rank={opponentRank}");
+            return;
+        }
+
+        bool success = MatchManager.Instance.TryScheduleMatch(player, opponent, ruleData);
+
         if (success == false)
         {
             return;
