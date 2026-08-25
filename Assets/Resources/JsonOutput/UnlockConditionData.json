@@ -33,5 +33,33 @@
     "Count": 5,
     "TargetId": "None",
     "Description": "5연승"
+  },
+  {
+    "Id": "cond_standing_offense_50",
+    "Type": "FighterStatAtLeast",
+    "Count": 50,
+    "TargetId": "StandingOffense",
+    "Description": "스탠딩 타격 스탯 50 이상"
+  },
+  {
+    "Id": "cond_standing_offense_150",
+    "Type": "FighterStatAtLeast",
+    "Count": 150,
+    "TargetId": "StandingOffense",
+    "Description": "스탠딩 타격 스탯 150 이상"
+  },
+  {
+    "Id": "cond_wrestling_offense_200",
+    "Type": "FighterStatAtLeast",
+    "Count": 200,
+    "TargetId": "WrestlingOffense",
+    "Description": "레슬링 공격 스탯 200 이상"
+  },
+  {
+    "Id": "cond_jiujitsu_offense_200",
+    "Type": "FighterStatAtLeast",
+    "Count": 200,
+    "TargetId": "JiuJitsuOffense",
+    "Description": "주짓수 공격 스탯 200 이상"
   }
 ]
