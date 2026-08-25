@@ -302,4 +302,63 @@ public class GameDataManager : MonoBehaviour
 
         return MatchRuleDataList.TryGetValue(id, out var item) ? item : null;
     }
+
+    public MatchRuleData GetMatchRuleDataByOpponent(int opponentRank, bool isChampion, bool isUnranked)
+    {
+        if (MatchRuleDataList == null)
+        {
+            Debug.LogError($"MatchRuleDataList 없음");
+            return null;
+        }
+
+        if (isChampion == true && isUnranked == true)
+        {
+            Debug.LogError($"상대 선수를 챔피언과 언랭커로 동시에 지정할수 없음");
+            return null;
+        }
+
+        if (isChampion == false && isUnranked == false && opponentRank <= 0)
+        {
+            Debug.LogError($"랭커의 공식 랭킹이 올바르지 않음 {opponentRank}");
+            return null;
+        }
+
+        foreach (KeyValuePair<string, MatchRuleData> pair in MatchRuleDataList)
+        {
+            MatchRuleData ruleData = pair.Value;
+            if (ruleData == null)
+            {
+                continue;
+            }
+
+            if (isChampion == true)
+            {
+                if (ruleData.IncludeChampion == true)
+                {
+                    return ruleData;
+                }
+
+                continue;
+            }
+
+            if (isUnranked == true)
+            {
+                if (ruleData.IncludeUnranked == true)
+                {
+                    return ruleData;
+                }
+
+                continue;
+            }
+
+            bool isInRankRange = opponentRank >= ruleData.MinOpponentRank && opponentRank <= ruleData.MaxOpponentRank;
+            if (isInRankRange == true)
+            {
+                return ruleData;
+            }
+        }
+
+        Debug.LogError($"상대 조건에 맞는 MatchRuleData 없음 Rank={opponentRank}, Champion={isChampion}, Unranked={isUnranked}");
+        return null;
+    }
 }
