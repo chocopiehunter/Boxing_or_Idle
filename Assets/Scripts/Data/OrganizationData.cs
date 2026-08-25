@@ -7,6 +7,8 @@ public class OrganizationData : GameDataBase
     public string Name;
     public string Description;
     public string FighterIds;
+    public string InitialChampionId;
+    public string InitialRankedIds;
 
     public List<string> GetFighterIdList()
     {

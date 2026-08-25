@@ -4,13 +4,21 @@
     "Name": "3라운드 경기",
     "RoundCount": 3,
     "RoundSeconds": 60,
-    "RoundBreakSeconds": 10
+    "RoundBreakSeconds": 10,
+    "MinOpponentRank": 6,
+    "MaxOpponentRank": 15,
+    "IncludeChampion": false,
+    "IncludeUnranked": true
   },
   {
     "Id": "rule_round_5",
     "Name": "5라운드 경기",
     "RoundCount": 5,
     "RoundSeconds": 60,
-    "RoundBreakSeconds": 10
+    "RoundBreakSeconds": 10,
+    "MinOpponentRank": 1,
+    "MaxOpponentRank": 5,
+    "IncludeChampion": true,
+    "IncludeUnranked": false
   }
 ]
