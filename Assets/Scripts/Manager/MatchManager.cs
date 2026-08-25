@@ -8,12 +8,24 @@ public class MatchManager : MonoBehaviour
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
     public MatchRuleData CurrentRuleData { get; private set; }
+    public int CurrentRound { get; private set; }
+    public float RoundRemainingSeconds { get; private set; }
 
     public MatchResult LastResult { get; private set; }
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        if (CurrentState != MatchState.RoundInProgress)
+        {
+            return;
+        }
+
+        UpdateRoundTime();
     }
 
     public bool TryScheduleMatch(FighterModel player, FighterData opponent, MatchRuleData ruleData)
@@ -55,6 +67,46 @@ public class MatchManager : MonoBehaviour
 
         Debug.Log($"경기 신청 완료 {player.Name} vs {opponent.Name} / 경기 규칙: {ruleData.Name}");
         return true;
+    }
+
+    public bool TryStartMatch()
+    {
+        if (CurrentState != MatchState.Scheduled)
+        {
+            Debug.LogError($"경기 시작 실패. 현재 상태={CurrentState}");
+            return false;
+        }
+
+        if (CurrentRuleData == null)
+        {
+            Debug.LogError("경기 시작 실패. 경기 규칙 데이터 없음");
+            return false;
+        }
+
+        CurrentRound = 1;
+
+        StartCurrentRound();
+
+        return true;
+    }
+
+    private void StartCurrentRound()
+    {
+        RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
+
+        CurrentState = MatchState.RoundInProgress;
+
+        Debug.Log($"{CurrentRound}라운드 시작 / 남은 시간 {RoundRemainingSeconds}초");
+    }
+
+    private void UpdateRoundTime()
+    {
+
+    }
+
+    private void EndCurrentRound()
+    {
+
     }
 
     public bool TryJudgeMatch()
