@@ -25,7 +25,7 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        UpdateRoundTime();
+        UpdateRoundTime(Time.unscaledDeltaTime);
     }
 
     public bool TryScheduleMatch(FighterModel player, FighterData opponent, MatchRuleData ruleData)
@@ -99,14 +99,29 @@ public class MatchManager : MonoBehaviour
         Debug.Log($"{CurrentRound}라운드 시작 / 남은 시간 {RoundRemainingSeconds}초");
     }
 
-    private void UpdateRoundTime()
+    private void UpdateRoundTime(float passedSeconds)
     {
+        if (passedSeconds <= 0f)
+        {
+            return;
+        }
 
+        RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
+
+        if (RoundRemainingSeconds > 0f)
+        {
+            return;
+        }
+
+        RoundRemainingSeconds = 0f;
+        EndCurrentRound();
     }
 
     private void EndCurrentRound()
     {
+        CurrentState = MatchState.RoundBreak;
 
+        Debug.Log($"{CurrentRound}라운드 시간 종료");
     }
 
     public bool TryJudgeMatch()
@@ -218,6 +233,10 @@ public class MatchManager : MonoBehaviour
         PlayerFighter = null;
         OpponentData = null;
         CurrentRuleData = null;
+
+        CurrentRound = 0;
+        RoundRemainingSeconds = 0f;
+
         CurrentState = MatchState.None;
     }
 }
