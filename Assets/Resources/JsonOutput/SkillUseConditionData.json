@@ -1,1 +1,114 @@
-[]
+[
+  {
+    "Id": "use_guillotine_01",
+    "SkillId": "skill_guillotine",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "TakedownAttempt",
+    "GroundPosition": "None",
+    "UserRole": "Defender"
+  },
+  {
+    "Id": "use_guillotine_02",
+    "SkillId": "skill_guillotine",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_guillotine_03",
+    "SkillId": "skill_guillotine",
+    "MatchState": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Guard",
+    "UserRole": "Bottom"
+  },
+  {
+    "Id": "use_ground_pounding_01",
+    "SkillId": "skill_ground_pounding",
+    "MatchState": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Guard",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_ground_pounding_02",
+    "SkillId": "skill_ground_pounding",
+    "MatchState": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "HalfGuard",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_ground_pounding_03",
+    "SkillId": "skill_ground_pounding",
+    "MatchState": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Mount",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_takedown_judo_01",
+    "SkillId": "skill_takedown_judo",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Attacker"
+  },
+  {
+    "Id": "use_takedown_judo_02",
+    "SkillId": "skill_takedown_judo",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Defender"
+  },
+  {
+    "Id": "use_elbow_01",
+    "SkillId": "skill_elbow",
+    "MatchState": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_elbow_02",
+    "SkillId": "skill_elbow",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_elbow_03",
+    "SkillId": "skill_elbow",
+    "MatchState": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Mount",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_uppercut_01",
+    "SkillId": "skill_uppercut",
+    "MatchState": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_uppercut_02",
+    "SkillId": "skill_uppercut",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Attacker"
+  },
+  {
+    "Id": "use_uppercut_03",
+    "SkillId": "skill_uppercut",
+    "MatchState": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Defender"
+  }
+]

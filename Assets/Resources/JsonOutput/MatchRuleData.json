@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "rule_round_3",
+    "Name": "3라운드 경기",
+    "RoundCount": 3,
+    "RoundSeconds": 60,
+    "StrategySelectionSeconds": 10
+  },
+  {
+    "Id": "rule_round_5",
+    "Name": "5라운드 경기",
+    "RoundCount": 5,
+    "RoundSeconds": 60,
+    "StrategySelectionSeconds": 10
+  }
+]
