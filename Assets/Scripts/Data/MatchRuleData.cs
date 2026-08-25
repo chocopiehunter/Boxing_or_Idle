@@ -6,5 +6,5 @@ public class MatchRuleData : GameDataBase
     public string Name;
     public int RoundCount;
     public float RoundSeconds;
-    public float StretegySelectionSeconds;
+    public float RoundBreakSeconds;
 }
