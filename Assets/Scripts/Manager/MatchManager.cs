@@ -10,6 +10,7 @@ public class MatchManager : MonoBehaviour
     public MatchRuleData CurrentRuleData { get; private set; }
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
+    public float RoundBreakRemainingSeconds { get; private set; }
 
     public MatchResult LastResult { get; private set; }
 
@@ -20,12 +21,16 @@ public class MatchManager : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentState != MatchState.RoundInProgress)
+        if (CurrentState == MatchState.RoundInProgress)
         {
+            UpdateRoundTime(Time.unscaledDeltaTime);
             return;
         }
 
-        UpdateRoundTime(Time.unscaledDeltaTime);
+        if (CurrentState == MatchState.RoundBreak)
+        {
+            UpdateRoundBreakTime(Time.unscaledDeltaTime);
+        }
     }
 
     public bool TryScheduleMatch(FighterModel player, FighterData opponent, MatchRuleData ruleData)
@@ -85,6 +90,8 @@ public class MatchManager : MonoBehaviour
 
         CurrentRound = 1;
 
+        RoundBreakRemainingSeconds = 0;
+
         StartCurrentRound();
 
         return true;
@@ -119,9 +126,39 @@ public class MatchManager : MonoBehaviour
 
     private void EndCurrentRound()
     {
+        if (CurrentRound >= CurrentRuleData.RoundCount)
+        {
+            CurrentState = MatchState.Finished;
+            Debug.Log($"최종 {CurrentRound}라운드 시간 종료");
+            return;
+        }
+
+        RoundBreakRemainingSeconds = CurrentRuleData.RoundBreakSeconds;
+
         CurrentState = MatchState.RoundBreak;
 
-        Debug.Log($"{CurrentRound}라운드 시간 종료");
+        Debug.Log($"{CurrentRound}라운드 종료 / 휴식시간 {RoundBreakRemainingSeconds}초");
+    }
+
+    private void UpdateRoundBreakTime(float passedSeconds)
+    {
+        if (passedSeconds <= 0f)
+        {
+            return;
+        }
+
+        RoundBreakRemainingSeconds = RoundBreakRemainingSeconds - passedSeconds;
+
+        if (RoundBreakRemainingSeconds > 0f)
+        {
+            return;
+        }
+
+        RoundBreakRemainingSeconds = 0f;
+
+        CurrentRound = CurrentRound + 1;
+
+        StartCurrentRound();
     }
 
     public bool TryJudgeMatch()
@@ -236,6 +273,7 @@ public class MatchManager : MonoBehaviour
 
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
+        RoundBreakRemainingSeconds = 0f;
 
         CurrentState = MatchState.None;
     }
