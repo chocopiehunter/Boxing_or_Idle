@@ -29,6 +29,9 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, UnlockConditionData> UnlockConditionDataList { get; private set; } = new Dictionary<string, UnlockConditionData>();
     public Dictionary<string, TrainingFacilityData> TrainingFacilityDataList { get; private set; } = new Dictionary<string, TrainingFacilityData>();
     public Dictionary<string, TrainingPolicyData> TrainingPolicyDataList { get; private set; } = new Dictionary<string, TrainingPolicyData>();
+    public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
+    public Dictionary<string, SkillUseConditionData> SkillUseConditionDataList { get; private set; } = new Dictionary<string, SkillUseConditionData>();
+    public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -80,6 +83,9 @@ public class GameDataManager : MonoBehaviour
         UnlockConditionDataList = LoadData<UnlockConditionData>("UnlockConditionData");
         TrainingFacilityDataList = LoadData<TrainingFacilityData>("TrainingFacilityData");
         TrainingPolicyDataList = LoadData<TrainingPolicyData>("TrainingPolicyData");
+        SkillDataList = LoadData<SkillData>("SkillData");
+        SkillUseConditionDataList = LoadData<SkillUseConditionData>("SkillUseConditionData");
+        MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -245,5 +251,26 @@ public class GameDataManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public SkillData GetSkillData(string id)
+    {
+        if (SkillDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public SkillUseConditionData GetSkillUseConditionData(string id)
+    {
+        if (SkillUseConditionDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillUseConditionDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public MatchRuleData GetMatchRuleData(string id)
+    {
+        if (MatchRuleDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchRuleDataList.TryGetValue(id, out var item) ? item : null;
     }
 }
