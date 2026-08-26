@@ -32,6 +32,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
     public Dictionary<string, SkillUseConditionData> SkillUseConditionDataList { get; private set; } = new Dictionary<string, SkillUseConditionData>();
     public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
+    public Dictionary<string, MatchStrategyData> MatchStrategyDataList { get; private set; } = new Dictionary<string, MatchStrategyData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -86,6 +87,7 @@ public class GameDataManager : MonoBehaviour
         SkillDataList = LoadData<SkillData>("SkillData");
         SkillUseConditionDataList = LoadData<SkillUseConditionData>("SkillUseConditionData");
         MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
+        MatchStrategyDataList = LoadData<MatchStrategyData>("MatchStrategyData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -360,5 +362,74 @@ public class GameDataManager : MonoBehaviour
 
         Debug.LogError($"상대 조건에 맞는 MatchRuleData 없음 Rank={opponentRank}, Champion={isChampion}, Unranked={isUnranked}");
         return null;
+    }
+
+    public MatchStrategyData GetMatchStrategyData(string id)
+    {
+        if (MatchStrategyDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchStrategyDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public List<MatchStrategyData> GetAllMatchStrategyData()
+    {
+        List<MatchStrategyData> strategyDataList = new List<MatchStrategyData>();
+
+        if (MatchStrategyDataList == null)
+        {
+            return strategyDataList;
+        }
+
+        foreach (KeyValuePair<string, MatchStrategyData> pair in MatchStrategyDataList)
+        {
+            if (pair.Value != null)
+            {
+                strategyDataList.Add(pair.Value);
+            }
+        }
+
+        strategyDataList.Sort(CompareMatchStrategySortOrder);
+
+        return strategyDataList;
+    }
+
+    private int CompareMatchStrategySortOrder(MatchStrategyData left, MatchStrategyData right)
+    {
+        return left.SortOrder.CompareTo(right.SortOrder);
+    }
+
+    public MatchStrategyData GetDefaultMatchStrategyData()
+    {
+        if (MatchStrategyDataList == null)
+        {
+            return null;
+        }
+
+        MatchStrategyData defaultStrategyData = null;
+
+        foreach (KeyValuePair<string, MatchStrategyData> pair in MatchStrategyDataList)
+        {
+            MatchStrategyData strategyData = pair.Value;
+
+            if (strategyData == null || strategyData.IsDefault == false)
+            {
+                continue;
+            }
+
+            if (defaultStrategyData != null)
+            {
+                Debug.LogError("기본 경기 전략이 두개 이상 설정되어 있습니다");
+                return null;
+            }
+
+            defaultStrategyData = strategyData;
+        }
+
+        if (defaultStrategyData == null)
+        {
+            Debug.LogError("기본 경기 전략이 설정되지 않았습니다");
+        }
+
+        return defaultStrategyData;
     }
 }
