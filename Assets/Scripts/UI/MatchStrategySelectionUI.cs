@@ -50,7 +50,21 @@ public class MatchStrategySelectionUI : UIBase
 
     private void OnEnable()
     {
+        BindStrategyButtonEvents();
         RefreshRootStrategyOptions();
+    }
+
+    private void BindStrategyButtonEvents()
+    {
+        Button_Strategy1.UnBindAllOnClickButtonEvent();
+        Button_Strategy2.UnBindAllOnClickButtonEvent();
+        Button_Strategy3.UnBindAllOnClickButtonEvent();
+        Button_Strategy4.UnBindAllOnClickButtonEvent();
+
+        Button_Strategy1.BindOnClickButtonEvent(OnClick_Strategy1);
+        Button_Strategy2.BindOnClickButtonEvent(OnClick_Strategy2);
+        Button_Strategy3.BindOnClickButtonEvent(OnClick_Strategy3);
+        Button_Strategy4.BindOnClickButtonEvent(OnClick_Strategy4);
     }
 
     public void ShowDescription(string description)
@@ -92,11 +106,114 @@ public class MatchStrategySelectionUI : UIBase
         }
 
         _visibleStrategyOptions = GameDataManager.Instance.GetRootMatchStrategyOptions();
+        RefreshVisibleStrategyOptions();
+    }
 
+    private void RefreshVisibleStrategyOptions()
+    {
         RefreshStrategySlot(Button_Strategy1, Text_StrategyName1, Tooltip_Strategy1, 0);
         RefreshStrategySlot(Button_Strategy2, Text_StrategyName2, Tooltip_Strategy2, 1);
         RefreshStrategySlot(Button_Strategy3, Text_StrategyName3, Tooltip_Strategy3, 2);
         RefreshStrategySlot(Button_Strategy4, Text_StrategyName4, Tooltip_Strategy4, 3);
+    }
+
+    private void TrySelectOption(int index)
+    {
+        HideDescription();
+
+        if (index < 0 || index >= _visibleStrategyOptions.Count)
+        {
+            return;
+        }
+
+        MatchStrategyOptionData optionData = _visibleStrategyOptions[index];
+
+        if (optionData == null)
+        {
+            Debug.LogError($"경기 전략 선택 실패함. 선택지 데이터가 없음");
+            return;
+        }
+
+        if (optionData.ActionType == MatchStrategyOptionActionType.OpenSubOptions)
+        {
+            OpenSubOptions(optionData.Id);
+            return;
+        }
+
+        if (optionData.ActionType == MatchStrategyOptionActionType.ApplyStrategy)
+        {
+            ApplyStrategy(optionData);
+            return;
+        }
+
+        if (optionData.ActionType == MatchStrategyOptionActionType.KeepCurrent)
+        {
+            KeepCurrentStrategy();
+            return;
+        }
+
+        if (optionData.ActionType == MatchStrategyOptionActionType.Disabled)
+        {
+            return;
+        }
+
+        Debug.LogError($"경기 전략 선택 실패. ActionType : {optionData.ActionType}");
+    }
+
+    private void OpenSubOptions(string parentOptionId)
+    {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogError("하위 경기 전략 표시 실패. GameDataManager 없음");
+            return;
+        }
+
+        _visibleStrategyOptions = GameDataManager.Instance.GetMatchStrategyOptionsByParent(parentOptionId);
+
+        if (_visibleStrategyOptions.Count == 0)
+        {
+            Debug.LogError($"하위 경기 전략 표시 실패. 하위 선택지 없음 ParentOptionId : {parentOptionId}");
+            RefreshRootStrategyOptions();
+            return;
+        }
+
+        RefreshVisibleStrategyOptions();
+    }
+
+    private void ApplyStrategy(MatchStrategyOptionData optionData)
+    {
+        if (MatchManager.Instance == null)
+        {
+            Debug.LogError("경기 전략 적용 실패. MatchManager 없음");
+            return;
+        }
+
+        bool changeSuccess = MatchManager.Instance.TryChangeMatchStrategy(optionData.StrategyId);
+
+        if (changeSuccess == false)
+        {
+            return;
+        }
+
+        RefreshRootStrategyOptions();
+    }
+
+    private void KeepCurrentStrategy()
+    {
+        if (MatchManager.Instance == null)
+        {
+            Debug.LogError("경기 전략 유지 실패. MatchManager 없음");
+            return;
+        }
+
+        if (MatchManager.Instance.CurrentStrategyData == null)
+        {
+            Debug.LogError("경기 전략 유지 실패. 현재 전략 없음");
+            return;
+        }
+
+        Debug.Log($"현재 경기 전략 유지: {MatchManager.Instance.CurrentStrategyData.Name}");
+        RefreshRootStrategyOptions();
     }
 
     private void RefreshStrategySlot(UIButton button, Text nameText, MatchStrategyTooltipUI tooltip, int index)
@@ -158,5 +275,25 @@ public class MatchStrategySelectionUI : UIBase
         }
 
         RectTransform_StrategyDescription.anchoredPosition = localPosition + TooltipOffset;
+    }
+
+    private void OnClick_Strategy1()
+    {
+        TrySelectOption(0);
+    }
+
+    private void OnClick_Strategy2()
+    {
+        TrySelectOption(1);
+    }
+
+    private void OnClick_Strategy3()
+    {
+        TrySelectOption(2);
+    }
+
+    private void OnClick_Strategy4()
+    {
+        TrySelectOption(3);
     }
 }
