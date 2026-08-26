@@ -69,22 +69,100 @@ public class MatchUI : UIBase
 
     private void RefreshMatchProgressUI()
     {
+        if (MatchManager.Instance == null)
+        {
+            return;
+        }
 
+        MatchState currentState = MatchManager.Instance.CurrentState;
+        int displaySeconds = GetDisplaySeconds();
+
+        if (_hasDisplayedMatchProgress == true && _displayedState == currentState && _displayedRound == MatchManager.Instance.CurrentRound && _displayedSeconds == displaySeconds)
+        {
+            return;
+        }
+
+        _hasDisplayedMatchProgress = true;
+        _displayedState = currentState;
+        _displayedRound = MatchManager.Instance.CurrentRound;
+        _displayedSeconds = displaySeconds;
+
+        if (currentState == MatchState.RoundInProgress)
+        {
+            int totalRoundCount = 0;
+            if (MatchManager.Instance.CurrentRuleData != null)
+            {
+                totalRoundCount = MatchManager.Instance.CurrentRuleData.RoundCount;
+            }
+
+            Text_Round.text = $"{MatchManager.Instance.CurrentRound} / {totalRoundCount} 라운드";
+            Text_Time.text = FormatTime(displaySeconds);
+            ClearMatchWinnerText();
+            return;
+        }
+
+        if (currentState == MatchState.RoundBreak)
+        {
+            Text_Round.text = $"{MatchManager.Instance.CurrentRound} 라운드 종료";
+            Text_Time.text = FormatTime(displaySeconds);
+            ClearMatchWinnerText();
+            return;
+        }
+
+        if (currentState == MatchState.Finished)
+        {
+            Text_Round.text = "경기 종료";
+            Text_Time.text = "-";
+            ApplyMatchWinnerText(MatchManager.Instance.LastResult, MatchManager.Instance.PlayerFighter, MatchManager.Instance.OpponentData);
+            return;
+        }
+
+        Text_Round.text = "경기 준비";
+        Text_Time.text = "-";
+        ClearMatchWinnerText();
     }
 
     private int GetDisplaySeconds()
     {
+        if (MatchManager.Instance == null)
+        {
+            return 0;
+        }
+
+        if (MatchManager.Instance.CurrentState == MatchState.RoundInProgress)
+        {
+            return Mathf.CeilToInt(Mathf.Max(0f, MatchManager.Instance.RoundRemainingSeconds));
+        }
+
+        if (MatchManager.Instance.CurrentState == MatchState.RoundBreak)
+        {
+            return Mathf.CeilToInt(Mathf.Max(0f, MatchManager.Instance.RoundBreakRemainingSeconds));
+        }
+
         return 0;
     }
 
     private string FormatTime(int totalSeconds)
     {
-        return null;
+        if (totalSeconds < 0)
+        {
+            totalSeconds = 0;
+        }
+
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        return $"{minutes:00}:{seconds:00}";
     }
 
     private void ClearMatchWinnerText()
     {
+        if (Text_MatchWinner == null)
+        {
+            return;
+        }
 
+        Text_MatchWinner.text = "";
     }
 
     private void TrySetFighterBody(Image fighterImage, string bodyAddress, Sprite defaultSprite)
@@ -138,6 +216,12 @@ public class MatchUI : UIBase
     {
         if(Text_MatchWinner == null)
         {
+            return;
+        }
+
+        if (result == MatchResult.None)
+        {
+            Text_MatchWinner.text = "경기 결과 없음";
             return;
         }
 
