@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
+    private IMatchJudge _matchJudge;
+    private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -11,12 +14,16 @@ public class MatchManager : MonoBehaviour
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
+    public float PlayerCurrentHp { get; private set; }
+    public float OpponentCurrentHp { get; private set; }
 
-    public MatchResult LastResult { get; private set; }
+    public MatchResult LastResult { get; private set; } = MatchResult.None;
 
     private void Awake()
     {
         Instance = this;
+
+        _matchJudge = new MatchJudge();
     }
 
     private void Update()
@@ -88,13 +95,22 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        CurrentRound = 1;
+        InitializeMatchRuntime();
 
+        CurrentRound = 1;
         RoundBreakRemainingSeconds = 0;
 
         StartCurrentRound();
 
         return true;
+    }
+
+    private void InitializeMatchRuntime()
+    {
+        PlayerCurrentHp = PlayerFighter.Hp;
+        OpponentCurrentHp = OpponentData.Hp;
+        LastResult = MatchResult.None;
+        _roundRecords.Clear();
     }
 
     private void StartCurrentRound()
@@ -126,10 +142,20 @@ public class MatchManager : MonoBehaviour
 
     private void EndCurrentRound()
     {
+        bool resolveSuccess = TryResolveCurrentRound();
+        if (resolveSuccess == false)
+        {
+            return;
+        }
+
+        if (CurrentState == MatchState.Finished)
+        {
+            return;
+        }
+
         if (CurrentRound >= CurrentRuleData.RoundCount)
         {
-            CurrentState = MatchState.Finished;
-            Debug.Log($"최종 {CurrentRound}라운드 시간 종료");
+            TryCompleteMatchByDecision();
             return;
         }
 
@@ -138,6 +164,71 @@ public class MatchManager : MonoBehaviour
         CurrentState = MatchState.RoundBreak;
 
         Debug.Log($"{CurrentRound}라운드 종료 / 휴식시간 {RoundBreakRemainingSeconds}초");
+    }
+
+    private bool TryResolveCurrentRound()
+    {
+        float playerRemainingHp = HpCalculator.CalculateRemainingHp(PlayerCurrentHp, PlayerFighter.StandingDefense, OpponentData.StandingOffense);
+        float opponentRemainingHp = HpCalculator.CalculateRemainingHp(OpponentCurrentHp, OpponentData.StandingDefense, PlayerFighter.StandingOffense);
+        float playerLostRate = HpCalculator.CalculateLostHpRate(PlayerCurrentHp, playerRemainingHp);
+        float opponentLostRate = HpCalculator.CalculateLostHpRate(OpponentCurrentHp, opponentRemainingHp);
+
+        PlayerCurrentHp = playerRemainingHp;
+        OpponentCurrentHp = opponentRemainingHp;
+        MatchRoundRecord roundRecord = new MatchRoundRecord(CurrentRound);
+        roundRecord.SetHpLostRates(playerLostRate, opponentLostRate);
+        _roundRecords.Add(roundRecord);
+
+        Debug.Log($"{CurrentRound}라운드 {PlayerFighter.Name} {PlayerCurrentHp}/{PlayerFighter.Hp} (체력 {playerLostRate}잃음 vs {OpponentData.Name} {OpponentCurrentHp}/{OpponentData.Hp} (체력 {opponentLostRate}잃음)");
+        
+        if (PlayerCurrentHp <= 0f && OpponentCurrentHp <= 0f)
+        {
+            CompleteMatch(MatchResult.Draw);
+            Debug.Log("동시 KO. 경기 종료 무승부");
+            return true;
+        }
+
+        if (PlayerCurrentHp <= 0f)
+        {
+            CompleteMatch(MatchResult.Lose);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
+            return true;
+        }
+
+        if (OpponentCurrentHp <= 0f)
+        {
+            CompleteMatch(MatchResult.Win);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
+            return true;
+        }
+
+        MatchResult roundResult = _matchJudge.JudgeRound(roundRecord);
+        if (roundResult == MatchResult.None)
+        {
+            StopMatchByError($"{CurrentRound}라운드 판정 결과 없음");
+            return false;
+        }
+
+        Debug.Log($"{CurrentRound}라운드 판정 : {roundResult}");
+
+        return true;
+    }
+
+    private bool TryCompleteMatchByDecision()
+    {
+        MatchResult matchResult = _matchJudge.JudgeMatch(_roundRecords);
+
+        if (matchResult == MatchResult.None)
+        {
+            StopMatchByError("에러로 인해 최종 경기 판정 결과 없음");
+            return false;
+        }
+
+        CompleteMatch(matchResult);
+
+        Debug.Log($"경기 종료 / 판정 라운드 수 {_roundRecords.Count} / 결과 {LastResult}");
+
+        return true;
     }
 
     private void UpdateRoundBreakTime(float passedSeconds)
@@ -169,70 +260,42 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        int playerRoundWins = 0;
-        int opponentRoundWins = 0;
-
-        float playerCurrentHp = PlayerFighter.Hp;
-        float opponentCurrentHp = OpponentData.Hp;
+        InitializeMatchRuntime();
 
         for (int round = 1; round <= CurrentRuleData.RoundCount; round++)
         {
-            float playerRemainingHp = HpCalculator.CalculateRemainingHp(playerCurrentHp, PlayerFighter.StandingDefense, OpponentData.StandingOffense);
+            CurrentRound = round;
 
-            float opponentRemainingHp = HpCalculator.CalculateRemainingHp(opponentCurrentHp, OpponentData.StandingDefense, PlayerFighter.StandingOffense);
-
-            float playerLostRate = HpCalculator.CalculateLostHpRate(playerCurrentHp, playerRemainingHp);
-            float opponentLostRate = HpCalculator.CalculateLostHpRate(opponentCurrentHp, opponentRemainingHp);
-
-            Debug.Log($"{round}라운드 {PlayerFighter.Name} {playerRemainingHp}/{PlayerFighter.Hp} (체력 {playerLostRate} 잃음) vs {OpponentData.Name} {opponentRemainingHp}/{OpponentData.Hp} (체력 {opponentLostRate} 잃음)");
-
-            // KO시 즉시 경기 종료 로직
-            if (playerRemainingHp <= 0f && opponentRemainingHp <= 0f)
+            bool resolveSuccess = TryResolveCurrentRound();
+            if (resolveSuccess == false)
             {
-                CompleteMatch(MatchResult.Draw);
-                Debug.Log("동시 KO. 경기 종료 무승부");
+                return false;
+            }
+
+            if (CurrentState == MatchState.Finished)
+            {
                 return true;
             }
-
-            if(playerRemainingHp <= 0f)
-            {
-                CompleteMatch(MatchResult.Lose);
-                Debug.Log($"{PlayerFighter.Name} {round}라운드 KO 패배");
-                return true;
-            }
-
-            if(opponentRemainingHp <= 0f)
-            {
-                CompleteMatch(MatchResult.Win);
-                Debug.Log($"{PlayerFighter.Name} {round}라운드 KO 승리");
-                return true;
-            }
-
-            MatchResult roundResult = JudgeRoundByLostHpRate(playerLostRate, opponentLostRate);
-            if (roundResult == MatchResult.Win)
-            {
-                playerRoundWins = playerRoundWins + 1;
-            }
-            else
-            {
-                opponentRoundWins = opponentRoundWins + 1;
-            }
-
-            Debug.Log($"{round}라운드 판정 : {roundResult}");
-
-            playerCurrentHp = playerRemainingHp;
-            opponentCurrentHp = opponentRemainingHp;
         }
 
-        CompleteMatch(JudgeMatchByRoundWins(playerRoundWins, opponentRoundWins));
+        return TryCompleteMatchByDecision();
+    }
 
-        Debug.Log($"경기 종료 {playerRoundWins} 대 {opponentRoundWins} {LastResult}");
-
-        return true;
+    private void StopMatchByError(string errorMessage)
+    {
+        LastResult = MatchResult.None;
+        CurrentState = MatchState.Finished;
+        Debug.LogError($"경기 처리 중단. {errorMessage}");
     }
 
     private void CompleteMatch(MatchResult result)
     {
+        if (result == MatchResult.None)
+        {
+            StopMatchByError("유효하지 않은 경기 결과가 전달됨");
+            return;
+        }
+
         LastResult = result;
         CurrentState = MatchState.Finished;
 
@@ -245,26 +308,6 @@ public class MatchManager : MonoBehaviour
         GameManager.Instance.RecordMatchResult(result);
     }
 
-    private MatchResult JudgeRoundByLostHpRate(float playerLostRate, float opponentLostRate)
-    {
-        if (playerLostRate < opponentLostRate) 
-        {
-            return MatchResult.Win;
-        }
-
-        return MatchResult.Lose;
-    }
-
-    private MatchResult JudgeMatchByRoundWins(int playerRoundWins, int opponentRoundWins)
-    {
-        if (playerRoundWins > opponentRoundWins) 
-        {
-            return MatchResult.Win;
-        }
-
-        return MatchResult.Lose;
-    }
-
     public void ClearMatch()
     {
         PlayerFighter = null;
@@ -274,6 +317,11 @@ public class MatchManager : MonoBehaviour
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
         RoundBreakRemainingSeconds = 0f;
+
+        PlayerCurrentHp = 0f;
+        OpponentCurrentHp = 0f;
+        LastResult = MatchResult.None;
+        _roundRecords.Clear();
 
         CurrentState = MatchState.None;
     }
