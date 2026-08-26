@@ -1,23 +1,30 @@
 [
   {
+    "Id": "strategy_00",
+    "Name": "기본 운영",
+    "Description": "특별한 지시 없이 기존 경기 운영을 유지한다.",
+    "IsDefault": true,
+    "SortOrder": 0
+  },
+  {
     "Id": "strategy_01",
     "Name": "스탠딩위주 공격적 압박",
     "Description": "상대를 케이지에 몰아넣으며 스탠딩 타격 위주로 거친 압박을 가한다.",
-    "IsDefault": true,
-    "SortOrder": 0
+    "IsDefault": false,
+    "SortOrder": 1
   },
   {
     "Id": "strategy_02",
     "Name": "레슬링위주 공격적 압박",
     "Description": "스탠딩 상황에서 상대의 주의를 끌 큰 공격들을 던지며 테이크다운을 노린다. 거세게 압박하여 스태미너 소모를 많이 한다.",
     "IsDefault": false,
-    "SortOrder": 1
+    "SortOrder": 2
   },
   {
     "Id": "strategy_03",
     "Name": "후반을 바라보기",
     "Description": "후반 라운드를 생각하며 체력을 보존한다. 스태미너 소모를 줄이고 가벼운 공격만 하며 라운드 점수 따기 위주 운영을 한다.",
     "IsDefault": false,
-    "SortOrder": 2
+    "SortOrder": 3
   }
 ]

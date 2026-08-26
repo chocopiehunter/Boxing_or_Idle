@@ -1,0 +1,56 @@
+[
+  {
+    "Id": "strategy_option_01",
+    "Name": "공격적으로 몰아붙여",
+    "Description": "공격적으로 몰아붙여",
+    "ParentOptionId": "None",
+    "ActionType": "OpenSubOptions",
+    "StrategyId": "None",
+    "SortOrder": 0
+  },
+  {
+    "Id": "strategy_option_01_01",
+    "Name": "스탠딩 타격 위주로 압박",
+    "Description": "스탠딩 타격 위주로 압박",
+    "ParentOptionId": "strategy_option_01",
+    "ActionType": "ApplyStrategy",
+    "StrategyId": "strategy_01",
+    "SortOrder": 0
+  },
+  {
+    "Id": "strategy_option_01_02",
+    "Name": "적극적으로 테이크다운 시도",
+    "Description": "적극적으로 테이크다운 시도",
+    "ParentOptionId": "strategy_option_01",
+    "ActionType": "ApplyStrategy",
+    "StrategyId": "strategy_02",
+    "SortOrder": 1
+  },
+  {
+    "Id": "strategy_option_02",
+    "Name": "체력을 아끼며 후반을 노리자",
+    "Description": "체력을 아끼며 후반을 노리자",
+    "ParentOptionId": "None",
+    "ActionType": "ApplyStrategy",
+    "StrategyId": "strategy_03",
+    "SortOrder": 1
+  },
+  {
+    "Id": "strategy_option_03",
+    "Name": "하던대로 하면 돼",
+    "Description": "하던대로 하면 돼",
+    "ParentOptionId": "None",
+    "ActionType": "KeepCurrent",
+    "StrategyId": "None",
+    "SortOrder": 2
+  },
+  {
+    "Id": "strategy_option_04",
+    "Name": "준비중",
+    "Description": "준비중",
+    "ParentOptionId": "None",
+    "ActionType": "Disabled",
+    "StrategyId": "None",
+    "SortOrder": 3
+  }
+]
