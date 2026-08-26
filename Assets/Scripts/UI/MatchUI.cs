@@ -21,6 +21,8 @@ public class MatchUI : UIBase
 
     [SerializeField] private Text Text_MatchWinner;
 
+    [SerializeField] private MatchStrategySelectionUI StrategySelectionUI;
+
     private const string NoneId = "None";
     private bool _hasDisplayedMatchProgress;
     private MatchState _displayedState;
@@ -75,6 +77,9 @@ public class MatchUI : UIBase
         }
 
         MatchState currentState = MatchManager.Instance.CurrentState;
+
+        RefreshMatchStrategySelectionUI(currentState);
+
         int displaySeconds = GetDisplaySeconds();
 
         if (_hasDisplayedMatchProgress == true && _displayedState == currentState && _displayedRound == MatchManager.Instance.CurrentRound && _displayedSeconds == displaySeconds)
@@ -120,6 +125,28 @@ public class MatchUI : UIBase
         Text_Round.text = "경기 준비";
         Text_Time.text = "-";
         ClearMatchWinnerText();
+    }
+
+    private void RefreshMatchStrategySelectionUI(MatchState currentState)
+    {
+        if (StrategySelectionUI == null)
+        {
+            return;
+        }
+
+        bool shouldShow = false;
+
+        if (currentState == MatchState.RoundBreak)
+        {
+            shouldShow = true;
+        }
+
+        if (StrategySelectionUI.gameObject.activeSelf == shouldShow)
+        {
+            return;
+        }
+
+        StrategySelectionUI.gameObject.SetActive(shouldShow);
     }
 
     private int GetDisplaySeconds()
