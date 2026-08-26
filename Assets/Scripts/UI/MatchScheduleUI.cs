@@ -169,11 +169,10 @@ public class MatchScheduleUI : UIBase
             return;
         }
 
-        MatchManager.Instance.TryJudgeMatch();
-
-        if (MatchManager.Instance.LastResult == MatchResult.Win)
+        bool startSuccess = MatchManager.Instance.TryStartMatch();
+        if (startSuccess == false)
         {
-            GameManager.Instance.TryReceiveNgAchievement("ng_001");
+            return;
         }
 
         HideRequestPanel();
