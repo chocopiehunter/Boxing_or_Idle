@@ -11,6 +11,7 @@ public class MatchManager : MonoBehaviour
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
     public MatchRuleData CurrentRuleData { get; private set; }
+    public MatchStrategyData CurrentStrategyData { get; private set; }
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
@@ -95,7 +96,11 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        InitializeMatchRuntime();
+        bool initializeSuccess = InitializeMatchRuntime();
+        if (initializeSuccess == false)
+        {
+            return false;
+        }
 
         CurrentRound = 1;
         RoundBreakRemainingSeconds = 0;
@@ -105,12 +110,64 @@ public class MatchManager : MonoBehaviour
         return true;
     }
 
-    private void InitializeMatchRuntime()
+    private bool InitializeMatchRuntime()
     {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogError("경기 초기화 실패. GameDataManager없음");
+            return false;
+        }
+
+        MatchStrategyData defaultStrategyData = GameDataManager.Instance.GetDefaultMatchStrategyData();
+        if (defaultStrategyData == null)
+        {
+            Debug.LogError("경기 초기화 실패. 기본 경기 전략 없음");
+            return false;
+        }
+
         PlayerCurrentHp = PlayerFighter.Hp;
         OpponentCurrentHp = OpponentData.Hp;
         LastResult = MatchResult.None;
+
+        CurrentStrategyData = defaultStrategyData;
+
         _roundRecords.Clear();
+
+        Debug.Log($"기본 경기 전략 적용 : {CurrentStrategyData.Name}");
+        return true;
+    }
+
+    public bool TryChangeMatchStrategy(string strategyId)
+    {
+        if (CurrentState != MatchState.RoundBreak)
+        {
+            Debug.LogWarning($"경기 전략 변경 실패. 현재 상태={CurrentState}");
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(strategyId))
+        {
+            Debug.LogError("경기 전략 변경 실패. 전략 Id 없음");
+            return false;
+        }
+
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogError("경기 전략 변경 실패. GameDataManager 없음");
+            return false;
+        }
+
+        MatchStrategyData strategyData = GameDataManager.Instance.GetMatchStrategyData(strategyId);
+        if (strategyData == null)
+        {
+            Debug.LogError($"경기 전략 변경 실패. MatchStrategyData 없음 Id={strategyId}");
+            return false;
+        }
+
+        CurrentStrategyData = strategyData;
+
+        Debug.Log($"경기 전략 변경 완료: {CurrentStrategyData.Name}");
+        return true;
     }
 
     private void StartCurrentRound()
@@ -260,7 +317,11 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        InitializeMatchRuntime();
+        bool initializeSuccess = InitializeMatchRuntime();
+        if (initializeSuccess == false)
+        {
+            return false;
+        }
 
         for (int round = 1; round <= CurrentRuleData.RoundCount; round++)
         {
@@ -313,6 +374,7 @@ public class MatchManager : MonoBehaviour
         PlayerFighter = null;
         OpponentData = null;
         CurrentRuleData = null;
+        CurrentStrategyData = null;
 
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
