@@ -441,4 +441,38 @@ public class GameDataManager : MonoBehaviour
 
         return MatchStrategyOptionDataList.TryGetValue(id, out var item) ? item : null;
     }
+
+    public List<MatchStrategyOptionData> GetRootMatchStrategyOptions()
+    {
+        return GetMatchStrategyOptionsByParent("None");
+    }
+
+    public List<MatchStrategyOptionData> GetMatchStrategyOptionsByParent(string parentId)
+    {
+        List<MatchStrategyOptionData> optionDataList = new List<MatchStrategyOptionData>();
+
+        if (MatchStrategyOptionDataList == null || string.IsNullOrEmpty(parentId))
+        {
+            return optionDataList;
+        }
+
+        foreach (KeyValuePair<string, MatchStrategyOptionData> pair in MatchStrategyOptionDataList)
+        {
+            MatchStrategyOptionData optionData = pair.Value;
+
+            if (optionData != null && optionData.ParentOptionId == parentId)
+            {
+                optionDataList.Add(optionData);
+            }
+        }
+
+        optionDataList.Sort(CompareMatchStrategyOptionSortOrder);
+
+        return optionDataList;
+    }
+
+    private int CompareMatchStrategyOptionSortOrder(MatchStrategyOptionData left, MatchStrategyOptionData right)
+    {
+        return left.SortOrder.CompareTo(right.SortOrder);
+    }
 }
