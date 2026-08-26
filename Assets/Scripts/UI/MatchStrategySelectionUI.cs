@@ -6,6 +6,11 @@ public class MatchStrategySelectionUI : UIBase
 {
     [SerializeField] private Text Text_StrategyDescription;
 
+    [SerializeField] private RectTransform RectTransform_StrategyDescription;
+    [SerializeField] private Vector2 TooltipOffset = new Vector2(20f, -20f);
+
+    private bool _isDescriptionVisible;
+
     [SerializeField] private UIButton Button_Strategy1;
     [SerializeField] private UIButton Button_Strategy2;
     [SerializeField] private UIButton Button_Strategy3;
@@ -33,6 +38,16 @@ public class MatchStrategySelectionUI : UIBase
         HideDescription();
     }
 
+    private void Update()
+    {
+        if (_isDescriptionVisible == false)
+        {
+            return;
+        }
+
+        UpdateDescriptionPosition();
+    }
+
     private void OnEnable()
     {
         RefreshRootStrategyOptions();
@@ -40,24 +55,30 @@ public class MatchStrategySelectionUI : UIBase
 
     public void ShowDescription(string description)
     {
-        if (Text_StrategyDescription == null)
+        if (Text_StrategyDescription == null || RectTransform_StrategyDescription == null)
         {
             return;
         }
 
         Text_StrategyDescription.text = description;
-        Text_StrategyDescription.gameObject.SetActive(true);
+        RectTransform_StrategyDescription.gameObject.SetActive(true);
+        _isDescriptionVisible = true;
+        UpdateDescriptionPosition();
     }
 
     public void HideDescription()
     {
-        if (Text_StrategyDescription == null)
+        if (Text_StrategyDescription != null)
         {
-            return;
+            Text_StrategyDescription.text = "";
         }
 
-        Text_StrategyDescription.text = "";
-        Text_StrategyDescription.gameObject.SetActive(false);
+        _isDescriptionVisible = false;
+
+        if (RectTransform_StrategyDescription != null)
+        {
+            RectTransform_StrategyDescription.gameObject.SetActive(false);
+        }
     }
 
     private void RefreshRootStrategyOptions()
@@ -110,5 +131,32 @@ public class MatchStrategySelectionUI : UIBase
         }
 
         button.SetInteractable(interactable);
+    }
+
+    private void UpdateDescriptionPosition()
+    {
+        if (RectTransform_StrategyDescription == null)
+        {
+            return;
+        }
+
+        RectTransform parentRectTransform = RectTransform_StrategyDescription.parent as RectTransform;
+
+        if (parentRectTransform == null)
+        {
+            return;
+        }
+
+        Vector2 mousePosition = Input.mousePosition;
+        Vector2 localPosition;
+
+        bool positionSuccess = RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, mousePosition, null, out localPosition);
+
+        if (positionSuccess == false)
+        {
+            return;
+        }
+
+        RectTransform_StrategyDescription.anchoredPosition = localPosition + TooltipOffset;
     }
 }
