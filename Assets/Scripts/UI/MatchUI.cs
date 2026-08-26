@@ -22,18 +22,27 @@ public class MatchUI : UIBase
     [SerializeField] private Text Text_MatchWinner;
 
     private const string NoneId = "None";
+    private bool _hasDisplayedMatchProgress;
+    private MatchState _displayedState;
+    private int _displayedRound = -1;
+    private int _displayedSeconds = 1;
 
     private void OnEnable()
     {
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
+        _hasDisplayedMatchProgress = false;
         RefreshUI();
+    }
+
+    private void Update()
+    {
+        RefreshMatchProgressUI();
     }
 
     private void RefreshUI()
     {
         FighterModel player = MatchManager.Instance.PlayerFighter;
         FighterData opponent = MatchManager.Instance.OpponentData;
-        MatchResult result = MatchManager.Instance.LastResult;
 
         if(player != null)
         {
@@ -55,10 +64,27 @@ public class MatchUI : UIBase
             SetDefaultBody(Image_Fighter_Right, DefaultFighterSprite_Right);
         }
 
-        Text_Round.text = "경기 종료";
-        Text_Time.text = "-";
+        RefreshMatchProgressUI();
+    }
 
-        ApplyMatchWinnerText(result, player, opponent);
+    private void RefreshMatchProgressUI()
+    {
+
+    }
+
+    private int GetDisplaySeconds()
+    {
+        return 0;
+    }
+
+    private string FormatTime(int totalSeconds)
+    {
+        return null;
+    }
+
+    private void ClearMatchWinnerText()
+    {
+
     }
 
     private void TrySetFighterBody(Image fighterImage, string bodyAddress, Sprite defaultSprite)
