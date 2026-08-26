@@ -33,6 +33,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, SkillUseConditionData> SkillUseConditionDataList { get; private set; } = new Dictionary<string, SkillUseConditionData>();
     public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
     public Dictionary<string, MatchStrategyData> MatchStrategyDataList { get; private set; } = new Dictionary<string, MatchStrategyData>();
+    public Dictionary<string, MatchStrategyOptionData> MatchStrategyOptionDataList { get; private set; } = new Dictionary<string, MatchStrategyOptionData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -88,6 +89,7 @@ public class GameDataManager : MonoBehaviour
         SkillUseConditionDataList = LoadData<SkillUseConditionData>("SkillUseConditionData");
         MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
         MatchStrategyDataList = LoadData<MatchStrategyData>("MatchStrategyData");
+        MatchStrategyOptionDataList = LoadData<MatchStrategyOptionData>("MatchStrategyOptionData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -431,5 +433,12 @@ public class GameDataManager : MonoBehaviour
         }
 
         return defaultStrategyData;
+    }
+
+    public MatchStrategyOptionData GetMatchStrategyOptionData(string id)
+    {
+        if (MatchStrategyOptionDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchStrategyOptionDataList.TryGetValue(id, out var item) ? item : null;
     }
 }
