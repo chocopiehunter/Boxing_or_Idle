@@ -22,6 +22,7 @@ public class MatchUI : UIBase
     [SerializeField] private Text Text_MatchWinner;
 
     [SerializeField] private MatchStrategySelectionUI StrategySelectionUI;
+    [SerializeField] private MatchResultUI ResultUI;
 
     private const string NoneId = "None";
     private bool _hasDisplayedMatchProgress;
@@ -33,6 +34,7 @@ public class MatchUI : UIBase
     {
         Button_Close.BindOnClickButtonEvent(OnClick_Close);
         _hasDisplayedMatchProgress = false;
+        ResultUI.Hide();
         RefreshUI();
     }
 
@@ -119,12 +121,33 @@ public class MatchUI : UIBase
             Text_Round.text = "경기 종료";
             Text_Time.text = "-";
             ApplyMatchWinnerText(MatchManager.Instance.LastResult, MatchManager.Instance.PlayerFighter, MatchManager.Instance.OpponentData);
+            ShowMatchResultUI();
             return;
         }
 
         Text_Round.text = "경기 준비";
         Text_Time.text = "-";
         ClearMatchWinnerText();
+    }
+
+    private void ShowMatchResultUI()
+    {
+        if (ResultUI == null)
+        {
+            Debug.LogError("경기 결과 UI 출력 실패. MatchResultUI 없음");
+            return;
+        }
+
+        MatchResultSummary resultSummary = MatchManager.Instance.LastResultSummary;
+
+        if (resultSummary == null)
+        {
+            Debug.LogError("경기 결과 UI 출력 실패. MatchResultSummary 없음");
+            ResultUI.Hide();
+            return;
+        }
+
+        ResultUI.Show(resultSummary);
     }
 
     private void RefreshMatchStrategySelectionUI(MatchState currentState)
