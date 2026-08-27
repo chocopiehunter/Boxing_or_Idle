@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MatchResultUI : UIBase
 {
-    [SerializeField] private Text Text_Result;
+    [SerializeField] private Text Text_Winner;
     [SerializeField] private Text Text_FinishResult;
 
     [SerializeField] private Text Text_PlayerName;
@@ -25,7 +25,7 @@ public class MatchResultUI : UIBase
 
         gameObject.SetActive(true);
 
-        Text_Result.text = GetResultText(resultSummary);
+        Text_Winner.text = GetWinnerText(resultSummary);
         Text_FinishResult.text = GetFinishResultText(resultSummary);
 
         Text_PlayerName.text = resultSummary.PlayerName;
@@ -43,7 +43,7 @@ public class MatchResultUI : UIBase
         gameObject.SetActive(false);
     }
 
-    private string GetResultText(MatchResultSummary resultSummary)
+    private string GetWinnerText(MatchResultSummary resultSummary)
     {
         if (resultSummary.Result == MatchResult.Win)
         {
