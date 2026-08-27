@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchResultUI : UIBase
@@ -14,6 +15,8 @@ public class MatchResultUI : UIBase
 
     [SerializeField] private Text Text_PlayerControlTime;
     [SerializeField] private Text Text_OpponentControlTime;
+
+    [SerializeField] private UIButton Button_ReturnToGym;
 
     public void Show(MatchResultSummary resultSummary)
     {
@@ -41,6 +44,25 @@ public class MatchResultUI : UIBase
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void BindReturnToGymButtonEvent(Action onClickCallback)
+    {
+        if (Button_ReturnToGym == null)
+        {
+            Debug.LogError("체육관 복귀 버튼 연결 실패. Button_ReturnToGym 없음");
+            return;
+        }
+
+        Button_ReturnToGym.UnBindAllOnClickButtonEvent();
+
+        if (onClickCallback == null)
+        {
+            Debug.LogError("체육관 복귀 버튼 연결 실패. 클릭 이벤트 없음");
+            return;
+        }
+
+        Button_ReturnToGym.BindOnClickButtonEvent(onClickCallback);
     }
 
     private string GetWinnerText(MatchResultSummary resultSummary)
