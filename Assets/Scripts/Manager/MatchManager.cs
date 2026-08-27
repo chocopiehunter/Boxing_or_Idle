@@ -19,6 +19,7 @@ public class MatchManager : MonoBehaviour
     public float OpponentCurrentHp { get; private set; }
 
     public MatchResult LastResult { get; private set; } = MatchResult.None;
+    public MatchResultSummary LastResultSummary { get; private set; } // 결과요약
 
     private void Awake()
     {
@@ -128,6 +129,7 @@ public class MatchManager : MonoBehaviour
         PlayerCurrentHp = PlayerFighter.Hp;
         OpponentCurrentHp = OpponentData.Hp;
         LastResult = MatchResult.None;
+        LastResultSummary = null;
 
         CurrentStrategyData = defaultStrategyData;
 
@@ -240,21 +242,21 @@ public class MatchManager : MonoBehaviour
         
         if (PlayerCurrentHp <= 0f && OpponentCurrentHp <= 0f)
         {
-            CompleteMatch(MatchResult.Draw);
+            CompleteMatch(MatchResult.Draw, MatchFinishType.Draw);
             Debug.Log("동시 KO. 경기 종료 무승부");
             return true;
         }
 
         if (PlayerCurrentHp <= 0f)
         {
-            CompleteMatch(MatchResult.Lose);
+            CompleteMatch(MatchResult.Lose, MatchFinishType.KO);
             Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
             return true;
         }
 
         if (OpponentCurrentHp <= 0f)
         {
-            CompleteMatch(MatchResult.Win);
+            CompleteMatch(MatchResult.Win, MatchFinishType.KO);
             Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
             return true;
         }
@@ -281,7 +283,14 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        CompleteMatch(matchResult);
+        MatchFinishType finishType = MatchFinishType.Decision;
+
+        if (matchResult == MatchResult.Draw)
+        {
+            finishType = MatchFinishType.Draw;
+        }
+
+        CompleteMatch(matchResult, finishType);
 
         Debug.Log($"경기 종료 / 판정 라운드 수 {_roundRecords.Count} / 결과 {LastResult}");
 
@@ -345,15 +354,70 @@ public class MatchManager : MonoBehaviour
     private void StopMatchByError(string errorMessage)
     {
         LastResult = MatchResult.None;
+        LastResultSummary = null;
         CurrentState = MatchState.Finished;
         Debug.LogError($"경기 처리 중단. {errorMessage}");
     }
 
-    private void CompleteMatch(MatchResult result)
+    private bool TryCreateMatchResultSummary(MatchResult result, MatchFinishType finishType)
+    {
+        if (PlayerFighter == null)
+        {
+            Debug.LogError("경기 결과 요약 생성 실패. 플레이어 선수 없음");
+            return false;
+        }
+
+        if (OpponentData == null)
+        {
+            Debug.LogError("경기 결과 요약 생성 실패. 상대 선수 없음");
+            return false;
+        }
+
+        if (CurrentRuleData == null)
+        {
+            Debug.LogError("경기 결과 요약 생성 실패. 경기 규칙 없음");
+            return false;
+        }
+
+        float passedRoundSeconds = CurrentRuleData.RoundSeconds - RoundRemainingSeconds;
+
+        if (passedRoundSeconds < 0f)
+        {
+            passedRoundSeconds = 0f;
+        }
+
+        if (passedRoundSeconds > CurrentRuleData.RoundSeconds)
+        {
+            passedRoundSeconds = CurrentRuleData.RoundSeconds;
+        }
+
+        MatchResultSummary resultSummary = new MatchResultSummary(PlayerFighter.Name, OpponentData.Name);
+        resultSummary.SetMatchResult(result, finishType, CurrentRound, passedRoundSeconds);
+
+        LastResultSummary = resultSummary;
+
+        return true;
+    }
+
+    private void CompleteMatch(MatchResult result, MatchFinishType finishType)
     {
         if (result == MatchResult.None)
         {
             StopMatchByError("유효하지 않은 경기 결과가 전달됨");
+            return;
+        }
+
+        if (finishType == MatchFinishType.None)
+        {
+            StopMatchByError("유효하지 않은 경기 종료 방식");
+            return;
+        }
+
+        bool summaryCreateSuccess = TryCreateMatchResultSummary(result, finishType);
+
+        if (summaryCreateSuccess == false)
+        {
+            StopMatchByError("경기 결과 요약 생성 실패");
             return;
         }
 
@@ -383,6 +447,7 @@ public class MatchManager : MonoBehaviour
         PlayerCurrentHp = 0f;
         OpponentCurrentHp = 0f;
         LastResult = MatchResult.None;
+        LastResultSummary = null;
         _roundRecords.Clear();
 
         CurrentState = MatchState.None;
