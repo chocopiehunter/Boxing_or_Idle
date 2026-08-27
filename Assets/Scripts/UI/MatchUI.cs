@@ -29,12 +29,21 @@ public class MatchUI : UIBase
     private MatchState _displayedState;
     private int _displayedRound = -1;
     private int _displayedSeconds = 1;
+    private bool _isReturningToGym;
 
     private void OnEnable()
     {
-        Button_Close.BindOnClickButtonEvent(OnClick_Close);
+        Button_Close.SetInteractable(false);
+
         _hasDisplayedMatchProgress = false;
-        ResultUI.Hide();
+        _isReturningToGym = false;
+
+        if (ResultUI != null)
+        {
+            ResultUI.BindReturnToGymButtonEvent(OnClick_ReturnToGym);
+            ResultUI.Hide();
+        }
+
         RefreshUI();
     }
 
@@ -297,9 +306,64 @@ public class MatchUI : UIBase
 
     }
 
-    private void OnClick_Close()
+    private void OnClick_ReturnToGym()
     {
+        if (_isReturningToGym == true)
+        {
+            return;
+        }
+
+        if (MatchManager.Instance == null)
+        {
+            Debug.LogError("체육관 복귀 실패. MatchManager 없음");
+            return;
+        }
+
+        if (MatchManager.Instance.CurrentState != MatchState.Finished)
+        {
+            Debug.LogWarning($"체육관 복귀 실패. 경기가 종료되지 않음 CurrentState={MatchManager.Instance.CurrentState}");
+            return;
+        }
+
+        _isReturningToGym = true;
+        ReturnToGymAsync().Forget();
+    }
+
+    private async UniTask ReturnToGymAsync()
+    {
+        if (UIManager.Instance == null)
+        {
+            Debug.LogError("체육관 복귀 실패. UIManager 없음");
+            _isReturningToGym = false;
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("체육관 복귀 실패. GameManager 없음");
+            _isReturningToGym = false;
+            return;
+        }
+
+        UIBase openedUI = UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
+        TransitionLoadingUI transitionLoadingUI = openedUI as TransitionLoadingUI;
+
+        if (transitionLoadingUI == null)
+        {
+            Debug.LogError("체육관 복귀 실패. TransitionLoadingUI 없음");
+            _isReturningToGym = false;
+            return;
+        }
+
+        await UniTask.Yield(PlayerLoopTiming.Update);
+
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MatchUI);
+
+        MatchManager.Instance.ClearMatch();
         GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
+
+        await transitionLoadingUI.WaitForSeconds();
+
+        UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
     }
 }
