@@ -32,6 +32,8 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
     public Dictionary<string, SkillUseConditionData> SkillUseConditionDataList { get; private set; } = new Dictionary<string, SkillUseConditionData>();
     public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
+    public Dictionary<string, MatchStrategyData> MatchStrategyDataList { get; private set; } = new Dictionary<string, MatchStrategyData>();
+    public Dictionary<string, MatchStrategyOptionData> MatchStrategyOptionDataList { get; private set; } = new Dictionary<string, MatchStrategyOptionData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -86,6 +88,8 @@ public class GameDataManager : MonoBehaviour
         SkillDataList = LoadData<SkillData>("SkillData");
         SkillUseConditionDataList = LoadData<SkillUseConditionData>("SkillUseConditionData");
         MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
+        MatchStrategyDataList = LoadData<MatchStrategyData>("MatchStrategyData");
+        MatchStrategyOptionDataList = LoadData<MatchStrategyOptionData>("MatchStrategyOptionData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -301,5 +305,174 @@ public class GameDataManager : MonoBehaviour
         if (MatchRuleDataList == null || string.IsNullOrEmpty(id)) return null;
 
         return MatchRuleDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public MatchRuleData GetMatchRuleDataByOpponent(int opponentRank, bool isChampion, bool isUnranked)
+    {
+        if (MatchRuleDataList == null)
+        {
+            Debug.LogError($"MatchRuleDataList 없음");
+            return null;
+        }
+
+        if (isChampion == true && isUnranked == true)
+        {
+            Debug.LogError($"상대 선수를 챔피언과 언랭커로 동시에 지정할수 없음");
+            return null;
+        }
+
+        if (isChampion == false && isUnranked == false && opponentRank <= 0)
+        {
+            Debug.LogError($"랭커의 공식 랭킹이 올바르지 않음 {opponentRank}");
+            return null;
+        }
+
+        foreach (KeyValuePair<string, MatchRuleData> pair in MatchRuleDataList)
+        {
+            MatchRuleData ruleData = pair.Value;
+            if (ruleData == null)
+            {
+                continue;
+            }
+
+            if (isChampion == true)
+            {
+                if (ruleData.IncludeChampion == true)
+                {
+                    return ruleData;
+                }
+
+                continue;
+            }
+
+            if (isUnranked == true)
+            {
+                if (ruleData.IncludeUnranked == true)
+                {
+                    return ruleData;
+                }
+
+                continue;
+            }
+
+            bool isInRankRange = opponentRank >= ruleData.MinOpponentRank && opponentRank <= ruleData.MaxOpponentRank;
+            if (isInRankRange == true)
+            {
+                return ruleData;
+            }
+        }
+
+        Debug.LogError($"상대 조건에 맞는 MatchRuleData 없음 Rank={opponentRank}, Champion={isChampion}, Unranked={isUnranked}");
+        return null;
+    }
+
+    public MatchStrategyData GetMatchStrategyData(string id)
+    {
+        if (MatchStrategyDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchStrategyDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public List<MatchStrategyData> GetAllMatchStrategyData()
+    {
+        List<MatchStrategyData> strategyDataList = new List<MatchStrategyData>();
+
+        if (MatchStrategyDataList == null)
+        {
+            return strategyDataList;
+        }
+
+        foreach (KeyValuePair<string, MatchStrategyData> pair in MatchStrategyDataList)
+        {
+            if (pair.Value != null)
+            {
+                strategyDataList.Add(pair.Value);
+            }
+        }
+
+        strategyDataList.Sort(CompareMatchStrategySortOrder);
+
+        return strategyDataList;
+    }
+
+    private int CompareMatchStrategySortOrder(MatchStrategyData left, MatchStrategyData right)
+    {
+        return left.SortOrder.CompareTo(right.SortOrder);
+    }
+
+    public MatchStrategyData GetDefaultMatchStrategyData()
+    {
+        if (MatchStrategyDataList == null)
+        {
+            return null;
+        }
+
+        MatchStrategyData defaultStrategyData = null;
+
+        foreach (KeyValuePair<string, MatchStrategyData> pair in MatchStrategyDataList)
+        {
+            MatchStrategyData strategyData = pair.Value;
+
+            if (strategyData == null || strategyData.IsDefault == false)
+            {
+                continue;
+            }
+
+            if (defaultStrategyData != null)
+            {
+                Debug.LogError("기본 경기 전략이 두개 이상 설정되어 있습니다");
+                return null;
+            }
+
+            defaultStrategyData = strategyData;
+        }
+
+        if (defaultStrategyData == null)
+        {
+            Debug.LogError("기본 경기 전략이 설정되지 않았습니다");
+        }
+
+        return defaultStrategyData;
+    }
+
+    public MatchStrategyOptionData GetMatchStrategyOptionData(string id)
+    {
+        if (MatchStrategyOptionDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return MatchStrategyOptionDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public List<MatchStrategyOptionData> GetRootMatchStrategyOptions()
+    {
+        return GetMatchStrategyOptionsByParent("None");
+    }
+
+    public List<MatchStrategyOptionData> GetMatchStrategyOptionsByParent(string parentId)
+    {
+        List<MatchStrategyOptionData> optionDataList = new List<MatchStrategyOptionData>();
+
+        if (MatchStrategyOptionDataList == null || string.IsNullOrEmpty(parentId))
+        {
+            return optionDataList;
+        }
+
+        foreach (KeyValuePair<string, MatchStrategyOptionData> pair in MatchStrategyOptionDataList)
+        {
+            MatchStrategyOptionData optionData = pair.Value;
+
+            if (optionData != null && optionData.ParentOptionId == parentId)
+            {
+                optionDataList.Add(optionData);
+            }
+        }
+
+        optionDataList.Sort(CompareMatchStrategyOptionSortOrder);
+
+        return optionDataList;
+    }
+
+    private int CompareMatchStrategyOptionSortOrder(MatchStrategyOptionData left, MatchStrategyOptionData right)
+    {
+        return left.SortOrder.CompareTo(right.SortOrder);
     }
 }
