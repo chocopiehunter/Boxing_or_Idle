@@ -447,7 +447,6 @@ public class MatchManager : MonoBehaviour
         PlayerCurrentHp = 0f;
         OpponentCurrentHp = 0f;
         LastResult = MatchResult.None;
-        LastResultSummary = null;
         _roundRecords.Clear();
 
         CurrentState = MatchState.None;
