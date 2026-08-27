@@ -15,6 +15,7 @@ public enum UIType
 {
     MainUI,
     LoadingUI,
+    TransitionLoadingUI,
     TitleUI,
     Inventory,
     DialogueUI,
