@@ -24,18 +24,72 @@ public class MatchCoolTimeModel
 
     public bool TryStartSkillCooldown(SkillData skillData)
     {
+        if (skillData == null)
+        {
+            return false;
+        }
 
+        if (string.IsNullOrEmpty(skillData.Id))
+        {
+            return false;
+        }
+
+        if (skillData.CoolTime < 0f)
+        {
+            return false;
+        }
+
+        if (IsSkillReady(skillData.Id) == false)
+        {
+            return false;
+        }
+
+        if (skillData.CoolTime == 0f)
+        {
+            return true;
+        }
+
+        _remainingSecondsBySkillId.Add(skillData.Id, skillData.CoolTime);
+        _coolingSkillIds.Add(skillData.Id);
 
         return true;
     }
 
     public void UpdateCooldown(float passedSeconds)
     {
+        if (passedSeconds <= 0f)
+        {
+            return;
+        }
 
+        for (int index = _coolingSkillIds.Count - 1; index >= 0; index--)
+        {
+            string skillId = _coolingSkillIds[index];
+            float remainingSeconds = _remainingSecondsBySkillId[skillId];
+            remainingSeconds = remainingSeconds - passedSeconds;
+
+            if (remainingSeconds <= 0f)
+            {
+                _remainingSecondsBySkillId.Remove(skillId);
+                _coolingSkillIds.RemoveAt(index);
+                continue;
+            }
+
+            _remainingSecondsBySkillId[skillId] = remainingSeconds;
+        }
     }
 
     public float GetRemainingSeconds(string skillId)
     {
+        if (string.IsNullOrEmpty(skillId))
+        {
+            return 0f;
+        }
+
+        if (_remainingSecondsBySkillId.ContainsKey(skillId) == false)
+        {
+            return 0f;
+        }
 
         return _remainingSecondsBySkillId[skillId];
     }
