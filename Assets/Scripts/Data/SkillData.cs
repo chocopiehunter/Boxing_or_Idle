@@ -8,5 +8,6 @@ public class SkillData : GameDataBase
     public string Category;
     public float StaminaCost;
     public float StaminaCostPerSecond;
+    public float CoolTime;
     public string RequiredUnlockIds;
 }

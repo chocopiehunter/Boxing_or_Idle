@@ -110,5 +110,13 @@
     "WrestlingSituation": "Clinch",
     "GroundPosition": "None",
     "UserRole": "Defender"
+  },
+  {
+    "Id": "use_jab_01",
+    "SkillId": "skill_jab",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
   }
 ]

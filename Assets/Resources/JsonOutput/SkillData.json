@@ -6,6 +6,7 @@
     "Category": "Wrestling",
     "StaminaCost": 2,
     "StaminaCostPerSecond": 0,
+    "CoolTime": 0.5,
     "RequiredUnlockIds": "None"
   },
   {
@@ -15,6 +16,7 @@
     "Category": "JiuJitsu",
     "StaminaCost": 10,
     "StaminaCostPerSecond": 1,
+    "CoolTime": 4,
     "RequiredUnlockIds": "cond_jiujitsu_offense_200"
   },
   {
@@ -24,6 +26,7 @@
     "Category": "Strike",
     "StaminaCost": 3,
     "StaminaCostPerSecond": 0,
+    "CoolTime": 2,
     "RequiredUnlockIds": "cond_standing_offense_150"
   },
   {
@@ -33,6 +36,7 @@
     "Category": "Strike",
     "StaminaCost": 4,
     "StaminaCostPerSecond": 0,
+    "CoolTime": 3,
     "RequiredUnlockIds": "cond_standing_offense_50"
   },
   {
@@ -42,6 +46,17 @@
     "Category": "Wrestling",
     "StaminaCost": 10,
     "StaminaCostPerSecond": 0,
+    "CoolTime": 5,
     "RequiredUnlockIds": "cond_wrestling_offense_200"
+  },
+  {
+    "Id": "skill_jab",
+    "Name": "잽",
+    "Description": "간결하고 빠른 잽",
+    "Category": "Strike",
+    "StaminaCost": 2,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 0.7,
+    "RequiredUnlockIds": "None"
   }
 ]
