@@ -12,6 +12,7 @@ public class MatchManager : MonoBehaviour
     public FighterData OpponentData { get; private set; }
     public MatchRuleData CurrentRuleData { get; private set; }
     public MatchStrategyData CurrentStrategyData { get; private set; }
+    public MatchCombatModel CombatModel { get; private set; }
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
@@ -132,6 +133,7 @@ public class MatchManager : MonoBehaviour
         LastResultSummary = null;
 
         CurrentStrategyData = defaultStrategyData;
+        CombatModel = new MatchCombatModel();
 
         _roundRecords.Clear();
 
@@ -174,6 +176,8 @@ public class MatchManager : MonoBehaviour
 
     private void StartCurrentRound()
     {
+        CombatModel.StartRound();
+
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
 
         CurrentState = MatchState.RoundInProgress;
@@ -217,6 +221,8 @@ public class MatchManager : MonoBehaviour
             TryCompleteMatchByDecision();
             return;
         }
+
+        CombatModel.Reset();
 
         RoundBreakRemainingSeconds = CurrentRuleData.RoundBreakSeconds;
 
@@ -355,6 +361,12 @@ public class MatchManager : MonoBehaviour
     {
         LastResult = MatchResult.None;
         LastResultSummary = null;
+
+        if (CombatModel != null)
+        {
+            CombatModel.Reset();
+        }
+
         CurrentState = MatchState.Finished;
         Debug.LogError($"경기 처리 중단. {errorMessage}");
     }
@@ -421,6 +433,11 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        if (CombatModel != null)
+        {
+            CombatModel.Reset();
+        }
+
         LastResult = result;
         CurrentState = MatchState.Finished;
 
@@ -439,6 +456,7 @@ public class MatchManager : MonoBehaviour
         OpponentData = null;
         CurrentRuleData = null;
         CurrentStrategyData = null;
+        CombatModel = null;
 
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
