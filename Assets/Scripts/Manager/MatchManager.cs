@@ -5,6 +5,7 @@ public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
     private IMatchJudge _matchJudge;
+    private MatchCombatRunner _combatRunner;
     private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
@@ -135,6 +136,8 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
+        _combatRunner = new MatchCombatRunner(CombatModel, CurrentRuleData.ActionIntervalSeconds);
+
         _roundRecords.Clear();
 
         Debug.Log($"기본 경기 전략 적용 : {CurrentStrategyData.Name}");
@@ -178,6 +181,8 @@ public class MatchManager : MonoBehaviour
     {
         CombatModel.StartRound();
 
+        _combatRunner.Reset();
+
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
 
         CurrentState = MatchState.RoundInProgress;
@@ -192,6 +197,19 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        if (_combatRunner == null)
+        {
+            StopMatchByError("MatchCombatRunner 없음");
+            return;
+        }
+
+        bool actionTimeReached = _combatRunner.UpdateActionTime(passedSeconds);
+
+        if (actionTimeReached == true)
+        {
+            RunNextCombatAction();
+        }
+
         RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
 
         if (RoundRemainingSeconds > 0f)
@@ -201,6 +219,11 @@ public class MatchManager : MonoBehaviour
 
         RoundRemainingSeconds = 0f;
         EndCurrentRound();
+    }
+
+    private void RunNextCombatAction()
+    {
+        Debug.Log($"전투 공방 실행 / {CurrentRound}라운드 / 상황 {CombatModel.CurrentSituation}");
     }
 
     private void EndCurrentRound()
@@ -457,6 +480,7 @@ public class MatchManager : MonoBehaviour
         CurrentRuleData = null;
         CurrentStrategyData = null;
         CombatModel = null;
+        _combatRunner = null;
 
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
