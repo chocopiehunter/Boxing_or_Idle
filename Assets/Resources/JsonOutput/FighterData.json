@@ -13,7 +13,8 @@
     "WrestlingDefense": 10,
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 10,
-    "TrainingStamina": 100
+    "TrainingStamina": 100,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_02",
@@ -29,7 +30,8 @@
     "WrestlingDefense": 10,
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 10,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_03",
@@ -45,7 +47,8 @@
     "WrestlingDefense": 18,
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 10,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_04",
@@ -61,7 +64,8 @@
     "WrestlingDefense": 15,
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 13,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_05",
@@ -77,7 +81,8 @@
     "WrestlingDefense": 25,
     "JiuJitsuOffense": 20,
     "JiuJitsuDefense": 18,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_06",
@@ -93,7 +98,8 @@
     "WrestlingDefense": 20,
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 20,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "None"
   },
   {
     "Id": "fighter_07",
@@ -109,6 +115,7 @@
     "WrestlingDefense": 30,
     "JiuJitsuOffense": 25,
     "JiuJitsuDefense": 25,
-    "TrainingStamina": 0
+    "TrainingStamina": 0,
+    "StartingSkillIds": "skill_jab,skill_elbow,skill_uppercut"
   }
 ]

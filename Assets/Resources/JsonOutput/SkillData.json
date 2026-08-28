@@ -7,7 +7,8 @@
     "StaminaCost": 2,
     "StaminaCostPerSecond": 0,
     "CoolTime": 0.5,
-    "RequiredUnlockIds": "None"
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true
   },
   {
     "Id": "skill_guillotine",
@@ -17,7 +18,8 @@
     "StaminaCost": 10,
     "StaminaCostPerSecond": 1,
     "CoolTime": 4,
-    "RequiredUnlockIds": "cond_jiujitsu_offense_200"
+    "RequiredUnlockIds": "cond_jiujitsu_offense_200",
+    "IsBasicSkill": false
   },
   {
     "Id": "skill_elbow",
@@ -27,7 +29,8 @@
     "StaminaCost": 3,
     "StaminaCostPerSecond": 0,
     "CoolTime": 2,
-    "RequiredUnlockIds": "cond_standing_offense_150"
+    "RequiredUnlockIds": "cond_standing_offense_150",
+    "IsBasicSkill": false
   },
   {
     "Id": "skill_uppercut",
@@ -37,7 +40,8 @@
     "StaminaCost": 4,
     "StaminaCostPerSecond": 0,
     "CoolTime": 3,
-    "RequiredUnlockIds": "cond_standing_offense_50"
+    "RequiredUnlockIds": "cond_standing_offense_50",
+    "IsBasicSkill": false
   },
   {
     "Id": "skill_takedown_judo",
@@ -47,7 +51,8 @@
     "StaminaCost": 10,
     "StaminaCostPerSecond": 0,
     "CoolTime": 5,
-    "RequiredUnlockIds": "cond_wrestling_offense_200"
+    "RequiredUnlockIds": "cond_wrestling_offense_200",
+    "IsBasicSkill": false
   },
   {
     "Id": "skill_jab",
@@ -57,6 +62,7 @@
     "StaminaCost": 2,
     "StaminaCostPerSecond": 0,
     "CoolTime": 0.7,
-    "RequiredUnlockIds": "None"
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true
   }
 ]
