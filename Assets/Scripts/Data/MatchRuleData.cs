@@ -7,6 +7,7 @@ public class MatchRuleData : GameDataBase
     public int RoundCount;
     public float RoundSeconds;
     public float RoundBreakSeconds;
+    public float ActionIntervalSeconds;
     public int MinOpponentRank;
     public int MaxOpponentRank;
     public bool IncludeChampion;

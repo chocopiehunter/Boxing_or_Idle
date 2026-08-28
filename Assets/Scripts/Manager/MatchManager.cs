@@ -69,7 +69,7 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        if (ruleData.RoundCount <= 0 || ruleData.RoundSeconds <= 0f || ruleData.RoundBreakSeconds < 0f)
+        if(ruleData.RoundCount <= 0 || ruleData.RoundSeconds <= 0f || ruleData.RoundBreakSeconds < 0f || ruleData.ActionIntervalSeconds <= 0f)
         {
             Debug.LogError($"경기 신청 실패. 경기 규칙 데이터 오류 {ruleData.Id}");
             return false;
