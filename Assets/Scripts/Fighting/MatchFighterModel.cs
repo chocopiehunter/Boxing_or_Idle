@@ -19,7 +19,36 @@ public class MatchFighterModel
 
     public MatchFighterModel(MatchFighterSide fighterSide, IReadOnlyList<string> ownedSkillIds)
     {
+        FighterSide = fighterSide;
+        _ownedSkillIds = new List<string>();
+        _coolTimeModel = new MatchCoolTimeModel();
 
+        if (ownedSkillIds == null)
+        {
+            return;
+        }
+
+        for (int index = 0; index < ownedSkillIds.Count; index++)
+        {
+            string skillId = ownedSkillIds[index];
+
+            if (string.IsNullOrEmpty(skillId))
+            {
+                continue;
+            }
+
+            if (skillId == "None")
+            {
+                continue;
+            }
+
+            if (_ownedSkillIds.Contains(skillId))
+            {
+                continue;
+            }
+
+            _ownedSkillIds.Add(skillId);
+        }
 
     }
 
@@ -41,5 +70,35 @@ public class MatchFighterModel
         }
 
         return _coolTimeModel.IsSkillReady(skillId);
+    }
+
+    public bool TryStartSkillCooldown(SkillData skillData)
+    {
+        if (skillData == null)
+        {
+            return false;
+        }
+
+        if (HasSkill(skillData.Id) == false)
+        {
+            return false;
+        }
+
+        return _coolTimeModel.TryStartSkillCooldown(skillData);
+    }
+
+    public void UpdateCooldown(float passedSeconds)
+    {
+        _coolTimeModel.UpdateCooldown(passedSeconds);
+    }
+
+    public float GetRemainingCoolTimeSeconds(string skillId)
+    {
+        return _coolTimeModel.GetRemainingSeconds(skillId);
+    }
+
+    public void ResetCoolTimes()
+    {
+        _coolTimeModel.Reset();
     }
 }
