@@ -230,10 +230,23 @@ public class MatchManager : MonoBehaviour
 
     private void RunNextCombatAction()
     {
-        List<SkillData> playerUsableSkills = _combatRunner.GetUsableSkills(MatchFighterSide.Player);
-        List<SkillData> opponentUsableSkills = _combatRunner.GetUsableSkills(MatchFighterSide.Opponent);
+        MatchCombatAction selectedAction;
 
-        Debug.Log($"전투 공방 실행 / 상황 {CombatModel.CurrentSituation} / 플레이어 후보 {playerUsableSkills.Count}개 / 상대 후보 {opponentUsableSkills.Count}개");
+        bool actionSelected = _combatRunner.TryCreateNextAction(out selectedAction);
+
+        if (actionSelected == false)
+        {
+            Debug.Log($"전투 행동 선택 실패 / 상황 {CombatModel.CurrentSituation} / 사용 가능한 기술 없음");
+            return;
+        }
+
+        if (selectedAction == null || selectedAction.SelectedSkill == null)
+        {
+            Debug.LogError("전투 행동 선택 결과 없음");
+            return;
+        }
+
+        Debug.Log($"전투 행동 선택 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name}");
     }
 
     private void EndCurrentRound()

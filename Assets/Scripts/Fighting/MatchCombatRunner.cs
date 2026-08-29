@@ -8,6 +8,7 @@ public class MatchCombatRunner
     private readonly MatchFighterModel _opponentFighter;
 
     private readonly MatchUsableSkillFinder _usableSkillFinder;
+    private readonly CombatActionSelector _actionSelector;
 
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
@@ -18,6 +19,7 @@ public class MatchCombatRunner
         _playerFighter = playerFighter;
         _opponentFighter = opponentFighter;
         _usableSkillFinder = usableSkillFinder;
+        _actionSelector = new CombatActionSelector();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -76,6 +78,21 @@ public class MatchCombatRunner
         {
             _opponentFighter.ResetCoolTimes();
         }
+    }
+
+    public bool TryCreateNextAction(out MatchCombatAction selectedAction)
+    {
+        selectedAction = null;
+
+        if (_actionSelector == null)
+        {
+            return false;
+        }
+
+        List<SkillData> playerUsableSkills = GetUsableSkills(MatchFighterSide.Player);
+        List<SkillData> opponentUsableSkills = GetUsableSkills(MatchFighterSide.Opponent);
+
+        return _actionSelector.TrySelectAction(playerUsableSkills, opponentUsableSkills, out selectedAction);
     }
 
     public List<SkillData> GetUsableSkills(MatchFighterSide fighterSide)
