@@ -232,7 +232,7 @@ public class MatchManager : MonoBehaviour
     {
         MatchCombatAction selectedAction;
 
-        bool actionSelected = _combatRunner.TryCreateNextAction(out selectedAction);
+        bool actionSelected = _combatRunner.TryCreateNextAction(CurrentStrategyData, null, out selectedAction);
 
         if (actionSelected == false)
         {

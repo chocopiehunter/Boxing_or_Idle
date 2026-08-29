@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CombatActionSelector
 {
-    public bool TrySelectAction(List<SkillData> playerUsableSkills, List<SkillData> opponentUsableSkills, out MatchCombatAction selectedAction)
+    public bool TrySelectAction(List<SkillData> playerUsableSkills, List<SkillData> opponentUsableSkills, MatchStrategyData playerStrategyData, MatchStrategyData opponentStrategyData, out MatchCombatAction selectedAction)
     {
         selectedAction = null;
 
@@ -15,7 +15,7 @@ public class CombatActionSelector
             return false;
         }
 
-        MatchFighterSide skillUserSide = SelectSkillUserSide(playerCanAct, opponentCanAct);
+        MatchFighterSide skillUserSide = SelectSkillUserSide(playerCanAct, opponentCanAct, playerStrategyData, opponentStrategyData);
         List<SkillData> usableSkills = GetUsableSkills(skillUserSide, playerUsableSkills, opponentUsableSkills);
         SkillData selectedSkill = SelectSkill(usableSkills);
 
@@ -36,13 +36,22 @@ public class CombatActionSelector
         return true;
     }
 
-    private MatchFighterSide SelectSkillUserSide(bool playerCanAct, bool opponentCanAct)
+    private MatchFighterSide SelectSkillUserSide(bool playerCanAct, bool opponentCanAct, MatchStrategyData playerStrategyData, MatchStrategyData opponentStrategyData)
     {
         if (playerCanAct && opponentCanAct)
         {
-            int selectedSideNumber = Random.Range(0, 2);
+            float playerSelectionWeight = GetActionSelectionWeight(playerStrategyData);
+            float opponentSelectionWeight = GetActionSelectionWeight(opponentStrategyData);
+            float totalSelectionWeight = playerSelectionWeight + opponentSelectionWeight;
 
-            if (selectedSideNumber == 0)
+            if (totalSelectionWeight <= 0f)
+            {
+                return MatchFighterSide.None;
+            }
+
+            float selectedWeight = Random.Range(0f, totalSelectionWeight);
+
+            if (selectedWeight < playerSelectionWeight)
             {
                 return MatchFighterSide.Player;
             }
@@ -61,6 +70,21 @@ public class CombatActionSelector
         }
 
         return MatchFighterSide.None;
+    }
+
+    private float GetActionSelectionWeight(MatchStrategyData strategyData)
+    {
+        if (strategyData == null)
+        {
+            return 1f;
+        }
+
+        if (strategyData.ActionSelectionWeight < 0f)
+        {
+            return 0f;
+        }
+
+        return strategyData.ActionSelectionWeight;
     }
 
     private List<SkillData> GetUsableSkills(MatchFighterSide fighterSide, List<SkillData> playerUsableSkills, List<SkillData> opponentUsableSkills)

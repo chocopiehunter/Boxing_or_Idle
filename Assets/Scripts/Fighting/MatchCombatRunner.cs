@@ -80,7 +80,7 @@ public class MatchCombatRunner
         }
     }
 
-    public bool TryCreateNextAction(out MatchCombatAction selectedAction)
+    public bool TryCreateNextAction(MatchStrategyData playerStrategyData, MatchStrategyData opponentStrategyData, out MatchCombatAction selectedAction)
     {
         selectedAction = null;
 
@@ -92,7 +92,7 @@ public class MatchCombatRunner
         List<SkillData> playerUsableSkills = GetUsableSkills(MatchFighterSide.Player);
         List<SkillData> opponentUsableSkills = GetUsableSkills(MatchFighterSide.Opponent);
 
-        return _actionSelector.TrySelectAction(playerUsableSkills, opponentUsableSkills, out selectedAction);
+        return _actionSelector.TrySelectAction(playerUsableSkills, opponentUsableSkills, playerStrategyData, opponentStrategyData, out selectedAction);
     }
 
     public List<SkillData> GetUsableSkills(MatchFighterSide fighterSide)
