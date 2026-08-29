@@ -6,6 +6,8 @@ public class MatchManager : MonoBehaviour
     public static MatchManager Instance { get; private set; }
     private IMatchJudge _matchJudge;
     private MatchCombatRunner _combatRunner;
+    private MatchFighterModel _playerMatchFighter;
+    private MatchFighterModel _opponentMatchFighter;
     private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
@@ -136,11 +138,14 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
-        _combatRunner = new MatchCombatRunner(CombatModel, CurrentRuleData.ActionIntervalSeconds);
+        List<string> opponentSkillIds = GameDataManager.Instance.GetStartingSkillIds(OpponentData);
+        _playerMatchFighter = new MatchFighterModel(MatchFighterSide.Player, PlayerFighter.OwnedSkillIds);
+        _opponentMatchFighter = new MatchFighterModel(MatchFighterSide.Opponent, opponentSkillIds);
+        _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, CurrentRuleData.ActionIntervalSeconds);
 
         _roundRecords.Clear();
 
-        Debug.Log($"기본 경기 전략 적용 : {CurrentStrategyData.Name}");
+        Debug.Log($"경기 선수 기술 구성 완료 / 플레이어 {_playerMatchFighter.OwnedSkillIds.Count}개 / 상대 {_opponentMatchFighter.OwnedSkillIds.Count}개");
         return true;
     }
 
@@ -203,7 +208,7 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        bool actionTimeReached = _combatRunner.UpdateActionTime(passedSeconds);
+        bool actionTimeReached = _combatRunner.UpdateCombatTime(passedSeconds);
 
         if (actionTimeReached == true)
         {
@@ -481,6 +486,9 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = null;
         CombatModel = null;
         _combatRunner = null;
+
+        _playerMatchFighter = null;
+        _opponentMatchFighter = null;
 
         CurrentRound = 0;
         RoundRemainingSeconds = 0f;
