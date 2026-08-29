@@ -1,18 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchCombatRunner
 {
     private readonly MatchCombatModel _combatModel;
     private readonly MatchFighterModel _playerFighter;
     private readonly MatchFighterModel _opponentFighter;
+
+    private readonly MatchUsableSkillFinder _usableSkillFinder;
+
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
 
-    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, float actionIntervalSeconds)
+    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, MatchUsableSkillFinder usableSkillFinder,float actionIntervalSeconds)
     {
         _combatModel = combatModel;
         _playerFighter = playerFighter;
         _opponentFighter = opponentFighter;
+        _usableSkillFinder = usableSkillFinder;
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -71,5 +76,39 @@ public class MatchCombatRunner
         {
             _opponentFighter.ResetCoolTimes();
         }
+    }
+
+    public List<SkillData> GetUsableSkills(MatchFighterSide fighterSide)
+    {
+        List<SkillData> usableSkills = new List<SkillData>();
+
+        if (_usableSkillFinder == null)
+        {
+            return usableSkills;
+        }
+
+        MatchFighterModel fighter = GetFighter(fighterSide);
+
+        if (fighter == null)
+        {
+            return usableSkills;
+        }
+
+        return _usableSkillFinder.GetUsableSkills(fighter, _combatModel);
+    }
+
+    private MatchFighterModel GetFighter(MatchFighterSide fighterSide)
+    {
+        if (fighterSide == MatchFighterSide.Player)
+        {
+            return _playerFighter;
+        }
+
+        if (fighterSide == MatchFighterSide.Opponent)
+        {
+            return _opponentFighter;
+        }
+
+        return null;
     }
 }

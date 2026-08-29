@@ -141,7 +141,9 @@ public class MatchManager : MonoBehaviour
         List<string> opponentSkillIds = GameDataManager.Instance.GetStartingSkillIds(OpponentData);
         _playerMatchFighter = new MatchFighterModel(MatchFighterSide.Player, PlayerFighter.OwnedSkillIds);
         _opponentMatchFighter = new MatchFighterModel(MatchFighterSide.Opponent, opponentSkillIds);
-        _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, CurrentRuleData.ActionIntervalSeconds);
+        MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance);
+
+        _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
 
         _roundRecords.Clear();
 
@@ -228,7 +230,10 @@ public class MatchManager : MonoBehaviour
 
     private void RunNextCombatAction()
     {
-        Debug.Log($"전투 공방 실행 / {CurrentRound}라운드 / 상황 {CombatModel.CurrentSituation}");
+        List<SkillData> playerUsableSkills = _combatRunner.GetUsableSkills(MatchFighterSide.Player);
+        List<SkillData> opponentUsableSkills = _combatRunner.GetUsableSkills(MatchFighterSide.Opponent);
+
+        Debug.Log($"전투 공방 실행 / 상황 {CombatModel.CurrentSituation} / 플레이어 후보 {playerUsableSkills.Count}개 / 상대 후보 {opponentUsableSkills.Count}개");
     }
 
     private void EndCurrentRound()
