@@ -37,7 +37,14 @@ public class StrikeCalculator
 
         bool isSuccess = selectedChance < successChance;
 
-        actionResult = new CombatActionResult(action, isSuccess, successChance);
+        float damage = 0f;
+
+        if (isSuccess)
+        {
+            damage = DamageCalculator.Calculate(skillUser.StandingOffense, target.StandingDefense, action.SelectedSkill.DamageMultiplier);
+        }
+
+        actionResult = new CombatActionResult(action, isSuccess, successChance, damage);
 
         return true;
     }

@@ -286,7 +286,7 @@ public class MatchManager : MonoBehaviour
             resultText = "명중";
         }
 
-        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}%");
+        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1}");
     }
 
     private void EndCurrentRound()
