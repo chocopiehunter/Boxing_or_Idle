@@ -139,8 +139,31 @@ public class MatchManager : MonoBehaviour
         CombatModel = new MatchCombatModel();
 
         List<string> opponentSkillIds = GameDataManager.Instance.GetStartingSkillIds(OpponentData);
-        _playerMatchFighter = new MatchFighterModel(MatchFighterSide.Player, PlayerFighter.OwnedSkillIds);
-        _opponentMatchFighter = new MatchFighterModel(MatchFighterSide.Opponent, opponentSkillIds);
+
+        _playerMatchFighter = new MatchFighterModel(
+            MatchFighterSide.Player,
+            PlayerFighter.Hp,
+            PlayerFighter.Stamina,
+            PlayerFighter.StandingOffense,
+            PlayerFighter.StandingDefense,
+            PlayerFighter.WrestlingOffense,
+            PlayerFighter.WrestlingDefense,
+            PlayerFighter.JiuJitsuOffense,
+            PlayerFighter.JiuJitsuDefense,
+            PlayerFighter.OwnedSkillIds);
+
+        _opponentMatchFighter = new MatchFighterModel(
+            MatchFighterSide.Opponent,
+            OpponentData.Hp,
+            OpponentData.Stamina,
+            OpponentData.StandingOffense,
+            OpponentData.StandingDefense,
+            OpponentData.WrestlingOffense,
+            OpponentData.WrestlingDefense,
+            OpponentData.JiuJitsuOffense,
+            OpponentData.JiuJitsuDefense,
+            opponentSkillIds);
+
         MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance);
 
         _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
