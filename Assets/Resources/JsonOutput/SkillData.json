@@ -8,7 +8,9 @@
     "StaminaCostPerSecond": 0,
     "CoolTime": 0.5,
     "RequiredUnlockIds": "None",
-    "IsBasicSkill": true
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 70,
+    "DamageMultiplier": 0.6
   },
   {
     "Id": "skill_guillotine",
@@ -19,7 +21,9 @@
     "StaminaCostPerSecond": 1,
     "CoolTime": 4,
     "RequiredUnlockIds": "cond_jiujitsu_offense_200",
-    "IsBasicSkill": false
+    "IsBasicSkill": false,
+    "BaseSuccessChance": 25,
+    "DamageMultiplier": 0
   },
   {
     "Id": "skill_elbow",
@@ -30,7 +34,9 @@
     "StaminaCostPerSecond": 0,
     "CoolTime": 2,
     "RequiredUnlockIds": "cond_standing_offense_150",
-    "IsBasicSkill": false
+    "IsBasicSkill": false,
+    "BaseSuccessChance": 55,
+    "DamageMultiplier": 1.4
   },
   {
     "Id": "skill_uppercut",
@@ -41,7 +47,9 @@
     "StaminaCostPerSecond": 0,
     "CoolTime": 3,
     "RequiredUnlockIds": "cond_standing_offense_50",
-    "IsBasicSkill": false
+    "IsBasicSkill": false,
+    "BaseSuccessChance": 50,
+    "DamageMultiplier": 1.3
   },
   {
     "Id": "skill_takedown_judo",
@@ -52,7 +60,9 @@
     "StaminaCostPerSecond": 0,
     "CoolTime": 5,
     "RequiredUnlockIds": "cond_wrestling_offense_200",
-    "IsBasicSkill": false
+    "IsBasicSkill": false,
+    "BaseSuccessChance": 45,
+    "DamageMultiplier": 0
   },
   {
     "Id": "skill_jab",
@@ -63,6 +73,8 @@
     "StaminaCostPerSecond": 0,
     "CoolTime": 0.7,
     "RequiredUnlockIds": "None",
-    "IsBasicSkill": true
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 75,
+    "DamageMultiplier": 0.5
   }
 ]

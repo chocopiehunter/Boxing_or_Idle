@@ -11,6 +11,8 @@ public class SkillData : GameDataBase
     public float StaminaCostPerSecond;
     public float CoolTime;
     public string RequiredUnlockIds;
+    public float BaseSuccessChance;
+    public float DamageMultiplier;
 }
 
 public static class SkillCategoryType
