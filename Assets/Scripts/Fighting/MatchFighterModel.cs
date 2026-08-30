@@ -108,6 +108,36 @@ public class MatchFighterModel
         return _coolTimeModel.TryStartSkillCooldown(skillData);
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (damage <= 0f)
+        {
+            return;
+        }
+
+        CurrentHp = CurrentHp = damage;
+
+        if (CurrentHp < 0f)
+        {
+            CurrentHp = 0f;
+        }
+    }
+
+    public void UseStamina(float staminaCost)
+    {
+        if (staminaCost <= 0f)
+        {
+            return;
+        }
+
+        CurrentStamina = CurrentStamina - staminaCost;
+
+        if (CurrentStamina < 0f)
+        {
+            CurrentStamina = 0f;
+        }
+    }
+
     public void UpdateCooldown(float passedSeconds)
     {
         _coolTimeModel.UpdateCooldown(passedSeconds);
