@@ -269,7 +269,24 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"전투 행동 선택 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name}");
+        CombatActionResult actionResult;
+
+        bool actionRunSuccess = _combatRunner.TryRunAction(selectedAction, out actionResult);
+
+        if (actionRunSuccess == false)
+        {
+            Debug.LogWarning($"전투 행동 실행 실패 / 기술 {selectedAction.SelectedSkill.Name}");
+            return;
+        }
+
+        string resultText = "방어";
+
+        if (actionResult.IsSuccess)
+        {
+            resultText = "명중";
+        }
+
+        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}%");
     }
 
     private void EndCurrentRound()

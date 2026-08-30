@@ -9,6 +9,7 @@ public class MatchCombatRunner
 
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
+    private readonly StrikeCalculator _strikeCalculator;
 
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
@@ -20,6 +21,7 @@ public class MatchCombatRunner
         _opponentFighter = opponentFighter;
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
+        _strikeCalculator = new StrikeCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -93,6 +95,47 @@ public class MatchCombatRunner
         List<SkillData> opponentUsableSkills = GetUsableSkills(MatchFighterSide.Opponent);
 
         return _actionSelector.TrySelectAction(playerUsableSkills, opponentUsableSkills, playerStrategyData, opponentStrategyData, out selectedAction);
+    }
+
+    public bool TryRunAction(MatchCombatAction action, out CombatActionResult actionResult)
+    {
+        actionResult = null;
+
+        if (action == null || action.SelectedSkill == null)
+        {
+            return false;
+        }
+
+        MatchFighterModel skillUser = GetFighter(action.SkillUserSide);
+
+        MatchFighterModel target = GetFighter(action.TargetSide);
+
+        if (skillUser == null || target == null)
+        {
+            return false;
+        }
+
+        if (action.SelectedSkill.Category != SkillCategoryType.Strike)
+        {
+            return false;
+        }
+
+        bool calculateSuccess = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+
+        if (calculateSuccess == false)
+        {
+            return false;
+        }
+
+        bool cooldownStartSuccess = skillUser.TryStartSkillCooldown(action.SelectedSkill);
+
+        if (cooldownStartSuccess == false)
+        {
+            actionResult = null;
+            return false;
+        }
+
+        return true;
     }
 
     public List<SkillData> GetUsableSkills(MatchFighterSide fighterSide)
