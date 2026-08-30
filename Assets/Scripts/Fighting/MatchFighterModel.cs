@@ -115,7 +115,7 @@ public class MatchFighterModel
             return;
         }
 
-        CurrentHp = CurrentHp = damage;
+        CurrentHp = CurrentHp - damage;
 
         if (CurrentHp < 0f)
         {
