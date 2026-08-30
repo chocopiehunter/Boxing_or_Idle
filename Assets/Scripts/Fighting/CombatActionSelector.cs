@@ -17,7 +17,8 @@ public class CombatActionSelector
 
         MatchFighterSide skillUserSide = SelectSkillUserSide(playerCanAct, opponentCanAct, playerStrategyData, opponentStrategyData);
         List<SkillData> usableSkills = GetUsableSkills(skillUserSide, playerUsableSkills, opponentUsableSkills);
-        SkillData selectedSkill = SelectSkill(usableSkills);
+        MatchStrategyData skillSelectionStrategyData = GetStrategyData(skillUserSide, playerStrategyData, opponentStrategyData);
+        SkillData selectedSkill = SelectSkill(usableSkills, skillSelectionStrategyData);
 
         if (selectedSkill == null)
         {
@@ -102,7 +103,22 @@ public class CombatActionSelector
         return null;
     }
 
-    private SkillData SelectSkill(List<SkillData> usableSkills)
+    private MatchStrategyData GetStrategyData(MatchFighterSide fighterSide, MatchStrategyData playerStrategyData, MatchStrategyData opponentStrategyData)
+    {
+        if (fighterSide == MatchFighterSide.Player)
+        {
+            return playerStrategyData;
+        }
+
+        if (fighterSide == MatchFighterSide.Opponent)
+        {
+            return opponentStrategyData;
+        }
+
+        return null;
+    }
+
+    private SkillData SelectSkill(List<SkillData> usableSkills, MatchStrategyData strategyData)
     {
         if (usableSkills == null)
         {
@@ -114,9 +130,87 @@ public class CombatActionSelector
             return null;
         }
 
-        int selectedSkillIndex = Random.Range(0, usableSkills.Count);
+        float totalSelectionWeight = 0f;
 
-        return usableSkills[selectedSkillIndex];
+        for (int index = 0; index < usableSkills.Count; index++)
+        {
+            SkillData skillData = usableSkills[index];
+
+            float selectionWeight = GetSkillSelectionWeight(skillData, strategyData);
+
+            totalSelectionWeight = totalSelectionWeight + selectionWeight;
+        }
+
+        if (totalSelectionWeight <= 0f)
+        {
+            return null;
+        }
+
+        float selectedWeight = Random.Range(0f, totalSelectionWeight);
+
+        float accumulatedWeight = 0f;
+
+        SkillData lastSelectableSkill = null;
+
+        for (int index = 0; index < usableSkills.Count; index++)
+        {
+            SkillData skillData = usableSkills[index];
+
+            float selectionWeight = GetSkillSelectionWeight(skillData, strategyData);
+
+            if (selectionWeight <= 0f)
+            {
+                continue;
+            }
+
+            lastSelectableSkill = skillData;
+
+            accumulatedWeight = accumulatedWeight + selectionWeight;
+
+            if (selectedWeight < accumulatedWeight)
+            {
+                return skillData;
+            }
+        }
+
+        return lastSelectableSkill;
+    }
+
+    private float GetSkillSelectionWeight(SkillData skillData, MatchStrategyData strategyData)
+    {
+        if (skillData == null)
+        {
+            return 0f;
+        }
+
+        float selectionWeight = 1f;
+
+        if (strategyData == null)
+        {
+            return selectionWeight;
+        }
+
+        if (skillData.Category == SkillCategoryType.Strike)
+        {
+            selectionWeight = strategyData.StrikeSelectionWeight;
+        }
+
+        if (skillData.Category == SkillCategoryType.Wrestling)
+        {
+            selectionWeight = strategyData.WrestlingSelectionWeight;
+        }
+
+        if (skillData.Category == SkillCategoryType.JiuJitsu)
+        {
+            selectionWeight = strategyData.JiuJitsuSelectionWeight;
+        }
+
+        if (selectionWeight < 0f)
+        {
+            return 0f;
+        }
+
+        return selectionWeight;
     }
 
     private MatchFighterSide GetTargetSide(MatchFighterSide skillUserSide)

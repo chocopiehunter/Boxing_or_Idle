@@ -12,3 +12,10 @@ public class SkillData : GameDataBase
     public float CoolTime;
     public string RequiredUnlockIds;
 }
+
+public static class SkillCategoryType
+{
+    public const string Strike = "Strike";
+    public const string Wrestling = "Wrestling";
+    public const string JiuJitsu = "JiuJitsu";
+}
