@@ -135,6 +135,13 @@ public class MatchCombatRunner
             return false;
         }
 
+        skillUser.UseStamina(action.SelectedSkill.StaminaCost);
+
+        if (actionResult.IsSuccess)
+        {
+            target.TakeDamage(actionResult.Damage);
+        }
+
         return true;
     }
 

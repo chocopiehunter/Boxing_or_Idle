@@ -9,6 +9,8 @@ public class MatchManager : MonoBehaviour
     private MatchFighterModel _playerMatchFighter;
     private MatchFighterModel _opponentMatchFighter;
     private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
+    private float _playerRoundStartHp;
+    private float _opponentRoundStartHp;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -19,8 +21,30 @@ public class MatchManager : MonoBehaviour
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
-    public float PlayerCurrentHp { get; private set; }
-    public float OpponentCurrentHp { get; private set; }
+    public float PlayerCurrentHp
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0;
+            }
+
+            return _playerMatchFighter.CurrentHp;
+        }
+    }
+    public float OpponentCurrentHp
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0;
+            }
+
+            return _opponentMatchFighter.CurrentHp;
+        }
+    }
 
     public MatchResult LastResult { get; private set; } = MatchResult.None;
     public MatchResultSummary LastResultSummary { get; private set; } // 결과요약
@@ -130,8 +154,6 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        PlayerCurrentHp = PlayerFighter.Hp;
-        OpponentCurrentHp = OpponentData.Hp;
         LastResult = MatchResult.None;
         LastResultSummary = null;
 
@@ -210,11 +232,12 @@ public class MatchManager : MonoBehaviour
     private void StartCurrentRound()
     {
         CombatModel.StartRound();
-
         _combatRunner.Reset();
 
-        RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
+        _playerRoundStartHp = PlayerCurrentHp;
+        _opponentRoundStartHp = OpponentCurrentHp;
 
+        RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
         CurrentState = MatchState.RoundInProgress;
 
         Debug.Log($"{CurrentRound}라운드 시작 / 남은 시간 {RoundRemainingSeconds}초");
@@ -286,7 +309,7 @@ public class MatchManager : MonoBehaviour
             resultText = "명중";
         }
 
-        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1}");
+        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
     }
 
     private void EndCurrentRound()
@@ -319,13 +342,15 @@ public class MatchManager : MonoBehaviour
 
     private bool TryResolveCurrentRound()
     {
-        float playerRemainingHp = HpCalculator.CalculateRemainingHp(PlayerCurrentHp, PlayerFighter.StandingDefense, OpponentData.StandingOffense);
-        float opponentRemainingHp = HpCalculator.CalculateRemainingHp(OpponentCurrentHp, OpponentData.StandingDefense, PlayerFighter.StandingOffense);
-        float playerLostRate = HpCalculator.CalculateLostHpRate(PlayerCurrentHp, playerRemainingHp);
-        float opponentLostRate = HpCalculator.CalculateLostHpRate(OpponentCurrentHp, opponentRemainingHp);
+        if (_playerMatchFighter == null || _opponentMatchFighter == null)
+        {
+            StopMatchByError("경기 선수 런타임 모델 없음");
+            return false;
+        }
 
-        PlayerCurrentHp = playerRemainingHp;
-        OpponentCurrentHp = opponentRemainingHp;
+        float playerLostRate = HpCalculator.CalculateLostHpRate(_playerMatchFighter.MaxHp, _playerRoundStartHp, PlayerCurrentHp);
+        float opponentLostRate = HpCalculator.CalculateLostHpRate(_opponentMatchFighter.MaxHp, _opponentRoundStartHp, OpponentCurrentHp);
+
         MatchRoundRecord roundRecord = new MatchRoundRecord(CurrentRound);
         roundRecord.SetHpLostRates(playerLostRate, opponentLostRate);
         _roundRecords.Add(roundRecord);
@@ -552,8 +577,8 @@ public class MatchManager : MonoBehaviour
         RoundRemainingSeconds = 0f;
         RoundBreakRemainingSeconds = 0f;
 
-        PlayerCurrentHp = 0f;
-        OpponentCurrentHp = 0f;
+        _playerRoundStartHp = 0f;
+        _opponentRoundStartHp = 0f;
         LastResult = MatchResult.None;
         _roundRecords.Clear();
 
