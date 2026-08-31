@@ -26,7 +26,7 @@ public class StrikeCalculator
             return false;
         }
 
-        if (action.SelectedSkill.Category != SkillCategoryType.Strike)
+        if (action.SelectedSkill.ActionType != SkillActionType.Strike)
         {
             return false;
         }
