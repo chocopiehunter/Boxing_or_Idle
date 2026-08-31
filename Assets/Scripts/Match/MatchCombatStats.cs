@@ -3,29 +3,29 @@ using UnityEngine;
 [System.Serializable]
 public class MatchCombatStats
 {
-    public int SignificantStrikesLanded { get; private set; }
-    public int TotalStrikesLanded { get; private set; }
+    public int SignificantStrikesSucceeded { get; private set; }
+    public int TotalStrikesSucceeded { get; private set; }
     public int TotalStrikesAttempted { get; private set; }
-    public int TakedownsLanded { get; private set; }
+    public int TakedownsSucceeded { get; private set; }
     public int TakedownsAttempted { get; private set; }
     public float ControlSeconds { get; private set; }
     public int Knockdowns { get; private set; }
     public int SubmissionAttempts { get; private set; }
 
-    public void RecordStrike(bool isLanded, bool isSignificantStrike)
+    public void RecordStrike(bool isSucceeded, bool isSignificantStrike)
     {
         TotalStrikesAttempted = TotalStrikesAttempted + 1;
 
-        if (isLanded == false)
+        if (isSucceeded == false)
         {
             return;
         }
 
-        TotalStrikesLanded = TotalStrikesLanded + 1;
+        TotalStrikesSucceeded = TotalStrikesSucceeded + 1;
 
         if (isSignificantStrike)
         {
-            SignificantStrikesLanded = SignificantStrikesLanded + 1;
+            SignificantStrikesSucceeded = SignificantStrikesSucceeded + 1;
         }
     }
 
@@ -38,15 +38,15 @@ public class MatchCombatStats
             return;
         }
 
-        TakedownsLanded = TakedownsLanded + 1;
+        TakedownsSucceeded = TakedownsSucceeded + 1;
     }
 
-    public void SetStats(int significantStrikesLanded, int totalStrikesLanded, int totalStrikesAttempted, int takedownsLanded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
+    public void SetStats(int significantStrikesSucceeded, int totalStrikesSucceeded, int totalStrikesAttempted, int takedownsSucceeded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
     {
-        SignificantStrikesLanded = significantStrikesLanded;
-        TotalStrikesLanded = totalStrikesLanded;
+        SignificantStrikesSucceeded = significantStrikesSucceeded;
+        TotalStrikesSucceeded = totalStrikesSucceeded;
         TotalStrikesAttempted = totalStrikesAttempted;
-        TakedownsLanded = takedownsLanded;
+        TakedownsSucceeded = takedownsSucceeded;
         TakedownsAttempted = takedownsAttempted;
         ControlSeconds = controlSeconds;
         Knockdowns = knockdowns;

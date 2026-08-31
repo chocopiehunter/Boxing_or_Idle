@@ -248,8 +248,8 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        _playerRoundStartSignificantStrikes = playerCombatStats.SignificantStrikesLanded;
-        _opponentRoundStartSignificantStrikes = opponentCombatStats.SignificantStrikesLanded;
+        _playerRoundStartSignificantStrikes = playerCombatStats.SignificantStrikesSucceeded;
+        _opponentRoundStartSignificantStrikes = opponentCombatStats.SignificantStrikesSucceeded;
 
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
         CurrentState = MatchState.RoundInProgress;
@@ -489,8 +489,8 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
-        int playerRoundSignificantStrikes = playerCombatStats.SignificantStrikesLanded - _playerRoundStartSignificantStrikes;
-        int opponentRoundSignificantStrikes = opponentCombatStats.SignificantStrikesLanded - _opponentRoundStartSignificantStrikes;
+        int playerRoundSignificantStrikes = playerCombatStats.SignificantStrikesSucceeded - _playerRoundStartSignificantStrikes;
+        int opponentRoundSignificantStrikes = opponentCombatStats.SignificantStrikesSucceeded - _opponentRoundStartSignificantStrikes;
 
         float playerLostRate = HpCalculator.CalculateLostHpRate(_playerMatchFighter.MaxHp, _playerRoundStartHp, PlayerCurrentHp);
         float opponentLostRate = HpCalculator.CalculateLostHpRate(_opponentMatchFighter.MaxHp, _opponentRoundStartHp, OpponentCurrentHp);

@@ -34,8 +34,8 @@ public class MatchResultUI : UIBase
         Text_PlayerName.text = resultSummary.PlayerName;
         Text_OpponentName.text = resultSummary.OpponentName;
 
-        Text_PlayerSignificantStrikes.text = resultSummary.PlayerStats.SignificantStrikesLanded.ToString();
-        Text_OpponentSignificantStrikes.text = resultSummary.OpponentStats.SignificantStrikesLanded.ToString();
+        Text_PlayerSignificantStrikes.text = resultSummary.PlayerStats.SignificantStrikesSucceeded.ToString();
+        Text_OpponentSignificantStrikes.text = resultSummary.OpponentStats.SignificantStrikesSucceeded.ToString();
 
         Text_PlayerControlTime.text = FormatTime(resultSummary.PlayerStats.ControlSeconds);
         Text_OpponentControlTime.text = FormatTime(resultSummary.OpponentStats.ControlSeconds);
