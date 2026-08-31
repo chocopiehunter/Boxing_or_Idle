@@ -127,14 +127,33 @@ public class MatchCombatRunner
             return false;
         }
 
-        if (action.SelectedSkill.ActionType != SkillActionType.Strike)
+        bool actionPrepared = false;
+
+        if (action.SelectedSkill.ActionType == SkillActionType.Strike)
         {
-            return false;
+            actionPrepared = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
         }
 
-        bool calculateSuccess = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Standing)
+            {
+                return false;
+            }
 
-        if (calculateSuccess == false)
+            bool situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.TakedownAttempt, action.SkillUserSide);
+
+            if (situationChanged == false)
+            {
+                return false;
+            }
+
+            actionResult = new CombatActionResult(action, CombatActionResultType.TakedownStarted, true, 0f, 0f);
+
+            actionPrepared = true;
+        }
+
+        if (actionPrepared == false)
         {
             return false;
         }
@@ -149,12 +168,15 @@ public class MatchCombatRunner
 
         skillUser.UseStamina(action.SelectedSkill.StaminaCost);
 
-        if (actionResult.IsSuccess)
+        if (action.SelectedSkill.ActionType == SkillActionType.Strike)
         {
-            target.TakeDamage(actionResult.Damage);
-        }
+            if (actionResult.IsSuccess)
+            {
+                target.TakeDamage(actionResult.Damage);
+            }
 
-        skillUserStats.RecordStrike(actionResult.IsSuccess, true);
+            skillUserStats.RecordStrike(actionResult.IsSuccess, true);
+        }
 
         return true;
     }

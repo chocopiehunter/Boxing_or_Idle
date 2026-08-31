@@ -321,12 +321,7 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        string resultText = "방어";
-
-        if (actionResult.IsSuccess)
-        {
-            resultText = "명중";
-        }
+        string resultText = GetCombatActionResultText(actionResult.ResultType);
 
         Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
 
@@ -335,6 +330,56 @@ public class MatchManager : MonoBehaviour
         {
             return;
         }
+    }
+
+    private string GetCombatActionResultText(CombatActionResultType resultType)
+    {
+        if (resultType == CombatActionResultType.StrikeHit)
+        {
+            return "명중";
+        }
+
+        if (resultType == CombatActionResultType.StrikeMissed)
+        {
+            return "적중 실패";
+        }
+
+        if (resultType == CombatActionResultType.TakedownStarted)
+        {
+            return "태클 시도";
+        }
+
+        if (resultType == CombatActionResultType.TakedownSucceeded)
+        {
+            return "테이크다운 성공";
+        }
+
+        if (resultType == CombatActionResultType.TakedownDefended)
+        {
+            return "테이크다운 방어";
+        }
+
+        if (resultType == CombatActionResultType.TakedownToClinch)
+        {
+            return "태클 공방에서 클린치 전환";
+        }
+
+        if (resultType == CombatActionResultType.ClinchStarted)
+        {
+            return "클린치 시작";
+        }
+
+        if (resultType == CombatActionResultType.ClinchReversed)
+        {
+            return "클린치 주도권 역전";
+        }
+
+        if (resultType == CombatActionResultType.ClinchEscaped)
+        {
+            return "클린치 이탈";
+        }
+
+        return "결과 없음";
     }
 
     private bool TryCompleteMatchByKO()

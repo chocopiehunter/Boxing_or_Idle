@@ -48,6 +48,14 @@
     "UserRole": "Top"
   },
   {
+    "Id": "use_takedown_basic_01",
+    "SkillId": "skill_takedown_basic",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
     "Id": "use_takedown_judo_01",
     "SkillId": "skill_takedown_judo",
     "MatchSituation": "Wrestling",
