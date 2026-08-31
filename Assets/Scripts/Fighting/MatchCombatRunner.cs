@@ -17,7 +17,7 @@ public class MatchCombatRunner
     private readonly TakedownCalculator _takedownCalculator;
     private readonly GroundStrikeCalculator _groundStrikeCalculator;
     private readonly ClinchCalculator _clinchCalculator;
-
+    private readonly ClinchEscapeCalculator _clinchEscapeCalculator;
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
     private MatchCombatAction _takedownActionInProgress;
@@ -35,6 +35,7 @@ public class MatchCombatRunner
         _takedownCalculator = new TakedownCalculator();
         _groundStrikeCalculator = new GroundStrikeCalculator();
         _clinchCalculator = new ClinchCalculator();
+        _clinchEscapeCalculator = new ClinchEscapeCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -164,6 +165,31 @@ public class MatchCombatRunner
             actionPrepared = _clinchCalculator.TryCalculate(action, skillUser, target, out actionResult);
         }
 
+        if (action.SelectedSkill.ActionType == SkillActionType.Escape)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Wrestling)
+            {
+                return false;
+            }
+
+            if (_combatModel.CurrentWrestlingSituation != WrestlingSituation.Clinch)
+            {
+                return false;
+            }
+
+            if (_combatModel.Defender != action.SkillUserSide)
+            {
+                return false;
+            }
+
+            if (_combatModel.Attacker != action.TargetSide)
+            {
+                return false;
+            }
+
+            actionPrepared = _clinchEscapeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        }
+
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
         {
             if (_combatModel.CurrentSituation != MatchSituation.Standing)
@@ -220,6 +246,14 @@ public class MatchCombatRunner
                 actionResult = null;
 
                 return false;
+            }
+        }
+
+        if (action.SelectedSkill.ActionType == SkillActionType.Escape)
+        {
+            if (actionResult.ResultType == CombatActionResultType.ClinchEscaped)
+            {
+                _combatModel.ChangeToStanding();
             }
         }
 

@@ -406,6 +406,11 @@ public class MatchManager : MonoBehaviour
             return "클린치 이탈";
         }
 
+        if (resultType == CombatActionResultType.ClinchEscapeFailed)
+        {
+            return "클린치 탈출 실패";
+        }
+
         return "결과 없음";
     }
 
