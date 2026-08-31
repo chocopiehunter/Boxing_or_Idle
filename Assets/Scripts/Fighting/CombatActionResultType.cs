@@ -14,5 +14,6 @@ public enum CombatActionResultType
 
     ClinchStarted,
     ClinchReversed,
-    ClinchEscaped
+    ClinchEscaped,
+    ClinchEscapeFailed
 }
