@@ -11,6 +11,8 @@ public class MatchManager : MonoBehaviour
     private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
     private float _playerRoundStartHp;
     private float _opponentRoundStartHp;
+    private int _playerRoundStartSignificantStrikes;
+    private int _opponentRoundStartSignificantStrikes;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -237,6 +239,18 @@ public class MatchManager : MonoBehaviour
         _playerRoundStartHp = PlayerCurrentHp;
         _opponentRoundStartHp = OpponentCurrentHp;
 
+        MatchCombatStats playerCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Player);
+        MatchCombatStats opponentCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Opponent);
+
+        if (playerCombatStats == null || opponentCombatStats == null)
+        {
+            StopMatchByError("라운드 시작 실패. 경기 통계 없음");
+            return;
+        }
+
+        _playerRoundStartSignificantStrikes = playerCombatStats.SignificantStrikesLanded;
+        _opponentRoundStartSignificantStrikes = opponentCombatStats.SignificantStrikesLanded;
+
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
         CurrentState = MatchState.RoundInProgress;
 
@@ -389,14 +403,27 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
+        MatchCombatStats playerCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Player);
+        MatchCombatStats opponentCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Opponent);
+
+        if (playerCombatStats == null || opponentCombatStats == null)
+        {
+            StopMatchByError("라운드 기록 실패. 경기 통계 없음");
+            return false;
+        }
+
+        int playerRoundSignificantStrikes = playerCombatStats.SignificantStrikesLanded - _playerRoundStartSignificantStrikes;
+        int opponentRoundSignificantStrikes = opponentCombatStats.SignificantStrikesLanded - _opponentRoundStartSignificantStrikes;
+
         float playerLostRate = HpCalculator.CalculateLostHpRate(_playerMatchFighter.MaxHp, _playerRoundStartHp, PlayerCurrentHp);
         float opponentLostRate = HpCalculator.CalculateLostHpRate(_opponentMatchFighter.MaxHp, _opponentRoundStartHp, OpponentCurrentHp);
 
         MatchRoundRecord roundRecord = new MatchRoundRecord(CurrentRound);
         roundRecord.SetHpLostRates(playerLostRate, opponentLostRate);
+        roundRecord.SetSignificantStrikes(playerRoundSignificantStrikes, opponentRoundSignificantStrikes);
         _roundRecords.Add(roundRecord);
 
-        Debug.Log($"{CurrentRound}라운드 {PlayerFighter.Name} {PlayerCurrentHp}/{PlayerFighter.Hp} (체력 {playerLostRate}잃음 vs {OpponentData.Name} {OpponentCurrentHp}/{OpponentData.Hp} (체력 {opponentLostRate}잃음)");
+        Debug.Log($"{CurrentRound}라운드 종료 / {PlayerFighter.Name} HP {PlayerCurrentHp:F1}, 유효타 {playerRoundSignificantStrikes} / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}");
 
         bool matchCompleted = TryCompleteMatchByKO();
         if (matchCompleted)
@@ -612,6 +639,8 @@ public class MatchManager : MonoBehaviour
 
         _playerRoundStartHp = 0f;
         _opponentRoundStartHp = 0f;
+        _playerRoundStartSignificantStrikes = 0;
+        _opponentRoundStartSignificantStrikes = 0;
         LastResult = MatchResult.None;
         _roundRecords.Clear();
 
