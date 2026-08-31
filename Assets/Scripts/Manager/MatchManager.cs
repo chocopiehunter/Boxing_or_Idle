@@ -263,6 +263,11 @@ public class MatchManager : MonoBehaviour
             RunNextCombatAction();
         }
 
+        if (CurrentState != MatchState.RoundInProgress)
+        {
+            return;
+        }
+
         RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
 
         if (RoundRemainingSeconds > 0f)
@@ -310,6 +315,42 @@ public class MatchManager : MonoBehaviour
         }
 
         Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
+
+        bool matchCompleted = TryCompleteMatchByKO();
+        if (matchCompleted)
+        {
+            return;
+        }
+    }
+
+    private bool TryCompleteMatchByKO()
+    {
+        bool playerKO = PlayerCurrentHp <= 0f;
+        bool opponentKO = OpponentCurrentHp <= 0f;
+
+        if (playerKO == false && opponentKO == false)
+        {
+            return false;
+        }
+
+        if (playerKO && opponentKO)
+        {
+            CompleteMatch(MatchResult.Draw, MatchFinishType.Draw);
+            Debug.Log("동시 KO 경기종료 무승부");
+            return true;
+        }
+
+        if (playerKO)
+        {
+            CompleteMatch(MatchResult.Lose, MatchFinishType.KO);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
+            return true;
+        }
+
+        CompleteMatch(MatchResult.Win, MatchFinishType.KO);
+
+        Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
+        return true;
     }
 
     private void EndCurrentRound()
@@ -356,25 +397,10 @@ public class MatchManager : MonoBehaviour
         _roundRecords.Add(roundRecord);
 
         Debug.Log($"{CurrentRound}라운드 {PlayerFighter.Name} {PlayerCurrentHp}/{PlayerFighter.Hp} (체력 {playerLostRate}잃음 vs {OpponentData.Name} {OpponentCurrentHp}/{OpponentData.Hp} (체력 {opponentLostRate}잃음)");
-        
-        if (PlayerCurrentHp <= 0f && OpponentCurrentHp <= 0f)
-        {
-            CompleteMatch(MatchResult.Draw, MatchFinishType.Draw);
-            Debug.Log("동시 KO. 경기 종료 무승부");
-            return true;
-        }
 
-        if (PlayerCurrentHp <= 0f)
+        bool matchCompleted = TryCompleteMatchByKO();
+        if (matchCompleted)
         {
-            CompleteMatch(MatchResult.Lose, MatchFinishType.KO);
-            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
-            return true;
-        }
-
-        if (OpponentCurrentHp <= 0f)
-        {
-            CompleteMatch(MatchResult.Win, MatchFinishType.KO);
-            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
             return true;
         }
 
