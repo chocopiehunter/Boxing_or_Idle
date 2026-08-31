@@ -110,5 +110,19 @@
     "IsBasicSkill": true,
     "BaseSuccessChance": 60,
     "DamageMultiplier": 0
+  },
+  {
+    "Id": "skill_clinch_escape",
+    "Name": "클린치 탈출",
+    "Description": "상대의 클린치 컨트롤에서 빠져나와 스탠딩 상황으로 돌아간다",
+    "Category": "Wrestling",
+    "ActionType": "Escape",
+    "StaminaCost": 3,
+    "StaminaCostPerSecond": 1,
+    "CoolTime": 2,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 50,
+    "DamageMultiplier": 0
   }
 ]

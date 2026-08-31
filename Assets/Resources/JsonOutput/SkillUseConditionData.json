@@ -134,5 +134,13 @@
     "WrestlingSituation": "None",
     "GroundPosition": "None",
     "UserRole": "Any"
+  },
+  {
+    "Id": "use_clinch_escape_01",
+    "SkillId": "skill_clinch_escape",
+    "MatchSituation": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Defender"
   }
 ]
