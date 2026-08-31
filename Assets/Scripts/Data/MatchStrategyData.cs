@@ -7,4 +7,8 @@ public class MatchStrategyData : GameDataBase
     public string Description;
     public bool IsDefault;
     public int SortOrder;
+    public float ActionSelectionWeight;
+    public float StrikeSelectionWeight;
+    public float WrestlingSelectionWeight;
+    public float JiuJitsuSelectionWeight;
 }

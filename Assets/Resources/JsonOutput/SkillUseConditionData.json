@@ -48,6 +48,14 @@
     "UserRole": "Top"
   },
   {
+    "Id": "use_takedown_basic_01",
+    "SkillId": "skill_takedown_basic",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
     "Id": "use_takedown_judo_01",
     "SkillId": "skill_takedown_judo",
     "MatchSituation": "Wrestling",
@@ -106,6 +114,30 @@
   {
     "Id": "use_uppercut_03",
     "SkillId": "skill_uppercut",
+    "MatchSituation": "Wrestling",
+    "WrestlingSituation": "Clinch",
+    "GroundPosition": "None",
+    "UserRole": "Defender"
+  },
+  {
+    "Id": "use_jab_01",
+    "SkillId": "skill_jab",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_clinch_entry_01",
+    "SkillId": "skill_clinch_entry",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_clinch_escape_01",
+    "SkillId": "skill_clinch_escape",
     "MatchSituation": "Wrestling",
     "WrestlingSituation": "Clinch",
     "GroundPosition": "None",

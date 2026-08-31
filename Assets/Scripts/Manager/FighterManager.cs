@@ -101,12 +101,14 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        FighterModel fighter = new FighterModel(data, policyData.Id);
+        List<string> startingSkillIds = GameDataManager.Instance.GetStartingSkillIds(data);
+
+        FighterModel fighter = new FighterModel(data, policyData.Id, startingSkillIds);
         PlayerFighters.Add(fighter);
 
         SpawnPlayerFighter(fighter);
 
-        Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련 정책: {fighter.CurrentTrainingPolicyId}");
+        Debug.Log($"시작 선수 생성 {fighter.Name}, 훈련 정책: {fighter.CurrentTrainingPolicyId}, 보유 기술: {fighter.OwnedSkillIds.Count}개");
     }
 
     public void ClearRoster()

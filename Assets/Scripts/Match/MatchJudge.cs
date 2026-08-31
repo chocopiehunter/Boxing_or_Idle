@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class MatchJudge : IMatchJudge
 {
+    private const float DamageScoreMultiplier = 100f;
+    private const float SignificantStrikeScore = 1f;
+    private const float TakedownScore = 1f;
+
     public MatchResult JudgeRound(MatchRoundRecord roundRecord)
     {
         if (roundRecord == null)
@@ -11,12 +15,28 @@ public class MatchJudge : IMatchJudge
             return MatchResult.None;
         }
 
-        if (Mathf.Approximately(roundRecord.PlayerHpLostRate, roundRecord.OpponentHpLostRate) == true)
+        float playerDamageScore = roundRecord.OpponentHpLostRate * DamageScoreMultiplier;
+
+        float opponentDamageScore = roundRecord.PlayerHpLostRate * DamageScoreMultiplier;
+
+        float playerSignificantStrikeScore = roundRecord.PlayerSignificantStrikesSucceeded * SignificantStrikeScore;
+
+        float opponentSignificantStrikeScore = roundRecord.OpponentSignificantStrikesSucceeded * SignificantStrikeScore;
+
+        float playerTakedownScore = roundRecord.PlayerTakedownsSucceeded * TakedownScore;
+
+        float opponentTakedownScore = roundRecord.OpponentTakedownsSucceeded * TakedownScore;
+
+        float playerRoundScore = playerDamageScore + playerSignificantStrikeScore + playerTakedownScore;
+
+        float opponentRoundScore = opponentDamageScore + opponentSignificantStrikeScore + opponentTakedownScore;
+
+        if (Mathf.Approximately(playerRoundScore, opponentRoundScore))
         {
             return MatchResult.Draw;
         }
 
-        if (roundRecord.PlayerHpLostRate < roundRecord.OpponentHpLostRate)
+        if (playerRoundScore > opponentRoundScore)
         {
             return MatchResult.Win;
         }

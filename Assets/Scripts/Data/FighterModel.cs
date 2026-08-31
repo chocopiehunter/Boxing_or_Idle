@@ -28,8 +28,17 @@ public class FighterModel
     public bool IsAttractionChanged { get; set; }
 
     private Dictionary<string, float> _trainingProgressById;
+    private List<string> _ownedSkillIds;
 
-    public FighterModel(FighterData data, string defaultTrainingPolicyId)
+    public IReadOnlyList<string> OwnedSkillIds
+    {
+        get
+        {
+            return _ownedSkillIds;
+        }
+    }
+
+    public FighterModel(FighterData data, string defaultTrainingPolicyId, List<string> startingSkillIds)
     {
         DataId = data.Id;
         Name = data.Name;
@@ -65,6 +74,48 @@ public class FighterModel
         ActivityState = FighterActivityState.Idle;
         ActiveSpot = null;
         IsAttractionChanged = true;
+
+        _ownedSkillIds = new List<string>();
+
+        if(startingSkillIds != null)
+        {
+            for (int index = 0; index < startingSkillIds.Count; index++)
+            {
+                TryLearnSkill(startingSkillIds[index]);
+            }
+        }
+    }
+
+    public bool HasSkill(string skillId)
+    {
+        if (string.IsNullOrEmpty(skillId))
+        {
+            return false;
+        }
+
+        return _ownedSkillIds.Contains(skillId);
+    }
+
+    public bool TryLearnSkill(string skillId)
+    {
+        if (string.IsNullOrEmpty(skillId))
+        {
+            return false;
+        }
+
+        if (skillId == "None")
+        {
+            return false;
+        }
+
+        if (HasSkill(skillId))
+        {
+            return false;
+        }
+
+        _ownedSkillIds.Add(skillId);
+
+        return true;
     }
 
     public float GetTrainingProgress(string trainingId)

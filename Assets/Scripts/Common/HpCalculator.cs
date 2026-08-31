@@ -38,4 +38,22 @@ public static class HpCalculator
 
         return lostHp / maxHp;
     }
+
+    public static float CalculateLostHpRate(float maxHp, float roundStartHp, float remainingHp)
+    {
+        if (maxHp <= 0f)
+        {
+            Debug.LogError("최대 체력이 0 이하");
+            return 1f;
+        }
+
+        float lostHp = roundStartHp - remainingHp;
+
+        if (lostHp < 0f)
+        {
+            lostHp = 0f;
+        }
+
+        return lostHp / maxHp;
+    }
 }

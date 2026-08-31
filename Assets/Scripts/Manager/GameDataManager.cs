@@ -264,6 +264,71 @@ public class GameDataManager : MonoBehaviour
         return SkillDataList.TryGetValue(id, out var item) ? item : null;
     }
 
+    public List<string> GetStartingSkillIds(FighterData fighterData)
+    {
+        List<string> skillIds = new List<string>();
+
+        if (fighterData == null)
+        {
+            return skillIds;
+        }
+
+        if (SkillDataList == null)
+        {
+            return skillIds;
+        }
+
+        foreach (KeyValuePair<string, SkillData> pair in SkillDataList)
+        {
+            SkillData skillData = pair.Value;
+
+            if (skillData == null)
+            {
+                continue;
+            }
+
+            if (skillData.IsBasicSkill == false)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(skillData.Id))
+            {
+                continue;
+            }
+
+            if (skillIds.Contains(skillData.Id))
+            {
+                continue;
+            }
+
+            skillIds.Add(skillData.Id);
+        }
+
+        List<string> startingSkillIds = fighterData.GetStartingSkillIdList();
+
+        for (int index = 0;  index < startingSkillIds.Count; index++)
+        {
+            string skillId = startingSkillIds[index];
+            SkillData skillData = GetSkillData(skillId);
+
+            if (skillData == null)
+            {
+                Debug.LogError($"선수 시작 기술 데이터 없음. FighterId={fighterData.Id}, SkillId={skillId}");
+                continue;
+            }
+
+            if (skillIds.Contains(skillId))
+            {
+                continue;
+            }
+
+            skillIds.Add(skillId);
+        }
+
+        return skillIds;
+    }
+
     public SkillUseConditionData GetSkillUseConditionData(string id)
     {
         if (SkillUseConditionDataList == null || string.IsNullOrEmpty(id)) return null;
