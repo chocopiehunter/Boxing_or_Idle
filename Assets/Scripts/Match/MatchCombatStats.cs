@@ -12,6 +12,23 @@ public class MatchCombatStats
     public int Knockdowns { get; private set; }
     public int SubmissionAttempts { get; private set; }
 
+    public void RecordStrike(bool isLanded, bool isSignificantStrike)
+    {
+        TotalStrikesAttempted = TotalStrikesAttempted + 1;
+
+        if (isLanded == false)
+        {
+            return;
+        }
+
+        TotalStrikesLanded = TotalStrikesLanded + 1;
+
+        if (isSignificantStrike)
+        {
+            SignificantStrikesLanded = SignificantStrikesLanded + 1;
+        }
+    }
+
     public void SetStats(int significantStrikesLanded, int totalStrikesLanded, int totalStrikesAttempted, int takedownsLanded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
     {
         SignificantStrikesLanded = significantStrikesLanded;

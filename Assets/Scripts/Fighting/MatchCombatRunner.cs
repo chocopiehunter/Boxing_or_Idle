@@ -7,6 +7,9 @@ public class MatchCombatRunner
     private readonly MatchFighterModel _playerFighter;
     private readonly MatchFighterModel _opponentFighter;
 
+    private readonly MatchCombatStats _playerCombatStats;
+    private readonly MatchCombatStats _opponentCombatStats;
+
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
     private readonly StrikeCalculator _strikeCalculator;
@@ -19,6 +22,8 @@ public class MatchCombatRunner
         _combatModel = combatModel;
         _playerFighter = playerFighter;
         _opponentFighter = opponentFighter;
+        _playerCombatStats = new MatchCombatStats();
+        _opponentCombatStats = new MatchCombatStats();
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
@@ -115,6 +120,13 @@ public class MatchCombatRunner
             return false;
         }
 
+        MatchCombatStats skillUserStats = GetCombatStats(action.SkillUserSide);
+
+        if (skillUserStats == null)
+        {
+            return false;
+        }
+
         if (action.SelectedSkill.Category != SkillCategoryType.Strike)
         {
             return false;
@@ -142,7 +154,24 @@ public class MatchCombatRunner
             target.TakeDamage(actionResult.Damage);
         }
 
+        skillUserStats.RecordStrike(actionResult.IsSuccess, true);
+
         return true;
+    }
+
+    public MatchCombatStats GetCombatStats(MatchFighterSide fighterSide)
+    {
+        if (fighterSide == MatchFighterSide.Player)
+        {
+            return _playerCombatStats;
+        }
+
+        if (fighterSide == MatchFighterSide.Opponent)
+        {
+            return _opponentCombatStats;
+        }
+
+        return null;
     }
 
     public List<SkillData> GetUsableSkills(MatchFighterSide fighterSide)

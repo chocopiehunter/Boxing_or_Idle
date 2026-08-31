@@ -543,6 +543,13 @@ public class MatchManager : MonoBehaviour
         MatchResultSummary resultSummary = new MatchResultSummary(PlayerFighter.Name, OpponentData.Name);
         resultSummary.SetMatchResult(result, finishType, CurrentRound, passedRoundSeconds);
 
+        if (_combatRunner != null)
+        {
+            MatchCombatStats playerCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Player);
+            MatchCombatStats opponentCombatStats = _combatRunner.GetCombatStats(MatchFighterSide.Opponent);
+            resultSummary.SetCombatStats(playerCombatStats, opponentCombatStats);
+        }
+
         LastResultSummary = resultSummary;
 
         return true;
