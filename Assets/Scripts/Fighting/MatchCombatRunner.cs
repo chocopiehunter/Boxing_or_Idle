@@ -14,6 +14,7 @@ public class MatchCombatRunner
     private readonly CombatActionSelector _actionSelector;
     private readonly StrikeCalculator _strikeCalculator;
     private readonly TakedownCalculator _takedownCalculator;
+    private readonly GroundStrikeCalculator _groundStrikeCalculator;
 
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
@@ -30,6 +31,7 @@ public class MatchCombatRunner
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
         _takedownCalculator = new TakedownCalculator();
+        _groundStrikeCalculator = new GroundStrikeCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -139,6 +141,16 @@ public class MatchCombatRunner
             actionPrepared = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
         }
 
+        if (action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Ground)
+            {
+                return false;
+            }
+
+            actionPrepared = _groundStrikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        }
+
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
         {
             if (_combatModel.CurrentSituation != MatchSituation.Standing)
@@ -165,6 +177,7 @@ public class MatchCombatRunner
         }
 
         skillUser.UseStamina(action.SelectedSkill.StaminaCost);
+
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
         {
             bool situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.TakedownAttempt, action.SkillUserSide);
@@ -178,7 +191,7 @@ public class MatchCombatRunner
             _takedownActionInProgress = action;
         }
 
-        if (action.SelectedSkill.ActionType == SkillActionType.Strike)
+        if (action.SelectedSkill.ActionType == SkillActionType.Strike || action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
         {
             if (actionResult.IsSuccess)
             {
