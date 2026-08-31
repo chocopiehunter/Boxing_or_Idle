@@ -70,6 +70,20 @@
     "DamageMultiplier": 0
   },
   {
+    "Id": "skill_takedown_basic",
+    "Name": "기본 태클",
+    "Description": "상대의 하체를 공략하여 그라운드로 끌고가는 기본적인 테이크다운이다.",
+    "Category": "Wrestling",
+    "ActionType": "Takedown",
+    "StaminaCost": 6,
+    "StaminaCostPerSecond": 2,
+    "CoolTime": 5,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 55,
+    "DamageMultiplier": 0
+  },
+  {
     "Id": "skill_jab",
     "Name": "잽",
     "Description": "간결하고 빠른 잽",
@@ -82,5 +96,19 @@
     "IsBasicSkill": true,
     "BaseSuccessChance": 75,
     "DamageMultiplier": 0.5
+  },
+  {
+    "Id": "skill_clinch_entry",
+    "Name": "클린치 시도",
+    "Description": "상대와 거리를 좁혀 케이지 또는 근거리 클린치 공방으로 진입한다",
+    "Category": "Wrestling",
+    "ActionType": "ClinchEntry",
+    "StaminaCost": 3,
+    "StaminaCostPerSecond": 1,
+    "CoolTime": 3,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 60,
+    "DamageMultiplier": 0
   }
 ]
