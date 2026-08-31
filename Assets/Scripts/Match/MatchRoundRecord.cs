@@ -5,8 +5,12 @@ public class MatchRoundRecord
     public int RoundNumber { get; private set; }
     public float PlayerHpLostRate { get; private set; }
     public float OpponentHpLostRate { get; private set; }
-    public int PlayerSignificantStrikesLanded { get; private set; }
-    public int OpponentSignificantStrikesLanded { get; private set; }
+    public int PlayerSignificantStrikesSucceeded { get; private set; }
+    public int OpponentSignificantStrikesSucceeded { get; private set; }
+    public int PlayerTakedownsSucceeded { get; private set; }
+    public int PlayerTakedownsAttempted { get; private set; }
+    public int OpponentTakedownsSucceeded { get; private set; }
+    public int OpponentTakedownsAttempted { get; private set; }
 
     public MatchRoundRecord(int roundNumber)
     {
@@ -20,19 +24,58 @@ public class MatchRoundRecord
         OpponentHpLostRate = opponentHpLostRate;
     }
 
-    public void SetSignificantStrikes(int playerSignificantStrikesLanded, int opponentSignificantStrikesLanded)
+    public void SetSignificantStrikes(int playerSignificantStrikesSucceeded, int opponentSignificantStrikesSucceeded)
     {
-        if (playerSignificantStrikesLanded < 0)
+        if (playerSignificantStrikesSucceeded < 0)
         {
-            playerSignificantStrikesLanded = 0;
+            playerSignificantStrikesSucceeded = 0;
         }
 
-        if (opponentSignificantStrikesLanded < 0)
+        if (opponentSignificantStrikesSucceeded < 0)
         {
-            opponentSignificantStrikesLanded = 0;
+            opponentSignificantStrikesSucceeded = 0;
         }
 
-        PlayerSignificantStrikesLanded = playerSignificantStrikesLanded;
-        OpponentSignificantStrikesLanded = opponentSignificantStrikesLanded;
+        PlayerSignificantStrikesSucceeded = playerSignificantStrikesSucceeded;
+        OpponentSignificantStrikesSucceeded = opponentSignificantStrikesSucceeded;
+    }
+
+    public void SetTakedowns(int playerTakedownsSucceeded, int playerTakedownsAttempted, int opponentTakedownsSucceeded, int opponentTakedownsAttempted)
+    {
+        if (playerTakedownsAttempted < 0)
+        {
+            playerTakedownsAttempted = 0;
+        }
+
+        if (opponentTakedownsAttempted < 0)
+        {
+            opponentTakedownsAttempted = 0;
+        }
+
+        if (playerTakedownsSucceeded < 0)
+        {
+            playerTakedownsSucceeded = 0;
+        }
+
+        if (opponentTakedownsSucceeded < 0)
+        {
+            opponentTakedownsSucceeded = 0;
+        }
+
+        if (playerTakedownsSucceeded > playerTakedownsAttempted)
+        {
+            playerTakedownsSucceeded = playerTakedownsAttempted;
+        }
+
+        if (opponentTakedownsSucceeded > opponentTakedownsAttempted)
+        {
+            opponentTakedownsSucceeded = opponentTakedownsAttempted;
+        }
+
+        PlayerTakedownsSucceeded = playerTakedownsSucceeded;
+        PlayerTakedownsAttempted = playerTakedownsAttempted;
+
+        OpponentTakedownsSucceeded = opponentTakedownsSucceeded;
+        OpponentTakedownsAttempted = opponentTakedownsAttempted;
     }
 }

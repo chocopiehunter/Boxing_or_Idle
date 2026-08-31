@@ -18,9 +18,9 @@ public class MatchJudge : IMatchJudge
 
         float opponentDamageScore = roundRecord.PlayerHpLostRate * DamageScoreMultiplier;
 
-        float playerSignificantStrikeScore = roundRecord.PlayerSignificantStrikesLanded * SignificantStrikeScore;
+        float playerSignificantStrikeScore = roundRecord.PlayerSignificantStrikesSucceeded * SignificantStrikeScore;
 
-        float opponentSignificantStrikeScore = roundRecord.OpponentSignificantStrikesLanded * SignificantStrikeScore;
+        float opponentSignificantStrikeScore = roundRecord.OpponentSignificantStrikesSucceeded * SignificantStrikeScore;
 
         float playerRoundScore = playerDamageScore + playerSignificantStrikeScore;
 
