@@ -31,7 +31,7 @@ public class StrikeCalculator
             return false;
         }
 
-        float successChance = CalculateSuccessChance(action.SelectedSkill, skillUser.StandingOffense, target.StandingDefense);
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.StandingOffense, target.StandingDefense);
 
         float selectedChance = Random.Range(0f, 100f);
 
@@ -53,22 +53,5 @@ public class StrikeCalculator
         actionResult = new CombatActionResult(action, resultType, isSuccess, successChance, damage);
 
         return true;
-    }
-
-    private float CalculateSuccessChance(SkillData skillData, float offense, float defense)
-    {
-        float successChance = skillData.BaseSuccessChance;
-        float totalStat = offense + defense;
-
-        if (totalStat > 0f)
-        {
-            float offenseRate = offense / totalStat;
-
-            successChance = skillData.BaseSuccessChance * offenseRate * 2f;
-        }
-
-        successChance = Mathf.Clamp(successChance, 0f, 100f);
-
-        return successChance;
     }
 }
