@@ -126,5 +126,13 @@
     "WrestlingSituation": "None",
     "GroundPosition": "None",
     "UserRole": "Any"
+  },
+  {
+    "Id": "use_clinch_entry_01",
+    "SkillId": "skill_clinch_entry",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
   }
 ]
