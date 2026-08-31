@@ -192,7 +192,10 @@ public class MatchCombatRunner
 
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
         {
-            if (_combatModel.CurrentSituation != MatchSituation.Standing)
+            bool canStartFromStanding = _combatModel.CurrentSituation == MatchSituation.Standing;
+            bool canStartFromClinch = _combatModel.CurrentSituation == MatchSituation.Wrestling && _combatModel.CurrentWrestlingSituation == WrestlingSituation.Clinch;
+
+            if (canStartFromStanding == false && canStartFromClinch == false)
             {
                 return false;
             }
