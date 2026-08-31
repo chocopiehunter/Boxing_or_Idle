@@ -5,6 +5,7 @@ public class MatchJudge : IMatchJudge
 {
     private const float DamageScoreMultiplier = 100f;
     private const float SignificantStrikeScore = 1f;
+    private const float TakedownScore = 1f;
 
     public MatchResult JudgeRound(MatchRoundRecord roundRecord)
     {
@@ -22,9 +23,13 @@ public class MatchJudge : IMatchJudge
 
         float opponentSignificantStrikeScore = roundRecord.OpponentSignificantStrikesSucceeded * SignificantStrikeScore;
 
-        float playerRoundScore = playerDamageScore + playerSignificantStrikeScore;
+        float playerTakedownScore = roundRecord.PlayerTakedownsSucceeded * TakedownScore;
 
-        float opponentRoundScore = opponentDamageScore + opponentSignificantStrikeScore;
+        float opponentTakedownScore = roundRecord.OpponentTakedownsSucceeded * TakedownScore;
+
+        float playerRoundScore = playerDamageScore + playerSignificantStrikeScore + playerTakedownScore;
+
+        float opponentRoundScore = opponentDamageScore + opponentSignificantStrikeScore + opponentTakedownScore;
 
         if (Mathf.Approximately(playerRoundScore, opponentRoundScore))
         {
