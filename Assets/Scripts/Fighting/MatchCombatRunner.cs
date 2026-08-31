@@ -303,7 +303,9 @@ public class MatchCombatRunner
         MatchFighterModel attacker = GetFighter(attackerSide);
         MatchFighterModel defender = GetFighter(defenderSide);
 
-        if (attacker == null || defender == null)
+        MatchCombatStats attackerStats = GetCombatStats(attackerSide);
+
+        if (attacker == null || defender == null || attackerStats == null)
         {
             return false;
         }
@@ -338,6 +340,9 @@ public class MatchCombatRunner
             actionResult = null;
             return false;
         }
+
+        bool takedownSucceeded = actionResult.ResultType == CombatActionResultType.TakedownSucceeded;
+        attackerStats.RecordTakedown(takedownSucceeded);
 
         _takedownActionInProgress = null;
 

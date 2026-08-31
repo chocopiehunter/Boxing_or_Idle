@@ -29,6 +29,18 @@ public class MatchCombatStats
         }
     }
 
+    public void RecordTakedown(bool takedownSucceeded)
+    {
+        TakedownsAttempted = TakedownsAttempted + 1;
+
+        if (takedownSucceeded == false)
+        {
+            return;
+        }
+
+        TakedownsLanded = TakedownsLanded + 1;
+    }
+
     public void SetStats(int significantStrikesLanded, int totalStrikesLanded, int totalStrikesAttempted, int takedownsLanded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
     {
         SignificantStrikesLanded = significantStrikesLanded;
