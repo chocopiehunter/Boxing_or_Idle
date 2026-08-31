@@ -12,9 +12,11 @@ public class MatchCombatRunner
 
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
+
     private readonly StrikeCalculator _strikeCalculator;
     private readonly TakedownCalculator _takedownCalculator;
     private readonly GroundStrikeCalculator _groundStrikeCalculator;
+    private readonly ClinchCalculator _clinchCalculator;
 
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
@@ -32,6 +34,7 @@ public class MatchCombatRunner
         _strikeCalculator = new StrikeCalculator();
         _takedownCalculator = new TakedownCalculator();
         _groundStrikeCalculator = new GroundStrikeCalculator();
+        _clinchCalculator = new ClinchCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -151,6 +154,16 @@ public class MatchCombatRunner
             actionPrepared = _groundStrikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
         }
 
+        if (action.SelectedSkill.ActionType == SkillActionType.ClinchEntry)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Standing)
+            {
+                return false;
+            }
+
+            actionPrepared = _clinchCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        }
+
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
         {
             if (_combatModel.CurrentSituation != MatchSituation.Standing)
@@ -189,6 +202,25 @@ public class MatchCombatRunner
             }
 
             _takedownActionInProgress = action;
+        }
+
+        if (action.SelectedSkill.ActionType == SkillActionType.ClinchEntry)
+        {
+            MatchFighterSide controllerSide = action.SkillUserSide;
+
+            if (actionResult.ResultType == CombatActionResultType.ClinchReversed)
+            {
+                controllerSide = action.TargetSide;
+            }
+
+            bool situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.Clinch, controllerSide);
+
+            if (situationChanged == false)
+            {
+                actionResult = null;
+
+                return false;
+            }
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.Strike || action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
