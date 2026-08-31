@@ -13,9 +13,11 @@ public class MatchCombatRunner
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
     private readonly StrikeCalculator _strikeCalculator;
+    private readonly TakedownCalculator _takedownCalculator;
 
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
+    private MatchCombatAction _takedownActionInProgress;
 
     public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, MatchUsableSkillFinder usableSkillFinder,float actionIntervalSeconds)
     {
@@ -27,6 +29,7 @@ public class MatchCombatRunner
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
+        _takedownCalculator = new TakedownCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -74,6 +77,8 @@ public class MatchCombatRunner
 
     public void Reset()
     {
+        _takedownActionInProgress = null;
+
         _actionPassedSeconds = 0f;
 
         if (_playerFighter != null)
@@ -141,13 +146,6 @@ public class MatchCombatRunner
                 return false;
             }
 
-            bool situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.TakedownAttempt, action.SkillUserSide);
-
-            if (situationChanged == false)
-            {
-                return false;
-            }
-
             actionResult = new CombatActionResult(action, CombatActionResultType.TakedownStarted, true, 0f, 0f);
 
             actionPrepared = true;
@@ -167,6 +165,18 @@ public class MatchCombatRunner
         }
 
         skillUser.UseStamina(action.SelectedSkill.StaminaCost);
+        if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
+        {
+            bool situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.TakedownAttempt, action.SkillUserSide);
+
+            if (situationChanged == false)
+            {
+                actionResult = null;
+                return false;
+            }
+
+            _takedownActionInProgress = action;
+        }
 
         if (action.SelectedSkill.ActionType == SkillActionType.Strike)
         {
@@ -177,6 +187,77 @@ public class MatchCombatRunner
 
             skillUserStats.RecordStrike(actionResult.IsSuccess, true);
         }
+
+        return true;
+    }
+
+    public bool IsTakedownInProgress()
+    {
+        if (_takedownActionInProgress == null)
+        {
+            return false;
+        }
+
+        if (_combatModel.CurrentSituation != MatchSituation.Wrestling)
+        {
+            return false;
+        }
+
+        return _combatModel.CurrentWrestlingSituation == WrestlingSituation.TakedownAttempt;
+    }
+
+    public bool TryCompleteTakedown(out CombatActionResult actionResult)
+    {
+        actionResult = null;
+
+        if (IsTakedownInProgress() == false)
+        {
+            return false;
+        }
+
+        MatchFighterSide attackerSide = _combatModel.Attacker;
+        MatchFighterSide defenderSide = _combatModel.Defender;
+
+        MatchFighterModel attacker = GetFighter(attackerSide);
+        MatchFighterModel defender = GetFighter(defenderSide);
+
+        if (attacker == null || defender == null)
+        {
+            return false;
+        }
+
+        bool calculateSuccess = _takedownCalculator.TryCalculate(_takedownActionInProgress, attacker, defender, out actionResult);
+
+        if (calculateSuccess == false)
+        {
+            return false;
+        }
+
+        bool situationChanged = false;
+
+        if (actionResult.ResultType == CombatActionResultType.TakedownSucceeded)
+        {
+            situationChanged = _combatModel.ChangeToGround(GroundPosition.Guard, attackerSide);
+        }
+
+        if (actionResult.ResultType == CombatActionResultType.TakedownDefended)
+        {
+            _combatModel.ChangeToStanding();
+            situationChanged = true;
+        }
+
+        if (actionResult.ResultType == CombatActionResultType.TakedownToClinch)
+        {
+            situationChanged = _combatModel.ChangeToWrestling(WrestlingSituation.Clinch, attackerSide);
+        }
+
+        if (situationChanged == false)
+        {
+            actionResult = null;
+            return false;
+        }
+
+        _takedownActionInProgress = null;
 
         return true;
     }

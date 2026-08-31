@@ -295,6 +295,22 @@ public class MatchManager : MonoBehaviour
 
     private void RunNextCombatAction()
     {
+        if (_combatRunner.IsTakedownInProgress())
+        {
+            CombatActionResult takedownResult;
+
+            bool takedownCompleted = _combatRunner.TryCompleteTakedown(out takedownResult);
+
+            if (takedownCompleted == false)
+            {
+                Debug.LogError("테이크다운 공방 처리 실패");
+                return;
+            }
+
+            LogCombatActionResult(takedownResult);
+            return;
+        }
+
         MatchCombatAction selectedAction;
 
         bool actionSelected = _combatRunner.TryCreateNextAction(CurrentStrategyData, null, out selectedAction);
@@ -321,15 +337,26 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        string resultText = GetCombatActionResultText(actionResult.ResultType);
-
-        Debug.Log($"전투 행동 결과 / 사용자 {selectedAction.SkillUserSide} / 대상 {selectedAction.TargetSide} / 기술 {selectedAction.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
-
+        LogCombatActionResult(actionResult);
+        
         bool matchCompleted = TryCompleteMatchByKO();
         if (matchCompleted)
         {
             return;
         }
+    }
+
+    private void LogCombatActionResult(CombatActionResult actionResult)
+    {
+        if (actionResult == null || actionResult.Action == null || actionResult.Action.SelectedSkill == null)
+        {
+            Debug.LogError("전투 행동 결과 로그 실패. 결과 데이터 없음");
+            return;
+        }
+
+        string resultText = GetCombatActionResultText(actionResult.ResultType);
+
+        Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
     }
 
     private string GetCombatActionResultText(CombatActionResultType resultType)
