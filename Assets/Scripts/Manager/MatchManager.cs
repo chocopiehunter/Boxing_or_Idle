@@ -13,6 +13,10 @@ public class MatchManager : MonoBehaviour
     private float _opponentRoundStartHp;
     private int _playerRoundStartSignificantStrikes;
     private int _opponentRoundStartSignificantStrikes;
+    private int _playerRoundStartTakedownsSucceeded;
+    private int _playerRoundStartTakedownsAttempted;
+    private int _opponentRoundStartTakedownsSucceeded;
+    private int _opponentRoundStartTakedownsAttempted;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -250,6 +254,10 @@ public class MatchManager : MonoBehaviour
 
         _playerRoundStartSignificantStrikes = playerCombatStats.SignificantStrikesSucceeded;
         _opponentRoundStartSignificantStrikes = opponentCombatStats.SignificantStrikesSucceeded;
+        _playerRoundStartTakedownsSucceeded = playerCombatStats.TakedownsSucceeded;
+        _playerRoundStartTakedownsAttempted = playerCombatStats.TakedownsAttempted;
+        _opponentRoundStartTakedownsSucceeded = opponentCombatStats.TakedownsSucceeded;
+        _opponentRoundStartTakedownsAttempted = opponentCombatStats.TakedownsAttempted;
 
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
         CurrentState = MatchState.RoundInProgress;
@@ -492,16 +500,23 @@ public class MatchManager : MonoBehaviour
         int playerRoundSignificantStrikes = playerCombatStats.SignificantStrikesSucceeded - _playerRoundStartSignificantStrikes;
         int opponentRoundSignificantStrikes = opponentCombatStats.SignificantStrikesSucceeded - _opponentRoundStartSignificantStrikes;
 
+        int playerRoundTakedownsSucceeded = playerCombatStats.TakedownsSucceeded - _playerRoundStartTakedownsSucceeded;
+        int playerRoundTakedownsAttempted = playerCombatStats.TakedownsAttempted - _playerRoundStartTakedownsAttempted;
+        int opponentRoundTakedownsSucceeded = opponentCombatStats.TakedownsSucceeded - _opponentRoundStartTakedownsSucceeded;
+        int opponentRoundTakedownsAttempted = opponentCombatStats.TakedownsAttempted - _opponentRoundStartTakedownsAttempted;
+
         float playerLostRate = HpCalculator.CalculateLostHpRate(_playerMatchFighter.MaxHp, _playerRoundStartHp, PlayerCurrentHp);
         float opponentLostRate = HpCalculator.CalculateLostHpRate(_opponentMatchFighter.MaxHp, _opponentRoundStartHp, OpponentCurrentHp);
 
         MatchRoundRecord roundRecord = new MatchRoundRecord(CurrentRound);
         roundRecord.SetHpLostRates(playerLostRate, opponentLostRate);
         roundRecord.SetSignificantStrikes(playerRoundSignificantStrikes, opponentRoundSignificantStrikes);
+        roundRecord.SetTakedowns(playerRoundTakedownsSucceeded, playerRoundTakedownsAttempted, opponentRoundTakedownsSucceeded, opponentRoundTakedownsAttempted);
         _roundRecords.Add(roundRecord);
 
-        Debug.Log($"{CurrentRound}라운드 종료 / {PlayerFighter.Name} HP {PlayerCurrentHp:F1}, 유효타 {playerRoundSignificantStrikes} / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}");
-
+        Debug.Log($"{CurrentRound}라운드 종료 / {PlayerFighter.Name} HP {PlayerCurrentHp:F1}, 유효타 {playerRoundSignificantStrikes}, 테이크다운 {playerRoundTakedownsSucceeded}/" +
+            $"{playerRoundTakedownsAttempted} / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}, 테이크다운 {opponentRoundTakedownsSucceeded}/{opponentRoundTakedownsAttempted}");
+        
         bool matchCompleted = TryCompleteMatchByKO();
         if (matchCompleted)
         {
@@ -718,6 +733,10 @@ public class MatchManager : MonoBehaviour
         _opponentRoundStartHp = 0f;
         _playerRoundStartSignificantStrikes = 0;
         _opponentRoundStartSignificantStrikes = 0;
+        _playerRoundStartTakedownsSucceeded = 0;
+        _playerRoundStartTakedownsAttempted = 0;
+        _opponentRoundStartTakedownsSucceeded = 0;
+        _opponentRoundStartTakedownsAttempted = 0;
         LastResult = MatchResult.None;
         _roundRecords.Clear();
 
