@@ -206,5 +206,21 @@
     "DamageMultiplier": 0,
     "TargetGroundPosition": "Guard",
     "ChangeTopBottom": true
+  },
+  {
+    "Id": "skill_ground_escape",
+    "Name": "그라운드 탈출",
+    "Description": null,
+    "Category": "Wrestling",
+    "ActionType": "Escape",
+    "StaminaCost": 5,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 3,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 50,
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   }
 ]
