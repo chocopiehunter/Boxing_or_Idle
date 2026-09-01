@@ -18,6 +18,7 @@ public class MatchCombatRunner
     private readonly GroundStrikeCalculator _groundStrikeCalculator;
     private readonly ClinchCalculator _clinchCalculator;
     private readonly ClinchEscapeCalculator _clinchEscapeCalculator;
+    private readonly GroundEscapeCalculator _groundEscapeCalculator;
     private readonly PositionChangeCalculator _positionChangeCalculator;
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
@@ -37,6 +38,7 @@ public class MatchCombatRunner
         _groundStrikeCalculator = new GroundStrikeCalculator();
         _clinchCalculator = new ClinchCalculator();
         _clinchEscapeCalculator = new ClinchEscapeCalculator();
+        _groundEscapeCalculator = new GroundEscapeCalculator();
         _positionChangeCalculator = new PositionChangeCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
@@ -203,27 +205,55 @@ public class MatchCombatRunner
 
         if (action.SelectedSkill.ActionType == SkillActionType.Escape)
         {
-            if (_combatModel.CurrentSituation != MatchSituation.Wrestling)
+            bool canEscapeClinch = _combatModel.CurrentSituation == MatchSituation.Wrestling && _combatModel.CurrentWrestlingSituation == WrestlingSituation.Clinch;
+            bool canEscapeGround = _combatModel.CurrentSituation == MatchSituation.Ground;
+
+            if (canEscapeClinch == false && canEscapeGround == false)
             {
                 return false;
             }
 
-            if (_combatModel.CurrentWrestlingSituation != WrestlingSituation.Clinch)
+            if (canEscapeClinch == true)
             {
-                return false;
+                if (_combatModel.Defender != action.SkillUserSide)
+                {
+                    return false;
+                }
+
+                if (_combatModel.Attacker != action.TargetSide)
+                {
+                    return false;
+                }
+
+                actionPrepared = _clinchEscapeCalculator.TryCalculate(action, skillUser, target, out actionResult);
             }
 
-            if (_combatModel.Defender != action.SkillUserSide)
+            if (canEscapeGround == true)
             {
-                return false;
-            }
+                if (_combatModel.BottomSide != action.SkillUserSide)
+                {
+                    return false;
+                }
 
-            if (_combatModel.Attacker != action.TargetSide)
-            {
-                return false;
-            }
+                if (_combatModel.TopSide != action.TargetSide)
+                {
+                    return false;
+                }
 
-            actionPrepared = _clinchEscapeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+                if (GameDataManager.Instance == null)
+                {
+                    return false;
+                }
+
+                GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(_combatModel.CurrentGroundPosition);
+
+                if (currentPositionData == null)
+                {
+                    return false;
+                }
+
+                actionPrepared = _groundEscapeCalculator.TryCalculate(action, skillUser, target, currentPositionData, out actionResult);
+            }
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.Takedown)
@@ -290,7 +320,7 @@ public class MatchCombatRunner
 
         if (action.SelectedSkill.ActionType == SkillActionType.Escape)
         {
-            if (actionResult.ResultType == CombatActionResultType.ClinchEscaped)
+            if (actionResult.ResultType == CombatActionResultType.ClinchEscaped || actionResult.ResultType == CombatActionResultType.GroundEscaped)
             {
                 _combatModel.ChangeToStanding();
             }

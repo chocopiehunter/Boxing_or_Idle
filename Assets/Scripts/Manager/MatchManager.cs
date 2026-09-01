@@ -429,6 +429,16 @@ public class MatchManager : MonoBehaviour
             return "그라운드 포지션 전환 실패";
         }
 
+        if (resultType == CombatActionResultType.GroundEscaped)
+        {
+            return "그라운드 탈출 성공";
+        }
+
+        if (resultType == CombatActionResultType.GroundEscapeFailed)
+        {
+            return "그라운드 탈출 실패";
+        }
+
         return "결과 없음";
     }
 
