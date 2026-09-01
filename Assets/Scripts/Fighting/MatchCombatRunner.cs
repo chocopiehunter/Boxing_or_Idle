@@ -158,7 +158,19 @@ public class MatchCombatRunner
                 return false;
             }
 
-            actionPrepared = _groundStrikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+            if (GameDataManager.Instance == null)
+            {
+                return false;
+            }
+
+            GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(_combatModel.CurrentGroundPosition);
+
+            if (currentPositionData == null)
+            {
+                return false;
+            }
+
+            actionPrepared = _groundStrikeCalculator.TryCalculate(action, skillUser, target, currentPositionData, out actionResult);
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.PositionChange)
