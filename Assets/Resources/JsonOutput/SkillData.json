@@ -11,7 +11,9 @@
     "RequiredUnlockIds": "None",
     "IsBasicSkill": true,
     "BaseSuccessChance": 70,
-    "DamageMultiplier": 0.6
+    "DamageMultiplier": 0.6,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_guillotine",
@@ -25,7 +27,9 @@
     "RequiredUnlockIds": "cond_jiujitsu_offense_200",
     "IsBasicSkill": false,
     "BaseSuccessChance": 25,
-    "DamageMultiplier": 0
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_elbow",
@@ -39,7 +43,9 @@
     "RequiredUnlockIds": "cond_standing_offense_150",
     "IsBasicSkill": false,
     "BaseSuccessChance": 55,
-    "DamageMultiplier": 1.4
+    "DamageMultiplier": 1.4,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_uppercut",
@@ -53,7 +59,9 @@
     "RequiredUnlockIds": "cond_standing_offense_50",
     "IsBasicSkill": false,
     "BaseSuccessChance": 50,
-    "DamageMultiplier": 1.3
+    "DamageMultiplier": 1.3,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_takedown_judo",
@@ -67,7 +75,9 @@
     "RequiredUnlockIds": "cond_wrestling_offense_200",
     "IsBasicSkill": false,
     "BaseSuccessChance": 45,
-    "DamageMultiplier": 0
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_takedown_basic",
@@ -81,7 +91,9 @@
     "RequiredUnlockIds": "None",
     "IsBasicSkill": true,
     "BaseSuccessChance": 55,
-    "DamageMultiplier": 0
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_jab",
@@ -95,7 +107,9 @@
     "RequiredUnlockIds": "None",
     "IsBasicSkill": true,
     "BaseSuccessChance": 75,
-    "DamageMultiplier": 0.5
+    "DamageMultiplier": 0.5,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_clinch_entry",
@@ -109,7 +123,9 @@
     "RequiredUnlockIds": "None",
     "IsBasicSkill": true,
     "BaseSuccessChance": 60,
-    "DamageMultiplier": 0
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
   },
   {
     "Id": "skill_clinch_escape",
@@ -123,6 +139,72 @@
     "RequiredUnlockIds": "None",
     "IsBasicSkill": true,
     "BaseSuccessChance": 50,
-    "DamageMultiplier": 0
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "None",
+    "ChangeTopBottom": false
+  },
+  {
+    "Id": "skill_guard_pass",
+    "Name": "가드 패스",
+    "Description": null,
+    "Category": "Wrestling",
+    "ActionType": "PositionChange",
+    "StaminaCost": 4,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 3,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 60,
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "HalfGuard",
+    "ChangeTopBottom": false
+  },
+  {
+    "Id": "skill_halfguard_pass",
+    "Name": "하프 가드 패스",
+    "Description": null,
+    "Category": "Wrestling",
+    "ActionType": "PositionChange",
+    "StaminaCost": 5,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 3,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 50,
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "Mount",
+    "ChangeTopBottom": false
+  },
+  {
+    "Id": "skill_back_control",
+    "Name": "백 컨트롤",
+    "Description": null,
+    "Category": "Wrestling",
+    "ActionType": "PositionChange",
+    "StaminaCost": 5,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 4,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 40,
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "BackControl",
+    "ChangeTopBottom": false
+  },
+  {
+    "Id": "skill_ground_sweep",
+    "Name": "스윕",
+    "Description": null,
+    "Category": "Wrestling",
+    "ActionType": "PositionChange",
+    "StaminaCost": 5,
+    "StaminaCostPerSecond": 0,
+    "CoolTime": 4,
+    "RequiredUnlockIds": "None",
+    "IsBasicSkill": true,
+    "BaseSuccessChance": 40,
+    "DamageMultiplier": 0,
+    "TargetGroundPosition": "Guard",
+    "ChangeTopBottom": true
   }
 ]

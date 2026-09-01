@@ -48,6 +48,14 @@
     "UserRole": "Top"
   },
   {
+    "Id": "use_ground_pounding_04",
+    "SkillId": "skill_ground_pounding",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "BackControl",
+    "UserRole": "Top"
+  },
+  {
     "Id": "use_takedown_basic_01",
     "SkillId": "skill_takedown_basic",
     "MatchSituation": "Standing",
@@ -142,5 +150,45 @@
     "WrestlingSituation": "Clinch",
     "GroundPosition": "None",
     "UserRole": "Defender"
+  },
+  {
+    "Id": "use_guard_pass_01",
+    "SkillId": "skill_guard_pass",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Guard",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_halfguard_pass",
+    "SkillId": "skill_halfguard_pass",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "HalfGuard",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_back_control_01",
+    "SkillId": "skill_back_control",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Mount",
+    "UserRole": "Top"
+  },
+  {
+    "Id": "use_ground_sweep_01",
+    "SkillId": "skill_ground_sweep",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "Guard",
+    "UserRole": "Bottom"
+  },
+  {
+    "Id": "use_ground_sweep_02",
+    "SkillId": "skill_ground_sweep",
+    "MatchSituation": "Ground",
+    "WrestlingSituation": "None",
+    "GroundPosition": "HalfGuard",
+    "UserRole": "Bottom"
   }
 ]
