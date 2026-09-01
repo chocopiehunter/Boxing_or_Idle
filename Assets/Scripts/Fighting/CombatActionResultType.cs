@@ -18,5 +18,8 @@ public enum CombatActionResultType
     ClinchEscapeFailed,
 
     GroundPositionChangeSucceeded,
-    GroundPositionChangeFailed
+    GroundPositionChangeFailed,
+
+    GroundEscaped,
+    GroundEscapeFailed
 }
