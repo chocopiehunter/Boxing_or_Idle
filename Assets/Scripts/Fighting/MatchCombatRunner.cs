@@ -10,7 +10,6 @@ public class MatchCombatRunner
     private readonly MatchCombatStats _playerCombatStats;
     private readonly MatchCombatStats _opponentCombatStats;
 
-    private readonly GameDataManager _gameDataManager;
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
 
@@ -24,14 +23,13 @@ public class MatchCombatRunner
     private float _actionPassedSeconds;
     private MatchCombatAction _takedownActionInProgress;
 
-    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, GameDataManager gameDataManager, MatchUsableSkillFinder usableSkillFinder, float actionIntervalSeconds)
+    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, MatchUsableSkillFinder usableSkillFinder, float actionIntervalSeconds)
     {
         _combatModel = combatModel;
         _playerFighter = playerFighter;
         _opponentFighter = opponentFighter;
         _playerCombatStats = new MatchCombatStats();
         _opponentCombatStats = new MatchCombatStats();
-        _gameDataManager = gameDataManager;
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
@@ -144,6 +142,8 @@ public class MatchCombatRunner
 
         bool actionPrepared = false;
 
+        GroundPosition targetGroundPosition = GroundPosition.None;
+
         if (action.SelectedSkill.ActionType == SkillActionType.Strike)
         {
             actionPrepared = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
@@ -157,6 +157,38 @@ public class MatchCombatRunner
             }
 
             actionPrepared = _groundStrikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        }
+
+        if (action.SelectedSkill.ActionType == SkillActionType.PositionChange)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Ground)
+            {
+                return false;
+            }
+
+            if (GameDataManager.Instance == null)
+            {
+                return false;
+            }
+
+            if (System.Enum.TryParse(action.SelectedSkill.TargetGroundPosition, out targetGroundPosition) == false)
+            {
+                return false;
+            }
+
+            if (targetGroundPosition == GroundPosition.None)
+            {
+                return false;
+            }
+
+            GroundPositionData targetPositionData = GameDataManager.Instance.GetGroundPositionData(targetGroundPosition);
+
+            if (targetPositionData == null)
+            {
+                return false;
+            }
+
+            actionPrepared = _positionChangeCalculator.TryCalculate(action, skillUser, target, targetPositionData, out actionResult);
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.ClinchEntry)
@@ -261,6 +293,21 @@ public class MatchCombatRunner
             if (actionResult.ResultType == CombatActionResultType.ClinchEscaped)
             {
                 _combatModel.ChangeToStanding();
+            }
+        }
+
+        if(action.SelectedSkill.ActionType == SkillActionType.PositionChange)
+        {
+            if (actionResult.ResultType == CombatActionResultType.GroundPositionChangeSucceeded)
+            {
+                bool positionChanged = _combatModel.ChangeGroundPosition(targetGroundPosition, action.SelectedSkill.ChangeTopBottom);
+
+                if (positionChanged == false)
+                {
+                    actionResult = null;
+
+                    return false;
+                }
             }
         }
 
