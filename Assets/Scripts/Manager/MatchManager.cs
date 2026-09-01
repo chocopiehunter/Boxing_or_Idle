@@ -347,7 +347,7 @@ public class MatchManager : MonoBehaviour
 
         LogCombatActionResult(actionResult);
         
-        bool matchCompleted = TryCompleteMatchByKO();
+        bool matchCompleted = TryCompleteMatchByKnockOut();
         if (matchCompleted)
         {
             return;
@@ -442,7 +442,7 @@ public class MatchManager : MonoBehaviour
         return "결과 없음";
     }
 
-    private bool TryCompleteMatchByKO()
+    private bool TryCompleteMatchByKnockOut()
     {
         bool playerKO = PlayerCurrentHp <= 0f;
         bool opponentKO = OpponentCurrentHp <= 0f;
@@ -459,16 +459,25 @@ public class MatchManager : MonoBehaviour
             return true;
         }
 
+        MatchFinishType finishType = MatchFinishType.KO;
+
+        if (CombatModel != null && CombatModel.CurrentSituation == MatchSituation.Ground)
+        {
+            finishType = MatchFinishType.TKO;
+        }
+
         if (playerKO)
         {
-            CompleteMatch(MatchResult.Lose, MatchFinishType.KO);
-            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
+            CompleteMatch(MatchResult.Lose, finishType);
+
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 {finishType} 패배");
+
             return true;
         }
 
-        CompleteMatch(MatchResult.Win, MatchFinishType.KO);
+        CompleteMatch(MatchResult.Win, finishType);
 
-        Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
+        Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 {finishType} 승리");
         return true;
     }
 
@@ -537,7 +546,7 @@ public class MatchManager : MonoBehaviour
         Debug.Log($"{CurrentRound}라운드 종료 / {PlayerFighter.Name} HP {PlayerCurrentHp:F1}, 유효타 {playerRoundSignificantStrikes}, 테이크다운 {playerRoundTakedownsSucceeded}/" +
             $"{playerRoundTakedownsAttempted} / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}, 테이크다운 {opponentRoundTakedownsSucceeded}/{opponentRoundTakedownsAttempted}");
         
-        bool matchCompleted = TryCompleteMatchByKO();
+        bool matchCompleted = TryCompleteMatchByKnockOut();
         if (matchCompleted)
         {
             return true;
