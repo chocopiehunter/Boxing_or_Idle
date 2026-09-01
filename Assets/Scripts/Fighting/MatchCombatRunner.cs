@@ -10,6 +10,7 @@ public class MatchCombatRunner
     private readonly MatchCombatStats _playerCombatStats;
     private readonly MatchCombatStats _opponentCombatStats;
 
+    private readonly GameDataManager _gameDataManager;
     private readonly MatchUsableSkillFinder _usableSkillFinder;
     private readonly CombatActionSelector _actionSelector;
 
@@ -18,17 +19,19 @@ public class MatchCombatRunner
     private readonly GroundStrikeCalculator _groundStrikeCalculator;
     private readonly ClinchCalculator _clinchCalculator;
     private readonly ClinchEscapeCalculator _clinchEscapeCalculator;
+    private readonly PositionChangeCalculator _positionChangeCalculator;
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
     private MatchCombatAction _takedownActionInProgress;
 
-    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, MatchUsableSkillFinder usableSkillFinder,float actionIntervalSeconds)
+    public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, GameDataManager gameDataManager, MatchUsableSkillFinder usableSkillFinder, float actionIntervalSeconds)
     {
         _combatModel = combatModel;
         _playerFighter = playerFighter;
         _opponentFighter = opponentFighter;
         _playerCombatStats = new MatchCombatStats();
         _opponentCombatStats = new MatchCombatStats();
+        _gameDataManager = gameDataManager;
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
@@ -36,6 +39,7 @@ public class MatchCombatRunner
         _groundStrikeCalculator = new GroundStrikeCalculator();
         _clinchCalculator = new ClinchCalculator();
         _clinchEscapeCalculator = new ClinchEscapeCalculator();
+        _positionChangeCalculator = new PositionChangeCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }

@@ -194,7 +194,7 @@ public class MatchManager : MonoBehaviour
 
         MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance);
 
-        _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
+        _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, GameDataManager.Instance, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
 
         _roundRecords.Clear();
 
