@@ -364,7 +364,7 @@ public class MatchManager : MonoBehaviour
 
         string resultText = GetCombatActionResultText(actionResult.ResultType);
 
-        Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
+        Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition}, 상위 {CombatModel.TopSide}, 하위 {CombatModel.BottomSide}, 컨트롤 {CombatModel.GroundControllerSide} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
     }
 
     private string GetCombatActionResultText(CombatActionResultType resultType)
@@ -417,6 +417,16 @@ public class MatchManager : MonoBehaviour
         if (resultType == CombatActionResultType.ClinchEscapeFailed)
         {
             return "클린치 탈출 실패";
+        }
+
+        if (resultType == CombatActionResultType.GroundPositionChangeSucceeded)
+        {
+            return "그라운드 포지션 전환 성공";
+        }
+
+        if (resultType == CombatActionResultType.GroundPositionChangeFailed)
+        {
+            return "그라운드 포지션 전환 실패";
         }
 
         return "결과 없음";
