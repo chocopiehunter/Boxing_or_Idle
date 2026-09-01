@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "Id": "ground_position_guard",
+    "Position": "Guard",
+    "GroundStrikeDamageMultiplier": 1,
+    "PositionEntrySuccessMultiplier": 1,
+    "GroundEscapeSuccessMultiplier": 1,
+    "SubmissionSuccessMultiplier": 1
+  },
+  {
+    "Id": "ground_position_halfguard",
+    "Position": "HalfGuard",
+    "GroundStrikeDamageMultiplier": 0.5,
+    "PositionEntrySuccessMultiplier": 0.9,
+    "GroundEscapeSuccessMultiplier": 0.85,
+    "SubmissionSuccessMultiplier": 1
+  },
+  {
+    "Id": "ground_position_mount",
+    "Position": "Mount",
+    "GroundStrikeDamageMultiplier": 1.5,
+    "PositionEntrySuccessMultiplier": 0.5,
+    "GroundEscapeSuccessMultiplier": 0.45,
+    "SubmissionSuccessMultiplier": 0.7
+  },
+  {
+    "Id": "ground_position_backcontrol",
+    "Position": "BackControl",
+    "GroundStrikeDamageMultiplier": 0.7,
+    "PositionEntrySuccessMultiplier": 0.5,
+    "GroundEscapeSuccessMultiplier": 0.3,
+    "SubmissionSuccessMultiplier": 1.3
+  }
+]
