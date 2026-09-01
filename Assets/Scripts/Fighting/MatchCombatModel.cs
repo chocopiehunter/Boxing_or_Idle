@@ -82,6 +82,38 @@ public class MatchCombatModel
         return true;
     }
 
+    public bool ChangeGroundPosition(GroundPosition groundPosition, bool changeTopBottom)
+    {
+        if (CurrentSituation != MatchSituation.Ground)
+        {
+            return false;
+        }
+
+        if (groundPosition == GroundPosition.None)
+        {
+            return false;
+        }
+
+        if (IsValidFighterSide(TopSide) == false || IsValidFighterSide(BottomSide) == false)
+        {
+            return false;
+        }
+
+        CurrentGroundPosition = groundPosition;
+
+        if (changeTopBottom == true)
+        {
+            MatchFighterSide previousTopSide = TopSide;
+
+            TopSide = BottomSide;
+
+            BottomSide = previousTopSide;
+        }
+
+        GroundControllerSide = TopSide;
+        return true;
+    }
+
     public bool ChangeGroundController(MatchFighterSide controller)
     {
         if (CurrentSituation != MatchSituation.Ground)
