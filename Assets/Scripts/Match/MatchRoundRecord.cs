@@ -11,6 +11,8 @@ public class MatchRoundRecord
     public int PlayerTakedownsAttempted { get; private set; }
     public int OpponentTakedownsSucceeded { get; private set; }
     public int OpponentTakedownsAttempted { get; private set; }
+    public float PlayerControlSeconds { get; private set; }
+    public float OpponentControlSeconds { get; private set; }
 
     public MatchRoundRecord(int roundNumber)
     {
@@ -77,5 +79,21 @@ public class MatchRoundRecord
 
         OpponentTakedownsSucceeded = opponentTakedownsSucceeded;
         OpponentTakedownsAttempted = opponentTakedownsAttempted;
+    }
+
+    public void SetControlSeconds(float playerControlSeconds, float opponentControlSeconds)
+    {
+        if (playerControlSeconds < 0f)
+        {
+            playerControlSeconds = 0f;
+        }
+
+        if (opponentControlSeconds < 0f)
+        {
+            opponentControlSeconds = 0f;
+        }
+
+        PlayerControlSeconds = playerControlSeconds;
+        OpponentControlSeconds = opponentControlSeconds;
     }
 }
