@@ -31,7 +31,10 @@ public class GroundStrikeCalculator
             return false;
         }
 
-        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.WrestlingOffense, target.WrestlingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(skillUser.WrestlingOffense, skillUser);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.WrestlingDefense, target);
+
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
         float selectedChance = Random.Range(0f, 100f);
         bool isSuccess = selectedChance < successChance;
 
@@ -47,7 +50,7 @@ public class GroundStrikeCalculator
         if (isSuccess)
         {
             float finalDamageMultiplier = action.SelectedSkill.DamageMultiplier * currentPositionData.GroundStrikeDamageMultiplier;
-            damage = DamageCalculator.Calculate(skillUser.WrestlingOffense, target.WrestlingDefense, finalDamageMultiplier);
+            damage = DamageCalculator.Calculate(offense, defense, finalDamageMultiplier);
         }
 
         actionResult = new CombatActionResult(action, resultType, isSuccess, successChance, damage);

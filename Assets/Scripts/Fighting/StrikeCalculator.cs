@@ -31,7 +31,10 @@ public class StrikeCalculator
             return false;
         }
 
-        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.StandingOffense, target.StandingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(skillUser.StandingOffense, skillUser);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.StandingDefense, target);
+
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
 
         float selectedChance = Random.Range(0f, 100f);
 
@@ -47,7 +50,7 @@ public class StrikeCalculator
 
         if (isSuccess)
         {
-            damage = DamageCalculator.Calculate(skillUser.StandingOffense, target.StandingDefense, action.SelectedSkill.DamageMultiplier);
+            damage = DamageCalculator.Calculate(offense, defense, action.SelectedSkill.DamageMultiplier);
         }
 
         actionResult = new CombatActionResult(action, resultType, isSuccess, successChance, damage);
