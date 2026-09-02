@@ -290,6 +290,8 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        ApplyGroundBottomStaminaLoss(passedSeconds);
+
         RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
 
         if (RoundRemainingSeconds > 0f)
@@ -299,6 +301,51 @@ public class MatchManager : MonoBehaviour
 
         RoundRemainingSeconds = 0f;
         EndCurrentRound();
+    }
+
+    private void ApplyGroundBottomStaminaLoss(float passedSeconds)
+    {
+        if (CombatModel == null)
+        {
+            return;
+        }
+
+        if (CombatModel.CurrentSituation != MatchSituation.Ground)
+        {
+            return;
+        }
+
+        GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(CombatModel.CurrentGroundPosition);
+
+        if (currentPositionData == null)
+        {
+            return;
+        }
+
+        MatchFighterModel bottomFighter = GetMatchFighter(CombatModel.BottomSide);
+
+        if (bottomFighter == null)
+        {
+            return;
+        }
+
+        float staminaLoss = currentPositionData.BottomStaminaLossPerSecond * passedSeconds;
+        bottomFighter.UseStamina(staminaLoss);
+    }
+
+    private MatchFighterModel GetMatchFighter(MatchFighterSide fighterSide)
+    {
+        if (fighterSide == MatchFighterSide.Player)
+        {
+            return _playerMatchFighter;
+        }
+
+        if (fighterSide == MatchFighterSide.Opponent)
+        {
+            return _opponentMatchFighter;
+        }
+
+        return null;
     }
 
     private void RunNextCombatAction()
