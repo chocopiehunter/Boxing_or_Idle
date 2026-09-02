@@ -292,6 +292,8 @@ public class MatchManager : MonoBehaviour
 
         ApplyGroundBottomStaminaLoss(passedSeconds);
 
+        RecordGroundControlTime(passedSeconds);
+
         RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
 
         if (RoundRemainingSeconds > 0f)
@@ -331,6 +333,38 @@ public class MatchManager : MonoBehaviour
 
         float staminaLoss = currentPositionData.BottomStaminaLossPerSecond * passedSeconds;
         bottomFighter.UseStamina(staminaLoss);
+    }
+
+    private void RecordGroundControlTime(float passedSeconds)
+    {
+        if (CombatModel == null)
+        {
+            return;
+        }
+
+        if (CombatModel.CurrentSituation != MatchSituation.Ground)
+        {
+            return;
+        }
+
+        if (CombatModel.GroundControllerSide == MatchFighterSide.None)
+        {
+            return;
+        }
+
+        if (_combatRunner == null)
+        {
+            return;
+        }
+
+        MatchCombatStats controllerStats = _combatRunner.GetCombatStats(CombatModel.GroundControllerSide);
+
+        if (controllerStats == null)
+        {
+            return;
+        }
+
+        controllerStats.RecordControlTime(passedSeconds);
     }
 
     private MatchFighterModel GetMatchFighter(MatchFighterSide fighterSide)

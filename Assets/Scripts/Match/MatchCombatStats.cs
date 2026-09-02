@@ -41,6 +41,16 @@ public class MatchCombatStats
         TakedownsSucceeded = TakedownsSucceeded + 1;
     }
 
+    public void RecordControlTime(float passedSeconds)
+    {
+        if (passedSeconds <= 0f)
+        {
+            return;
+        }
+
+        ControlSeconds = ControlSeconds + passedSeconds;
+    }
+
     public void SetStats(int significantStrikesSucceeded, int totalStrikesSucceeded, int totalStrikesAttempted, int takedownsSucceeded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
     {
         SignificantStrikesSucceeded = significantStrikesSucceeded;
