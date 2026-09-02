@@ -53,6 +53,78 @@ public class MatchManager : MonoBehaviour
             return _opponentMatchFighter.CurrentHp;
         }
     }
+    public float PlayerMaxHp
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.MaxHp;
+        }
+    }
+    public float OpponentMaxHp
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.MaxHp;
+        }
+    }
+    public float PlayerCurrentStamina
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.CurrentStamina;
+        }
+    }
+    public float OpponentCurrentStamina
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.CurrentStamina;
+        }
+    }
+    public float PlayerMaxStamina
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.MaxStamina;
+        }
+    }
+    public float OpponentMaxStamina
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.MaxStamina;
+        }
+    }
 
     public MatchResult LastResult { get; private set; } = MatchResult.None;
     public MatchResultSummary LastResultSummary { get; private set; } // 결과요약

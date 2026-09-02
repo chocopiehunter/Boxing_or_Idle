@@ -13,6 +13,11 @@ public class MatchUI : UIBase
     [SerializeField] private Text Text_Round;
     [SerializeField] private Text Text_Time;
 
+    [SerializeField] private Slider Slider_PlayerHp;
+    [SerializeField] private Slider Slider_PlayerStamina;
+    [SerializeField] private Slider Slider_OpponentHp;
+    [SerializeField] private Slider Slider_OpponentStamina;
+
     [SerializeField] private Image Image_Fighter_Left;
     [SerializeField] private Image Image_Fighter_Right;
     [SerializeField] private Sprite DefaultFighterSprite_Left;
@@ -89,6 +94,8 @@ public class MatchUI : UIBase
 
         MatchState currentState = MatchManager.Instance.CurrentState;
 
+        RefreshMatchFighterStatusBars();
+
         RefreshMatchStrategySelectionUI(currentState);
 
         int displaySeconds = GetDisplaySeconds();
@@ -137,6 +144,38 @@ public class MatchUI : UIBase
         Text_Round.text = "경기 준비";
         Text_Time.text = "-";
         ClearMatchWinnerText();
+    }
+
+    private void RefreshMatchFighterStatusBars()
+    {
+        if (MatchManager.Instance == null)
+        {
+            return;
+        }
+
+        SetSliderRate(Slider_PlayerHp, MatchManager.Instance.PlayerCurrentHp, MatchManager.Instance.PlayerMaxHp);
+        SetSliderRate(Slider_PlayerStamina, MatchManager.Instance.PlayerCurrentStamina, MatchManager.Instance.PlayerMaxStamina);
+        SetSliderRate(Slider_OpponentHp, MatchManager.Instance.OpponentCurrentHp, MatchManager.Instance.OpponentMaxHp);
+        SetSliderRate(Slider_OpponentStamina, MatchManager.Instance.OpponentCurrentStamina, MatchManager.Instance.OpponentMaxStamina);
+    }
+
+    private void SetSliderRate(Slider slider, float currentValue, float maxValue)
+    {
+        if (slider == null)
+        {
+            return;
+        }
+
+        if (maxValue <= 0f)
+        {
+            slider.SetValueWithoutNotify(0f);
+            return;
+        }
+
+        float rate = currentValue / maxValue;
+        rate = Mathf.Clamp01(rate);
+
+        slider.SetValueWithoutNotify(rate);
     }
 
     private void ShowMatchResultUI()
