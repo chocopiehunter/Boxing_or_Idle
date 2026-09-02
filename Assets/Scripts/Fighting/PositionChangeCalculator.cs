@@ -36,7 +36,10 @@ public class PositionChangeCalculator
             return false;
         }
 
-        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.WrestlingOffense, target.WrestlingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(skillUser.WrestlingOffense, skillUser);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.WrestlingDefense, target);
+
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
         successChance = successChance * targetPositionData.PositionEntrySuccessMultiplier;
         successChance = Mathf.Clamp(successChance, 0f, 100f);
 
