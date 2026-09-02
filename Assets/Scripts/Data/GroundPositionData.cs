@@ -7,5 +7,6 @@ public class GroundPositionData : GameDataBase
     public float GroundStrikeDamageMultiplier;
     public float PositionEntrySuccessMultiplier;
     public float GroundEscapeSuccessMultiplier;
+    public float BottomStaminaLossPerSecond;
     public float SubmissionSuccessMultiplier;
 }

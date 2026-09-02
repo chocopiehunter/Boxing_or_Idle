@@ -5,7 +5,8 @@
     "GroundStrikeDamageMultiplier": 1,
     "PositionEntrySuccessMultiplier": 1,
     "GroundEscapeSuccessMultiplier": 1,
-    "SubmissionSuccessMultiplier": 1
+    "SubmissionSuccessMultiplier": 1,
+    "BottomStaminaLossPerSecond": 0.2
   },
   {
     "Id": "ground_position_halfguard",
@@ -13,7 +14,8 @@
     "GroundStrikeDamageMultiplier": 0.5,
     "PositionEntrySuccessMultiplier": 0.9,
     "GroundEscapeSuccessMultiplier": 0.85,
-    "SubmissionSuccessMultiplier": 1
+    "SubmissionSuccessMultiplier": 1,
+    "BottomStaminaLossPerSecond": 0.4
   },
   {
     "Id": "ground_position_mount",
@@ -21,7 +23,8 @@
     "GroundStrikeDamageMultiplier": 1.5,
     "PositionEntrySuccessMultiplier": 0.5,
     "GroundEscapeSuccessMultiplier": 0.45,
-    "SubmissionSuccessMultiplier": 0.7
+    "SubmissionSuccessMultiplier": 0.7,
+    "BottomStaminaLossPerSecond": 0.7
   },
   {
     "Id": "ground_position_backcontrol",
@@ -29,6 +32,7 @@
     "GroundStrikeDamageMultiplier": 0.7,
     "PositionEntrySuccessMultiplier": 0.5,
     "GroundEscapeSuccessMultiplier": 0.3,
-    "SubmissionSuccessMultiplier": 1.3
+    "SubmissionSuccessMultiplier": 1.3,
+    "BottomStaminaLossPerSecond": 1.2
   }
 ]
