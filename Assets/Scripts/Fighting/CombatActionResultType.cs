@@ -21,5 +21,9 @@ public enum CombatActionResultType
     GroundPositionChangeFailed,
 
     GroundEscaped,
-    GroundEscapeFailed
+    GroundEscapeFailed,
+
+    SubmissionSucceeded,
+    SubmissionInProgress,
+    SubmissionEscaped
 }

@@ -596,6 +596,21 @@ public class MatchManager : MonoBehaviour
             return "그라운드 탈출 실패";
         }
 
+        if (resultType == CombatActionResultType.SubmissionSucceeded)
+        {
+            return "서브미션 성공";
+        }
+
+        if (resultType == CombatActionResultType.SubmissionInProgress)
+        {
+            return "서브미션 진행중";
+        }
+
+        if (resultType == CombatActionResultType.SubmissionEscaped)
+        {
+            return "서브미션 탈출";
+        }
+
         return "결과 없음";
     }
 
