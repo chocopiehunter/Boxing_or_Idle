@@ -16,6 +16,7 @@ public class SkillData : GameDataBase
     public float DamageMultiplier;
     public string TargetGroundPosition;
     public bool ChangeTopBottom;
+    public float SubmissionDamageMultiplier;
 }
 
 public static class SkillCategoryType
