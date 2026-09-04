@@ -12,6 +12,12 @@ public class MatchCombatModel
     public MatchFighterSide TopSide { get; private set; }
     public MatchFighterSide BottomSide { get; private set; }
     public MatchFighterSide GroundControllerSide { get; private set; }
+    public bool IsSubmissionInProgress { get; private set; }
+    public MatchFighterSide SubmissionAttackerSide { get; private set; }
+    public MatchFighterSide SubmissionDefenderSide { get; private set; }
+    public string CurrentSubmissionSkillId { get; private set; }
+    public float MaxSubmissionResistHp { get; private set; }
+    public float CurrentSubmissionResistHp { get; private set; }
 
     public MatchCombatModel()
     {
@@ -31,6 +37,7 @@ public class MatchCombatModel
 
         ClearWrestlingRoles();
         ClearGroundRoles();
+        ClearSubmission();
     }
 
     public bool ChangeToWrestling(WrestlingSituation wrestlingSituation, MatchFighterSide attacker)
@@ -53,6 +60,7 @@ public class MatchCombatModel
         Defender = GetOpponentSide(attacker);
 
         ClearGroundRoles();
+        ClearSubmission();
 
         return true;
     }
@@ -78,6 +86,8 @@ public class MatchCombatModel
         TopSide = topSide;
         BottomSide = GetOpponentSide(topSide);
         GroundControllerSide = topSide;
+
+        ClearSubmission();
 
         return true;
     }
@@ -111,6 +121,7 @@ public class MatchCombatModel
         }
 
         GroundControllerSide = TopSide;
+        ClearSubmission();
         return true;
     }
 
@@ -130,6 +141,73 @@ public class MatchCombatModel
         return true;
     }
 
+    public bool StartSubmission(MatchFighterSide attacker, MatchFighterSide defender, string submissionSkillId, float maxSubmissionResistHp)
+    {
+        if (CurrentSituation != MatchSituation.Ground)
+        {
+            return false;
+        }
+
+        if (IsValidFighterSide(attacker) == false || IsValidFighterSide(defender) == false)
+        {
+            return false;
+        }
+
+        if (attacker == defender)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(submissionSkillId) == true)
+        {
+            return false;
+        }
+
+        if (maxSubmissionResistHp <= 0f)
+        {
+            return false;
+        }
+
+        IsSubmissionInProgress = true;
+        SubmissionAttackerSide = attacker;
+        SubmissionDefenderSide = defender;
+        CurrentSubmissionSkillId = submissionSkillId;
+        MaxSubmissionResistHp = maxSubmissionResistHp;
+        CurrentSubmissionResistHp = maxSubmissionResistHp;
+
+        return true;
+    }
+
+    public void ApplySubmissionDamage(float damage)
+    {
+        if (IsSubmissionInProgress == false)
+        {
+            return;
+        }
+
+        if (damage <= 0f)
+        {
+            return;
+        }
+
+        CurrentSubmissionResistHp = CurrentSubmissionResistHp - damage;
+
+        if (CurrentSubmissionResistHp < 0f)
+        {
+            CurrentSubmissionResistHp = 0f;
+        }
+    }
+
+    public void ClearSubmission()
+    {
+        IsSubmissionInProgress = false;
+        SubmissionAttackerSide = MatchFighterSide.None;
+        SubmissionDefenderSide = MatchFighterSide.None;
+        CurrentSubmissionSkillId = "";
+        MaxSubmissionResistHp = 0f;
+        CurrentSubmissionResistHp = 0f;
+    }
+
     public void Reset()
     {
         CurrentSituation = MatchSituation.None;
@@ -138,6 +216,7 @@ public class MatchCombatModel
 
         ClearWrestlingRoles();
         ClearGroundRoles();
+        ClearSubmission();
     }
 
     private void ClearWrestlingRoles()
