@@ -1,7 +1,7 @@
 [
   {
     "Id": "use_guillotine_01",
-    "SkillId": "skill_guillotine",
+    "SkillId": "None",
     "MatchSituation": "Wrestling",
     "WrestlingSituation": "TakedownAttempt",
     "GroundPosition": "None",
@@ -9,7 +9,7 @@
   },
   {
     "Id": "use_guillotine_02",
-    "SkillId": "skill_guillotine",
+    "SkillId": "None",
     "MatchSituation": "Wrestling",
     "WrestlingSituation": "Clinch",
     "GroundPosition": "None",
