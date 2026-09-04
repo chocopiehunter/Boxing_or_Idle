@@ -51,6 +51,11 @@ public class MatchCombatStats
         ControlSeconds = ControlSeconds + passedSeconds;
     }
 
+    public void RecordSubmissionAttempt()
+    {
+        SubmissionAttempts = SubmissionAttempts + 1;
+    }
+
     public void SetStats(int significantStrikesSucceeded, int totalStrikesSucceeded, int totalStrikesAttempted, int takedownsSucceeded, int takedownsAttempted, float controlSeconds, int knockdowns, int submissionAttempts)
     {
         SignificantStrikesSucceeded = significantStrikesSucceeded;

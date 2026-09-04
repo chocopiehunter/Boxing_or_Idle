@@ -20,9 +20,11 @@ public class MatchCombatRunner
     private readonly ClinchEscapeCalculator _clinchEscapeCalculator;
     private readonly GroundEscapeCalculator _groundEscapeCalculator;
     private readonly PositionChangeCalculator _positionChangeCalculator;
+    private readonly SubmissionCalculator _submissionCalculator;
     private readonly float _actionIntervalSeconds;
     private float _actionPassedSeconds;
     private MatchCombatAction _takedownActionInProgress;
+    private MatchCombatAction _submissionActionInProgress;
 
     public MatchCombatRunner(MatchCombatModel combatModel, MatchFighterModel playerFighter, MatchFighterModel opponentFighter, MatchUsableSkillFinder usableSkillFinder, float actionIntervalSeconds)
     {
@@ -40,6 +42,7 @@ public class MatchCombatRunner
         _clinchEscapeCalculator = new ClinchEscapeCalculator();
         _groundEscapeCalculator = new GroundEscapeCalculator();
         _positionChangeCalculator = new PositionChangeCalculator();
+        _submissionCalculator = new SubmissionCalculator();
         _actionIntervalSeconds = actionIntervalSeconds;
         Reset();
     }
@@ -88,6 +91,8 @@ public class MatchCombatRunner
     public void Reset()
     {
         _takedownActionInProgress = null;
+
+        _submissionActionInProgress = null;
 
         _actionPassedSeconds = 0f;
 
@@ -203,6 +208,42 @@ public class MatchCombatRunner
             }
 
             actionPrepared = _positionChangeCalculator.TryCalculate(action, skillUser, target, targetPositionData, out actionResult);
+        }
+
+        if (action.SelectedSkill.ActionType == SkillActionType.Submission)
+        {
+            if (_combatModel.CurrentSituation != MatchSituation.Ground)
+            {
+                return false;
+            }
+
+            if (GameDataManager.Instance == null)
+            {
+                return false;
+            }
+
+            GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(_combatModel.CurrentGroundPosition);
+
+            if (currentPositionData == null)
+            {
+                return false;
+            }
+
+            if (_combatModel.IsSubmissionInProgress == false)
+            {
+                float maxSubmissionResistHp = CalculateMaxSubmissionResistHp(skillUser, target);
+                bool submissionStarted = _combatModel.StartSubmission(action.SkillUserSide, action.TargetSide, action.SelectedSkill.Id, maxSubmissionResistHp);
+
+                if (submissionStarted == false)
+                {
+                    return false;
+                }
+
+                skillUserStats.RecordSubmissionAttempt();
+                _submissionActionInProgress = action;
+            }
+
+            actionPrepared = _submissionCalculator.TryCalculate(action, skillUser, target, currentPositionData, _combatModel.CurrentSubmissionResistHp, out actionResult);
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.ClinchEntry)
@@ -353,6 +394,11 @@ public class MatchCombatRunner
             }
         }
 
+        if (action.SelectedSkill.ActionType == SkillActionType.Submission)
+        {
+            ApplySubmissionResult(actionResult);
+        }
+
         if (action.SelectedSkill.ActionType == SkillActionType.Strike || action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
         {
             if (actionResult.IsSuccess)
@@ -364,6 +410,117 @@ public class MatchCombatRunner
         }
 
         return true;
+    }
+
+    public bool IsSubmissionInProgress()
+    {
+        if (_submissionActionInProgress == null)
+        {
+            return false;
+        }
+
+        if (_combatModel == null)
+        {
+            return false;
+        }
+
+        return _combatModel.IsSubmissionInProgress;
+    }
+
+    public bool TryContinueSubmission(out CombatActionResult actionResult)
+    {
+        actionResult = null;
+
+        if (IsSubmissionInProgress() == false)
+        {
+            return false;
+        }
+
+        MatchFighterModel attacker = GetFighter(_combatModel.SubmissionAttackerSide);
+        MatchFighterModel defender = GetFighter(_combatModel.SubmissionDefenderSide);
+
+        if (attacker == null || defender == null)
+        {
+            return false;
+        }
+
+        if (GameDataManager.Instance == null)
+        {
+            return false;
+        }
+
+        GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(_combatModel.CurrentGroundPosition);
+
+        if (currentPositionData == null)
+        {
+            return false;
+        }
+
+        bool calculateSuccess = _submissionCalculator.TryCalculate(_submissionActionInProgress, attacker, defender, currentPositionData, _combatModel.CurrentSubmissionResistHp, out actionResult);
+
+        if (calculateSuccess == false)
+        {
+            return false;
+        }
+
+        ApplySubmissionResult(actionResult);
+
+        return true;
+    }
+
+    private void ApplySubmissionResult(CombatActionResult actionResult)
+    {
+        if (actionResult == null)
+        {
+            return;
+        }
+
+        if (actionResult.ResultType == CombatActionResultType.SubmissionEscaped)
+        {
+            _combatModel.ClearSubmission();
+            _submissionActionInProgress = null;
+            return;
+        }
+
+        if (actionResult.ResultType == CombatActionResultType.SubmissionInProgress)
+        {
+            _combatModel.ApplySubmissionDamage(actionResult.Damage);
+            return;
+        }
+
+        if (actionResult.ResultType == CombatActionResultType.SubmissionSucceeded)
+        {
+            _combatModel.ApplySubmissionDamage(actionResult.Damage);
+            _submissionActionInProgress = null;
+        }
+    }
+
+    private float CalculateMaxSubmissionResistHp(MatchFighterModel attacker, MatchFighterModel defender)
+    {
+        if (attacker == null || defender == null)
+        {
+            return 30f;
+        }
+
+        float attackerOffense = StaminaPenaltyCalculator.ApplyStaminaPenalty(attacker.JiuJitsuOffense, attacker);
+        float defenderDefense = StaminaPenaltyCalculator.ApplyStaminaPenalty(defender.JiuJitsuDefense, defender);
+
+        float defenderStaminaRate = 0f;
+
+        if (defender.MaxStamina > 0f)
+        {
+            defenderStaminaRate = defender.CurrentStamina / defender.MaxStamina;
+            defenderStaminaRate = Mathf.Clamp01(defenderStaminaRate);
+        }
+
+        float resistHp = 30f;
+        resistHp = resistHp + (defenderDefense * 0.3f);
+        resistHp = resistHp + (defenderStaminaRate * 20f);
+        resistHp = resistHp - (attackerOffense * 0.1f);
+
+        resistHp = Mathf.Clamp(resistHp, 15f, 100f);
+
+        return resistHp;
     }
 
     public bool IsTakedownInProgress()
