@@ -460,6 +460,29 @@ public class MatchManager : MonoBehaviour
 
     private void RunNextCombatAction()
     {
+        if (_combatRunner.IsSubmissionInProgress())
+        {
+            CombatActionResult submissionResult;
+
+            bool submissionContinued = _combatRunner.TryContinueSubmission(out submissionResult);
+
+            if (submissionContinued == false)
+            {
+                Debug.LogError($"서브미션 공방 처리 실패");
+                return;
+            }
+
+            LogCombatActionResult(submissionResult);
+
+            bool continuedSubmissionFinished = TryCompleteMatchBySubmission(submissionResult);
+            if (continuedSubmissionFinished == true)
+            {
+                return;
+            }
+
+            return;
+        }
+
         if (_combatRunner.IsTakedownInProgress())
         {
             CombatActionResult takedownResult;
@@ -504,8 +527,14 @@ public class MatchManager : MonoBehaviour
 
         LogCombatActionResult(actionResult);
         
-        bool matchCompleted = TryCompleteMatchByKnockOut();
-        if (matchCompleted)
+        bool actionSubmissionFinished = TryCompleteMatchBySubmission(actionResult);
+        if (actionSubmissionFinished == true)
+        {
+            return;
+        }
+
+        bool knockoutFinished = TryCompleteMatchByKnockOut();
+        if (knockoutFinished)
         {
             return;
         }
@@ -650,6 +679,36 @@ public class MatchManager : MonoBehaviour
         CompleteMatch(MatchResult.Win, finishType);
 
         Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 {finishType} 승리");
+        return true;
+    }
+
+    private bool TryCompleteMatchBySubmission(CombatActionResult actionResult)
+    {
+        if (actionResult == null || actionResult.Action == null)
+        {
+            return false;
+        }
+
+        if (actionResult.ResultType != CombatActionResultType.SubmissionSucceeded)
+        {
+            return false;
+        }
+
+        if (actionResult.Action.SkillUserSide == MatchFighterSide.Player)
+        {
+            CompleteMatch(MatchResult.Win, MatchFinishType.Submission);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 서브미션 승리");
+            return true;
+        }
+
+        if (actionResult.Action.SkillUserSide == MatchFighterSide.Opponent)
+        {
+            CompleteMatch(MatchResult.Lose, MatchFinishType.Submission);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 서브미션 패배");
+            return true;
+        }
+
+        StopMatchByError("서브미션 종료 실패. 유효하지 않은 사용자");
         return true;
     }
 
