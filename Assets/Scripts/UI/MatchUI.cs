@@ -384,6 +384,13 @@ public class MatchUI : UIBase
             return;
         }
 
+        if (ArenaManager.Instance == null || ArenaManager.Instance.IsReady == false)
+        {
+            Debug.LogError("체육관 복귀 실패. ArenaManager 또는 Root 연결 없음");
+            _isReturningToGym = false;
+            return;
+        }
+
         UIBase openedUI = UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
         TransitionLoadingUI transitionLoadingUI = openedUI as TransitionLoadingUI;
 
@@ -395,6 +402,14 @@ public class MatchUI : UIBase
         }
 
         await UniTask.Yield(PlayerLoopTiming.Update);
+
+        bool returnSuccess = ArenaManager.Instance.TryReturnToGym();
+        if (returnSuccess == false)
+        {
+            UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
+            _isReturningToGym = false;
+            return;
+        }
 
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MatchUI);
 

@@ -10,6 +10,7 @@ public class FighterManager : MonoBehaviour
     private const float ArriveDistance = 0.15f;
 
     [SerializeField] private PlayerFighter Prefab_PlayerFighter;
+    [SerializeField] private Transform Transform_GymFighterRoot;
     [SerializeField] private string StartingTrainingPolicyId = "policy_rest";
 
     public List<FighterModel> PlayerFighters { get; private set; } = new List<FighterModel>();
@@ -133,7 +134,13 @@ public class FighterManager : MonoBehaviour
             return;
         }
 
-        PlayerFighter player = Instantiate(Prefab_PlayerFighter);
+        if (Transform_GymFighterRoot == null)
+        {
+            Debug.LogError("체육관 선수 생성 Root가 연결되지 않음");
+            return;
+        }
+
+        PlayerFighter player = Instantiate(Prefab_PlayerFighter, Transform_GymFighterRoot);
         player.transform.position = new Vector3(0f, 0f, 0f);
         player.Bind(fighter);
         _playerFighters.Add(player);
