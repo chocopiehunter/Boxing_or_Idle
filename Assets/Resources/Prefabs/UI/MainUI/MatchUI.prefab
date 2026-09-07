@@ -991,6 +991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191126654006155065}
   - component: {fileID: 8294620443070830370}
+  - component: {fileID: 2514193154606802239}
   m_Layer: 5
   m_Name: Layout_Commentary
   m_TagString: Untagged
@@ -1032,6 +1033,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!114 &2514193154606802239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026295069534212142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59cb4bd3c812a9458f0717a1bebdb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CommentaryUI
+  Transform_Content: {fileID: 4812493309835737769}
+  Prefab_Row: {fileID: 8674093890199743140, guid: 58cb3b690013aea4cb7e49879b5f0b03, type: 3}
+  InitialPoolSize: 6
+  MaxPoolSize: 12
+  HoldDuration: 2.5
+  RowSpacing: 5
 --- !u!1 &2284760343298842834
 GameObject:
   m_ObjectHideFlags: 0
