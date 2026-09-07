@@ -14,6 +14,9 @@ public class SkillData : GameDataBase
     public string RequiredUnlockIds;
     public float BaseSuccessChance;
     public float DamageMultiplier;
+    public string TargetGroundPosition;
+    public bool ChangeTopBottom;
+    public float SubmissionDamageMultiplier;
 }
 
 public static class SkillCategoryType

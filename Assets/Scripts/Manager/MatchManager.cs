@@ -17,6 +17,8 @@ public class MatchManager : MonoBehaviour
     private int _playerRoundStartTakedownsAttempted;
     private int _opponentRoundStartTakedownsSucceeded;
     private int _opponentRoundStartTakedownsAttempted;
+    private float _playerRoundStartControlSeconds;
+    private float _opponentRoundStartControlSeconds;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -49,6 +51,78 @@ public class MatchManager : MonoBehaviour
             }
 
             return _opponentMatchFighter.CurrentHp;
+        }
+    }
+    public float PlayerMaxHp
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.MaxHp;
+        }
+    }
+    public float OpponentMaxHp
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.MaxHp;
+        }
+    }
+    public float PlayerCurrentStamina
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.CurrentStamina;
+        }
+    }
+    public float OpponentCurrentStamina
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.CurrentStamina;
+        }
+    }
+    public float PlayerMaxStamina
+    {
+        get
+        {
+            if (_playerMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _playerMatchFighter.MaxStamina;
+        }
+    }
+    public float OpponentMaxStamina
+    {
+        get
+        {
+            if (_opponentMatchFighter == null)
+            {
+                return 0f;
+            }
+
+            return _opponentMatchFighter.MaxStamina;
         }
     }
 
@@ -258,6 +332,8 @@ public class MatchManager : MonoBehaviour
         _playerRoundStartTakedownsAttempted = playerCombatStats.TakedownsAttempted;
         _opponentRoundStartTakedownsSucceeded = opponentCombatStats.TakedownsSucceeded;
         _opponentRoundStartTakedownsAttempted = opponentCombatStats.TakedownsAttempted;
+        _playerRoundStartControlSeconds = playerCombatStats.ControlSeconds;
+        _opponentRoundStartControlSeconds = opponentCombatStats.ControlSeconds;
 
         RoundRemainingSeconds = CurrentRuleData.RoundSeconds;
         CurrentState = MatchState.RoundInProgress;
@@ -290,6 +366,10 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        ApplyGroundBottomStaminaLoss(passedSeconds);
+
+        RecordGroundControlTime(passedSeconds);
+
         RoundRemainingSeconds = RoundRemainingSeconds - passedSeconds;
 
         if (RoundRemainingSeconds > 0f)
@@ -301,8 +381,108 @@ public class MatchManager : MonoBehaviour
         EndCurrentRound();
     }
 
+    private void ApplyGroundBottomStaminaLoss(float passedSeconds)
+    {
+        if (CombatModel == null)
+        {
+            return;
+        }
+
+        if (CombatModel.CurrentSituation != MatchSituation.Ground)
+        {
+            return;
+        }
+
+        GroundPositionData currentPositionData = GameDataManager.Instance.GetGroundPositionData(CombatModel.CurrentGroundPosition);
+
+        if (currentPositionData == null)
+        {
+            return;
+        }
+
+        MatchFighterModel bottomFighter = GetMatchFighter(CombatModel.BottomSide);
+
+        if (bottomFighter == null)
+        {
+            return;
+        }
+
+        float staminaLoss = currentPositionData.BottomStaminaLossPerSecond * passedSeconds;
+        bottomFighter.UseStamina(staminaLoss);
+    }
+
+    private void RecordGroundControlTime(float passedSeconds)
+    {
+        if (CombatModel == null)
+        {
+            return;
+        }
+
+        if (CombatModel.CurrentSituation != MatchSituation.Ground)
+        {
+            return;
+        }
+
+        if (CombatModel.GroundControllerSide == MatchFighterSide.None)
+        {
+            return;
+        }
+
+        if (_combatRunner == null)
+        {
+            return;
+        }
+
+        MatchCombatStats controllerStats = _combatRunner.GetCombatStats(CombatModel.GroundControllerSide);
+
+        if (controllerStats == null)
+        {
+            return;
+        }
+
+        controllerStats.RecordControlTime(passedSeconds);
+    }
+
+    private MatchFighterModel GetMatchFighter(MatchFighterSide fighterSide)
+    {
+        if (fighterSide == MatchFighterSide.Player)
+        {
+            return _playerMatchFighter;
+        }
+
+        if (fighterSide == MatchFighterSide.Opponent)
+        {
+            return _opponentMatchFighter;
+        }
+
+        return null;
+    }
+
     private void RunNextCombatAction()
     {
+        if (_combatRunner.IsSubmissionInProgress())
+        {
+            CombatActionResult submissionResult;
+
+            bool submissionContinued = _combatRunner.TryContinueSubmission(out submissionResult);
+
+            if (submissionContinued == false)
+            {
+                Debug.LogError($"서브미션 공방 처리 실패");
+                return;
+            }
+
+            LogCombatActionResult(submissionResult);
+
+            bool continuedSubmissionFinished = TryCompleteMatchBySubmission(submissionResult);
+            if (continuedSubmissionFinished == true)
+            {
+                return;
+            }
+
+            return;
+        }
+
         if (_combatRunner.IsTakedownInProgress())
         {
             CombatActionResult takedownResult;
@@ -347,8 +527,14 @@ public class MatchManager : MonoBehaviour
 
         LogCombatActionResult(actionResult);
         
-        bool matchCompleted = TryCompleteMatchByKO();
-        if (matchCompleted)
+        bool actionSubmissionFinished = TryCompleteMatchBySubmission(actionResult);
+        if (actionSubmissionFinished == true)
+        {
+            return;
+        }
+
+        bool knockoutFinished = TryCompleteMatchByKnockOut();
+        if (knockoutFinished)
         {
             return;
         }
@@ -364,7 +550,7 @@ public class MatchManager : MonoBehaviour
 
         string resultText = GetCombatActionResultText(actionResult.ResultType);
 
-        Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
+        Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition}, 상위 {CombatModel.TopSide}, 하위 {CombatModel.BottomSide}, 컨트롤 {CombatModel.GroundControllerSide} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
     }
 
     private string GetCombatActionResultText(CombatActionResultType resultType)
@@ -419,10 +605,45 @@ public class MatchManager : MonoBehaviour
             return "클린치 탈출 실패";
         }
 
+        if (resultType == CombatActionResultType.GroundPositionChangeSucceeded)
+        {
+            return "그라운드 포지션 전환 성공";
+        }
+
+        if (resultType == CombatActionResultType.GroundPositionChangeFailed)
+        {
+            return "그라운드 포지션 전환 실패";
+        }
+
+        if (resultType == CombatActionResultType.GroundEscaped)
+        {
+            return "그라운드 탈출 성공";
+        }
+
+        if (resultType == CombatActionResultType.GroundEscapeFailed)
+        {
+            return "그라운드 탈출 실패";
+        }
+
+        if (resultType == CombatActionResultType.SubmissionSucceeded)
+        {
+            return "서브미션 성공";
+        }
+
+        if (resultType == CombatActionResultType.SubmissionInProgress)
+        {
+            return "서브미션 진행중";
+        }
+
+        if (resultType == CombatActionResultType.SubmissionEscaped)
+        {
+            return "서브미션 탈출";
+        }
+
         return "결과 없음";
     }
 
-    private bool TryCompleteMatchByKO()
+    private bool TryCompleteMatchByKnockOut()
     {
         bool playerKO = PlayerCurrentHp <= 0f;
         bool opponentKO = OpponentCurrentHp <= 0f;
@@ -439,16 +660,55 @@ public class MatchManager : MonoBehaviour
             return true;
         }
 
+        MatchFinishType finishType = MatchFinishType.KO;
+
+        if (CombatModel != null && CombatModel.CurrentSituation == MatchSituation.Ground)
+        {
+            finishType = MatchFinishType.TKO;
+        }
+
         if (playerKO)
         {
-            CompleteMatch(MatchResult.Lose, MatchFinishType.KO);
-            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 패배");
+            CompleteMatch(MatchResult.Lose, finishType);
+
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 {finishType} 패배");
+
             return true;
         }
 
-        CompleteMatch(MatchResult.Win, MatchFinishType.KO);
+        CompleteMatch(MatchResult.Win, finishType);
 
-        Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 KO 승리");
+        Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 {finishType} 승리");
+        return true;
+    }
+
+    private bool TryCompleteMatchBySubmission(CombatActionResult actionResult)
+    {
+        if (actionResult == null || actionResult.Action == null)
+        {
+            return false;
+        }
+
+        if (actionResult.ResultType != CombatActionResultType.SubmissionSucceeded)
+        {
+            return false;
+        }
+
+        if (actionResult.Action.SkillUserSide == MatchFighterSide.Player)
+        {
+            CompleteMatch(MatchResult.Win, MatchFinishType.Submission);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 서브미션 승리");
+            return true;
+        }
+
+        if (actionResult.Action.SkillUserSide == MatchFighterSide.Opponent)
+        {
+            CompleteMatch(MatchResult.Lose, MatchFinishType.Submission);
+            Debug.Log($"{PlayerFighter.Name} {CurrentRound}라운드 서브미션 패배");
+            return true;
+        }
+
+        StopMatchByError("서브미션 종료 실패. 유효하지 않은 사용자");
         return true;
     }
 
@@ -505,6 +765,9 @@ public class MatchManager : MonoBehaviour
         int opponentRoundTakedownsSucceeded = opponentCombatStats.TakedownsSucceeded - _opponentRoundStartTakedownsSucceeded;
         int opponentRoundTakedownsAttempted = opponentCombatStats.TakedownsAttempted - _opponentRoundStartTakedownsAttempted;
 
+        float playerRoundControlSeconds = playerCombatStats.ControlSeconds - _playerRoundStartControlSeconds;
+        float opponentRoundControlSeconds = opponentCombatStats.ControlSeconds - _opponentRoundStartControlSeconds;
+
         float playerLostRate = HpCalculator.CalculateLostHpRate(_playerMatchFighter.MaxHp, _playerRoundStartHp, PlayerCurrentHp);
         float opponentLostRate = HpCalculator.CalculateLostHpRate(_opponentMatchFighter.MaxHp, _opponentRoundStartHp, OpponentCurrentHp);
 
@@ -512,12 +775,13 @@ public class MatchManager : MonoBehaviour
         roundRecord.SetHpLostRates(playerLostRate, opponentLostRate);
         roundRecord.SetSignificantStrikes(playerRoundSignificantStrikes, opponentRoundSignificantStrikes);
         roundRecord.SetTakedowns(playerRoundTakedownsSucceeded, playerRoundTakedownsAttempted, opponentRoundTakedownsSucceeded, opponentRoundTakedownsAttempted);
+        roundRecord.SetControlSeconds(playerRoundControlSeconds, opponentRoundControlSeconds);
         _roundRecords.Add(roundRecord);
 
         Debug.Log($"{CurrentRound}라운드 종료 / {PlayerFighter.Name} HP {PlayerCurrentHp:F1}, 유효타 {playerRoundSignificantStrikes}, 테이크다운 {playerRoundTakedownsSucceeded}/" +
-            $"{playerRoundTakedownsAttempted} / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}, 테이크다운 {opponentRoundTakedownsSucceeded}/{opponentRoundTakedownsAttempted}");
-        
-        bool matchCompleted = TryCompleteMatchByKO();
+                  $"{playerRoundTakedownsAttempted}, 컨트롤타임 {playerRoundControlSeconds:F1}초 / {OpponentData.Name} HP {OpponentCurrentHp:F1}, 유효타 {opponentRoundSignificantStrikes}, 테이크다운 {opponentRoundTakedownsSucceeded}/{opponentRoundTakedownsAttempted}, 컨트롤타임 {opponentRoundControlSeconds:F1}초");
+
+        bool matchCompleted = TryCompleteMatchByKnockOut();
         if (matchCompleted)
         {
             return true;
@@ -737,6 +1001,8 @@ public class MatchManager : MonoBehaviour
         _playerRoundStartTakedownsAttempted = 0;
         _opponentRoundStartTakedownsSucceeded = 0;
         _opponentRoundStartTakedownsAttempted = 0;
+        _playerRoundStartControlSeconds = 0f;
+        _opponentRoundStartControlSeconds = 0f;
         LastResult = MatchResult.None;
         _roundRecords.Clear();
 

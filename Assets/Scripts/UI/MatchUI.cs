@@ -13,6 +13,11 @@ public class MatchUI : UIBase
     [SerializeField] private Text Text_Round;
     [SerializeField] private Text Text_Time;
 
+    [SerializeField] private Slider Slider_PlayerHp;
+    [SerializeField] private Slider Slider_PlayerStamina;
+    [SerializeField] private Slider Slider_OpponentHp;
+    [SerializeField] private Slider Slider_OpponentStamina;
+
     [SerializeField] private Image Image_Fighter_Left;
     [SerializeField] private Image Image_Fighter_Right;
     [SerializeField] private Sprite DefaultFighterSprite_Left;
@@ -89,6 +94,8 @@ public class MatchUI : UIBase
 
         MatchState currentState = MatchManager.Instance.CurrentState;
 
+        RefreshMatchFighterStatusBars();
+
         RefreshMatchStrategySelectionUI(currentState);
 
         int displaySeconds = GetDisplaySeconds();
@@ -137,6 +144,38 @@ public class MatchUI : UIBase
         Text_Round.text = "경기 준비";
         Text_Time.text = "-";
         ClearMatchWinnerText();
+    }
+
+    private void RefreshMatchFighterStatusBars()
+    {
+        if (MatchManager.Instance == null)
+        {
+            return;
+        }
+
+        SetSliderRate(Slider_PlayerHp, MatchManager.Instance.PlayerCurrentHp, MatchManager.Instance.PlayerMaxHp);
+        SetSliderRate(Slider_PlayerStamina, MatchManager.Instance.PlayerCurrentStamina, MatchManager.Instance.PlayerMaxStamina);
+        SetSliderRate(Slider_OpponentHp, MatchManager.Instance.OpponentCurrentHp, MatchManager.Instance.OpponentMaxHp);
+        SetSliderRate(Slider_OpponentStamina, MatchManager.Instance.OpponentCurrentStamina, MatchManager.Instance.OpponentMaxStamina);
+    }
+
+    private void SetSliderRate(Slider slider, float currentValue, float maxValue)
+    {
+        if (slider == null)
+        {
+            return;
+        }
+
+        if (maxValue <= 0f)
+        {
+            slider.SetValueWithoutNotify(0f);
+            return;
+        }
+
+        float rate = currentValue / maxValue;
+        rate = Mathf.Clamp01(rate);
+
+        slider.SetValueWithoutNotify(rate);
     }
 
     private void ShowMatchResultUI()
@@ -345,6 +384,13 @@ public class MatchUI : UIBase
             return;
         }
 
+        if (ArenaManager.Instance == null || ArenaManager.Instance.IsReady == false)
+        {
+            Debug.LogError("체육관 복귀 실패. ArenaManager 또는 Root 연결 없음");
+            _isReturningToGym = false;
+            return;
+        }
+
         UIBase openedUI = UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
         TransitionLoadingUI transitionLoadingUI = openedUI as TransitionLoadingUI;
 
@@ -356,6 +402,14 @@ public class MatchUI : UIBase
         }
 
         await UniTask.Yield(PlayerLoopTiming.Update);
+
+        bool returnSuccess = ArenaManager.Instance.TryReturnToGym();
+        if (returnSuccess == false)
+        {
+            UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
+            _isReturningToGym = false;
+            return;
+        }
 
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MatchUI);
 

@@ -34,6 +34,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, MatchRuleData> MatchRuleDataList { get; private set; } = new Dictionary<string, MatchRuleData>();
     public Dictionary<string, MatchStrategyData> MatchStrategyDataList { get; private set; } = new Dictionary<string, MatchStrategyData>();
     public Dictionary<string, MatchStrategyOptionData> MatchStrategyOptionDataList { get; private set; } = new Dictionary<string, MatchStrategyOptionData>();
+    public Dictionary<string, GroundPositionData> GroundPositionDataList { get; private set; } = new Dictionary<string, GroundPositionData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -90,6 +91,7 @@ public class GameDataManager : MonoBehaviour
         MatchRuleDataList = LoadData<MatchRuleData>("MatchRuleData");
         MatchStrategyDataList = LoadData<MatchStrategyData>("MatchStrategyData");
         MatchStrategyOptionDataList = LoadData<MatchStrategyOptionData>("MatchStrategyOptionData");
+        GroundPositionDataList = LoadData<GroundPositionData>("GroundPositionData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -539,5 +541,30 @@ public class GameDataManager : MonoBehaviour
     private int CompareMatchStrategyOptionSortOrder(MatchStrategyOptionData left, MatchStrategyOptionData right)
     {
         return left.SortOrder.CompareTo(right.SortOrder);
+    }
+
+    public GroundPositionData GetGroundPositionData(GroundPosition groundPosition)
+    {
+        if (GroundPositionDataList == null || groundPosition == GroundPosition.None)
+        {
+            return null;
+        }
+
+        foreach (KeyValuePair<string, GroundPositionData> pair in GroundPositionDataList)
+        {
+            GroundPositionData positionData = pair.Value;
+
+            if (positionData == null)
+            {
+                continue;
+            }
+
+            if (positionData.Position == groundPosition.ToString())
+            {
+                return positionData;
+            }
+        }
+
+        return null;
     }
 }

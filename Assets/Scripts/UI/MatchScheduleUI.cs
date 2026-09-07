@@ -162,6 +162,12 @@ public class MatchScheduleUI : UIBase
             return;
         }
 
+        if (ArenaManager.Instance == null || ArenaManager.Instance.IsReady == false)
+        {
+            Debug.LogError("경기 시작 실패. ArenaManager 또는 월드 Root 연결 없음");
+            return;
+        }
+
         bool success = MatchManager.Instance.TryScheduleMatch(player, opponent, ruleData);
 
         if (success == false)
@@ -172,6 +178,13 @@ public class MatchScheduleUI : UIBase
         bool startSuccess = MatchManager.Instance.TryStartMatch();
         if (startSuccess == false)
         {
+            return;
+        }
+
+        bool arenaEnterSuccess = ArenaManager.Instance.TryEnterArena();
+        if (arenaEnterSuccess == false)
+        {
+            MatchManager.Instance.ClearMatch();
             return;
         }
 

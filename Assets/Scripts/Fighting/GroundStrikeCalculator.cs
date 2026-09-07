@@ -2,7 +2,7 @@
 
 public class GroundStrikeCalculator
 {
-    public bool TryCalculate(MatchCombatAction action, MatchFighterModel skillUser, MatchFighterModel target, out CombatActionResult actionResult)
+    public bool TryCalculate(MatchCombatAction action, MatchFighterModel skillUser, MatchFighterModel target, GroundPositionData currentPositionData, out CombatActionResult actionResult)
     {
         actionResult = null;
 
@@ -11,7 +11,7 @@ public class GroundStrikeCalculator
             return false;
         }
 
-        if (skillUser == null || target == null)
+        if (skillUser == null || target == null || currentPositionData == null)
         {
             return false;
         }
@@ -31,7 +31,10 @@ public class GroundStrikeCalculator
             return false;
         }
 
-        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.WrestlingOffense, target.WrestlingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(skillUser.WrestlingOffense, skillUser);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.WrestlingDefense, target);
+
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
         float selectedChance = Random.Range(0f, 100f);
         bool isSuccess = selectedChance < successChance;
 
@@ -46,7 +49,8 @@ public class GroundStrikeCalculator
 
         if (isSuccess)
         {
-            damage = DamageCalculator.Calculate(skillUser.WrestlingOffense, target.WrestlingDefense, action.SelectedSkill.DamageMultiplier);
+            float finalDamageMultiplier = action.SelectedSkill.DamageMultiplier * currentPositionData.GroundStrikeDamageMultiplier;
+            damage = DamageCalculator.Calculate(offense, defense, finalDamageMultiplier);
         }
 
         actionResult = new CombatActionResult(action, resultType, isSuccess, successChance, damage);

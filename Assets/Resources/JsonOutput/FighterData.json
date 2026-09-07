@@ -48,7 +48,7 @@
     "JiuJitsuOffense": 30,
     "JiuJitsuDefense": 30,
     "TrainingStamina": 0,
-    "StartingSkillIds": "None"
+    "StartingSkillIds": "skill_guillotine"
   },
   {
     "Id": "fighter_04",
@@ -133,6 +133,6 @@
     "JiuJitsuOffense": 40,
     "JiuJitsuDefense": 40,
     "TrainingStamina": 0,
-    "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo"
+    "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo,skill_guillotine"
   }
 ]

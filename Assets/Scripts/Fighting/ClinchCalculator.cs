@@ -31,7 +31,10 @@ public class ClinchCalculator
             return false;
         }
 
-        float controlChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, skillUser.WrestlingOffense, target.WrestlingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(skillUser.WrestlingOffense, skillUser);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.WrestlingDefense, target);
+
+        float controlChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
         float selectedChance = Random.Range(0f, 100f);
 
         bool skillUserHasControl = selectedChance < controlChance;

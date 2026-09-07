@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ClinchEscapeCalculator
+public class GroundEscapeCalculator
 {
-    public bool TryCalculate(MatchCombatAction action, MatchFighterModel skillUser, MatchFighterModel target, out CombatActionResult actionResult)
+    public bool TryCalculate(MatchCombatAction action, MatchFighterModel skillUser, MatchFighterModel target, GroundPositionData currentPositionData, out CombatActionResult actionResult)
     {
         actionResult = null;
 
@@ -11,7 +11,7 @@ public class ClinchEscapeCalculator
             return false;
         }
 
-        if (skillUser == null || target == null)
+        if (skillUser == null || target == null || currentPositionData == null)
         {
             return false;
         }
@@ -35,14 +35,17 @@ public class ClinchEscapeCalculator
         float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(target.WrestlingOffense, target);
 
         float escapeChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, defense, offense);
+        escapeChance = escapeChance * currentPositionData.GroundEscapeSuccessMultiplier;
+        escapeChance = Mathf.Clamp(escapeChance, 0f, 100f);
+
         float selectedChance = Random.Range(0f, 100f);
         bool isSuccess = selectedChance < escapeChance;
 
-        CombatActionResultType resultType = CombatActionResultType.ClinchEscapeFailed;
+        CombatActionResultType resultType = CombatActionResultType.GroundEscapeFailed;
 
-        if (isSuccess)
+        if (isSuccess == true)
         {
-            resultType = CombatActionResultType.ClinchEscaped;
+            resultType = CombatActionResultType.GroundEscaped;
         }
 
         actionResult = new CombatActionResult(action, resultType, isSuccess, escapeChance, 0f);

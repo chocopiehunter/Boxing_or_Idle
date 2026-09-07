@@ -33,7 +33,10 @@ public class TakedownCalculator
             return false;
         }
 
-        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, attacker.WrestlingOffense, defender.WrestlingDefense);
+        float offense = StaminaPenaltyCalculator.ApplyStaminaPenalty(attacker.WrestlingOffense, attacker);
+        float defense = StaminaPenaltyCalculator.ApplyStaminaPenalty(defender.WrestlingDefense, defender);
+
+        float successChance = SuccessChanceCalculator.Calculate(action.SelectedSkill.BaseSuccessChance, offense, defense);
         float selectedChance = Random.Range(0f, 100f);
 
         CombatActionResultType resultType = CombatActionResultType.TakedownDefended;

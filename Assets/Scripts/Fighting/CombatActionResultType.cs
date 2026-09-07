@@ -15,5 +15,15 @@ public enum CombatActionResultType
     ClinchStarted,
     ClinchReversed,
     ClinchEscaped,
-    ClinchEscapeFailed
+    ClinchEscapeFailed,
+
+    GroundPositionChangeSucceeded,
+    GroundPositionChangeFailed,
+
+    GroundEscaped,
+    GroundEscapeFailed,
+
+    SubmissionSucceeded,
+    SubmissionInProgress,
+    SubmissionEscaped
 }
