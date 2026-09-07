@@ -193,6 +193,7 @@ public class MatchScheduleUI : UIBase
         UIManager.Instance.ClosePopupUI(UIType.MenuUI);
 
         GameManager.Instance.GameState.ChangeState(GameFlowState.Pause);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MainUI);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MatchUI);
     }
 

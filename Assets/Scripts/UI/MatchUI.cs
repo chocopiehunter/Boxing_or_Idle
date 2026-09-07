@@ -471,6 +471,8 @@ public class MatchUI : UIBase
         MatchManager.Instance.ClearMatch();
         GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
 
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
+
         await transitionLoadingUI.WaitForSeconds();
 
         UIManager.Instance.CloseUI(UIRootType.VeryFrontUI, UIType.TransitionLoadingUI);
