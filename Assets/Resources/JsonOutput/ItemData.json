@@ -1,0 +1,14 @@
+[
+  {
+    "Id": "item_first_aid_kit",
+    "Name": "구급상자",
+    "Description": "부상 회복에 사용하는 아이템",
+    "ItemType": "Consumable"
+  },
+  {
+    "Id": "item_license_bronze",
+    "Name": "브론즈 자격증",
+    "Description": "하위 단체 선수 등록에 필요한 자격증이다",
+    "ItemType": "KeyItem"
+  }
+]
