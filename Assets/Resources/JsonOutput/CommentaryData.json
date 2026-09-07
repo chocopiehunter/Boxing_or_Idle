@@ -1,0 +1,13 @@
+[
+  {
+    "Id": "comm_jab_hit_01",
+    "ResultType": "StrikeHit",
+    "SkillId": "skill_jab",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "SkillUserSide": "Any",
+    "CommentaryText": "잽! 빠르고 경쾌하게 적중합니다.",
+    "Weight": 100
+  }
+]
