@@ -1617,6 +1617,7 @@ MonoBehaviour:
   Text_MatchWinner: {fileID: 4476017711826044156}
   StrategySelectionUI: {fileID: 6887664317531782121}
   ResultUI: {fileID: 8905311432247959287}
+  CommentaryUI: {fileID: 2514193154606802239}
 --- !u!1 &3586108705591492348
 GameObject:
   m_ObjectHideFlags: 0
