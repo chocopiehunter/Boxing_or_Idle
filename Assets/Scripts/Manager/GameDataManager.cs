@@ -35,6 +35,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, MatchStrategyData> MatchStrategyDataList { get; private set; } = new Dictionary<string, MatchStrategyData>();
     public Dictionary<string, MatchStrategyOptionData> MatchStrategyOptionDataList { get; private set; } = new Dictionary<string, MatchStrategyOptionData>();
     public Dictionary<string, GroundPositionData> GroundPositionDataList { get; private set; } = new Dictionary<string, GroundPositionData>();
+    public Dictionary<string, CommentaryData> CommentaryDataList { get; private set; } = new Dictionary<string, CommentaryData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -92,6 +93,7 @@ public class GameDataManager : MonoBehaviour
         MatchStrategyDataList = LoadData<MatchStrategyData>("MatchStrategyData");
         MatchStrategyOptionDataList = LoadData<MatchStrategyOptionData>("MatchStrategyOptionData");
         GroundPositionDataList = LoadData<GroundPositionData>("GroundPositionData");
+        CommentaryDataList = LoadData<CommentaryData>("CommentaryData");
     }
 
     // 2. 사용을 위한 메서드 정의
@@ -566,5 +568,21 @@ public class GameDataManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public CommentaryData GetCommentaryData(string id)
+    {
+        if (CommentaryDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        CommentaryData commentaryData;
+
+        bool found = CommentaryDataList.TryGetValue(id, out commentaryData);
+
+        if (found == false)
+        {
+            return null;
+        }
+
+        return commentaryData;
     }
 }
