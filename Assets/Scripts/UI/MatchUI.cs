@@ -28,8 +28,10 @@ public class MatchUI : UIBase
 
     [SerializeField] private MatchStrategySelectionUI StrategySelectionUI;
     [SerializeField] private MatchResultUI ResultUI;
+    [SerializeField] private CommentaryUI CommentaryUI;
 
     private const string NoneId = "None";
+    private readonly CommentarySelector _commentarySelector = new CommentarySelector();
     private bool _hasDisplayedMatchProgress;
     private MatchState _displayedState;
     private int _displayedRound = -1;
@@ -49,7 +51,60 @@ public class MatchUI : UIBase
             ResultUI.Hide();
         }
 
+        if (CommentaryUI != null)
+        {
+            CommentaryUI.ClearCommentary();
+        }
+
+        BindCombatActionResultEvent();
+
         RefreshUI();
+    }
+
+    private void OnDisable()
+    {
+        UnbindCombatActionResultEvent();
+    }
+
+    private void BindCombatActionResultEvent()
+    {
+        if (MatchManager.Instance == null)
+        {
+            Debug.LogError("경기 해설 이벤트 연결 실패. MatchManager 없음");
+
+            return;
+        }
+
+        MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
+
+        MatchManager.Instance.OnCombatActionResolved += HandleCombatActionResolved;
+    }
+
+    private void UnbindCombatActionResultEvent()
+    {
+        if (MatchManager.Instance == null)
+        {
+            return;
+        }
+
+        MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
+    }
+
+    private void HandleCombatActionResolved(CombatActionResult actionResult)
+    {
+        if (CommentaryUI == null || GameDataManager.Instance == null || MatchManager.Instance == null)
+        {
+            return;
+        }
+
+        CommentaryData commentaryData = _commentarySelector.Select(GameDataManager.Instance.CommentaryDataList, actionResult, MatchManager.Instance.CombatModel);
+
+        if (commentaryData == null)
+        {
+            return;
+        }
+
+        CommentaryUI.ShowCommentary(commentaryData.CommentaryText);
     }
 
     private void Update()
@@ -415,6 +470,8 @@ public class MatchUI : UIBase
 
         MatchManager.Instance.ClearMatch();
         GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
+
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainUI);
 
         await transitionLoadingUI.WaitForSeconds();
 

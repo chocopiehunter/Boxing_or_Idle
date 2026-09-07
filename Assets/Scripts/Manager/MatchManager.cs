@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
+    public event Action<CombatActionResult> OnCombatActionResolved;
     private IMatchJudge _matchJudge;
     private MatchCombatRunner _combatRunner;
     private MatchFighterModel _playerMatchFighter;
@@ -472,7 +474,7 @@ public class MatchManager : MonoBehaviour
                 return;
             }
 
-            LogCombatActionResult(submissionResult);
+            HandleCombatActionResult(submissionResult);
 
             bool continuedSubmissionFinished = TryCompleteMatchBySubmission(submissionResult);
             if (continuedSubmissionFinished == true)
@@ -495,7 +497,7 @@ public class MatchManager : MonoBehaviour
                 return;
             }
 
-            LogCombatActionResult(takedownResult);
+            HandleCombatActionResult(takedownResult);
             return;
         }
 
@@ -525,7 +527,7 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
-        LogCombatActionResult(actionResult);
+        HandleCombatActionResult(actionResult);
         
         bool actionSubmissionFinished = TryCompleteMatchBySubmission(actionResult);
         if (actionSubmissionFinished == true)
@@ -540,7 +542,7 @@ public class MatchManager : MonoBehaviour
         }
     }
 
-    private void LogCombatActionResult(CombatActionResult actionResult)
+    private void HandleCombatActionResult(CombatActionResult actionResult)
     {
         if (actionResult == null || actionResult.Action == null || actionResult.Action.SelectedSkill == null)
         {
@@ -551,6 +553,11 @@ public class MatchManager : MonoBehaviour
         string resultText = GetCombatActionResultText(actionResult.ResultType);
 
         Debug.Log($"전투 행동 결과 / 사용자 {actionResult.Action.SkillUserSide} / 대상 {actionResult.Action.TargetSide} / 기술 {actionResult.Action.SelectedSkill.Name} / 결과 {resultText} / 성공 확률 {actionResult.SuccessChance:F1}% / 피해 {actionResult.Damage:F1} / 상황 {CombatModel.CurrentSituation}, 레슬링 {CombatModel.CurrentWrestlingSituation}, 그라운드 {CombatModel.CurrentGroundPosition}, 상위 {CombatModel.TopSide}, 하위 {CombatModel.BottomSide}, 컨트롤 {CombatModel.GroundControllerSide} / 플레이어 HP {PlayerCurrentHp:F1}, 스태미나 {_playerMatchFighter.CurrentStamina:F1} / 상대 HP {OpponentCurrentHp:F1}, 스태미나 {_opponentMatchFighter.CurrentStamina:F1}");
+
+        if (OnCombatActionResolved != null)
+        {
+            OnCombatActionResolved(actionResult);
+        }
     }
 
     private string GetCombatActionResultText(CombatActionResultType resultType)
