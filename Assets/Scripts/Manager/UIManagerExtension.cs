@@ -17,7 +17,7 @@ public enum UIType
     LoadingUI,
     TransitionLoadingUI,
     TitleUI,
-    Inventory,
+    InventoryUI,
     DialogueUI,
     SimplePopupUI,
     SettingUI,
