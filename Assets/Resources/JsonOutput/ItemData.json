@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "item_first_aid_kit",
+    "Name": "구급상자",
+    "Description": "부상 회복에 사용하는 아이템",
+    "ItemType": "Consumable",
+    "UseTargetType": "Single"
+  },
+  {
+    "Id": "item_license_bronze",
+    "Name": "브론즈 자격증",
+    "Description": "하위 단체 선수 등록에 필요한 자격증이다",
+    "ItemType": "KeyItem",
+    "UseTargetType": "None"
+  },
+  {
+    "Id": "item_chicken_salad",
+    "Name": "닭가슴살 샐러드",
+    "Description": "훈련의 효율을 높여주는 음식",
+    "ItemType": "Consumable",
+    "UseTargetType": "All"
+  }
+]
