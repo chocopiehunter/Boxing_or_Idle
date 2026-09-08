@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryUI : UIBase
 {
@@ -52,12 +53,45 @@ public class InventoryUI : UIBase
 
     private void RefreshItemListUI()
     {
+        ClearItemRowUI();
 
+        if (InventoryManager.Instance == null || GameDataManager.Instance == null)
+        {
+            return;
+        }
+
+        List<InventoryEntry> entries = InventoryManager.Instance.GetAllEntries();
+
+        for (int i = 0; i < entries.Count; i++)
+        {
+            InventoryEntry entry = entries[i];
+
+            ItemData itemData = GameDataManager.Instance.GetItemData(entry.ItemId);
+
+            if (itemData == null)
+            {
+                Debug.LogError($"인벤토리에 표시할 ItemData 없음 ItemId : {entry.ItemId}");
+
+                continue;
+            }
+
+            if (itemData.ItemType != _selectedItemType.ToString())
+            {
+                continue;
+            }
+
+            InventoryRowUI rowUI = Instantiate(Prefab_ItemRow, Transform_ItemContent);
+
+            rowUI.Setup(itemData, entry.Count);
+        }
     }
 
     private void ClearItemRowUI()
     {
-
+        for (int i = Transform_ItemContent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(Transform_ItemContent.GetChild(i).gameObject);
+        }
     }
 
     private void OnItemCountChanged(string itemId, int previousCount, int currentCount)
