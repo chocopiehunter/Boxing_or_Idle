@@ -23,6 +23,8 @@ public class TitleUI : UIBase
         GymManager.Instance.CreateStartingGym();
         FighterManager.Instance.CreateStartingRoster();
 
+        InventoryManager.Instance.CreateStartingInventory();
+
         GameManager.Instance.GameState.ChangeState(GameFlowState.Play);
     }
 

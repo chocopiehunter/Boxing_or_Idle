@@ -1540,6 +1540,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68072f02cd4a9c9438a2d2ebbe7b410c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
+  StartingItems:
+  - ItemId: item_first_aid_kit
+    Count: 3
+  - ItemId: item_license_bronze
+    Count: 1
 --- !u!1 &1607478090
 GameObject:
   m_ObjectHideFlags: 0
