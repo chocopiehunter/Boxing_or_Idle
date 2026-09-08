@@ -11,6 +11,7 @@ public class MatchFighterView : MonoBehaviour
     [SerializeField] private SpriteRenderer SpriteRenderer_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
 
+    public MatchFighterDirection CurrentDirection { get; private set; } = MatchFighterDirection.None;
     private int _actionVersion;
 
     private void Awake()
@@ -30,7 +31,7 @@ public class MatchFighterView : MonoBehaviour
         Anim_Fighter.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
-    public void Setup(bool isFacingRight)
+    public void Setup(MatchFighterDirection direction)
     {
         _actionVersion = _actionVersion + 1;
 
@@ -39,7 +40,22 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
-        SpriteRenderer_Fighter.flipX = isFacingRight == false;
+        if (direction == MatchFighterDirection.None)
+        {
+            Debug.LogError($"{name} 선수의 방향이 지정되지 않음");
+            return;
+        }
+
+        CurrentDirection = direction;
+
+        if (CurrentDirection == MatchFighterDirection.West)
+        {
+            SpriteRenderer_Fighter.flipX = true;
+        }
+        else
+        {
+            SpriteRenderer_Fighter.flipX = false;
+        }
 
         PlayIdle();
     }
