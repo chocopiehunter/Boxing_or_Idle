@@ -130,6 +130,23 @@ public class MatchDistanceModel
         return IsPositionInsideArea(position, AreaCenter, AreaRadius);
     }
 
+    public Vector2 GetPositionInsideArea(Vector2 position)
+    {
+        if (IsReady == false)
+        {
+            return position;
+        }
+
+        Vector2 centerToPosition = position - AreaCenter;
+
+        if (centerToPosition.sqrMagnitude <= AreaRadius * AreaRadius)
+        {
+            return position;
+        }
+
+        return AreaCenter + centerToPosition.normalized * AreaRadius;
+    }
+
     private bool IsPositionInsideArea(Vector2 position, Vector2 areaCenter, float areaRadius)
     {
         return Vector2.Distance(position, areaCenter) <= areaRadius;
