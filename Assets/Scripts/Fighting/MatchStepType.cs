@@ -4,5 +4,5 @@ public enum MatchStepType
 {
     None,
     Forward,
-    Backward
+    Back
 }
