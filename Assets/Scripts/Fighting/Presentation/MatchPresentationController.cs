@@ -61,6 +61,20 @@ public class MatchPresentationController : MonoBehaviour
         }
 
         skillUserView.PlayJab();
+
+        if (actionResult.ResultType != CombatActionResultType.StrikeHit)
+        {
+            return;
+        }
+
+        MatchFighterView targetView = GetFighterView(actionResult.Action.TargetSide);
+
+        if (targetView == null)
+        {
+            return;
+        }
+
+        targetView.PlayHit();
     }
 
     private void RefreshFighterDirection()

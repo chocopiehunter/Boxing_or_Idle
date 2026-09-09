@@ -6,10 +6,12 @@ public class MatchFighterView : MonoBehaviour
 {
     private static readonly int IdleStateHash = Animator.StringToHash("Idle");
     private static readonly int JabStateHash = Animator.StringToHash("Jab");
+    private static readonly int HitStateHash = Animator.StringToHash("Hit");
 
     [SerializeField] private Animator Anim_Fighter;
     [SerializeField] private SpriteRenderer SpriteRenderer_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
+    [SerializeField] private float HitDuration = 0.52f;
 
     public MatchFighterDirection CurrentDirection { get; private set; } = MatchFighterDirection.None;
     private int _actionVersion;
@@ -81,6 +83,41 @@ public class MatchFighterView : MonoBehaviour
         float passedSeconds = 0f;
 
         while (passedSeconds < JabDuration)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+
+            passedSeconds = passedSeconds + Time.unscaledDeltaTime;
+        }
+
+        if (actionVersion != _actionVersion)
+        {
+            return;
+        }
+
+        PlayIdle();
+    }
+
+    public void PlayHit()
+    {
+        if (Anim_Fighter == null)
+        {
+            return;
+        }
+
+        _actionVersion = _actionVersion + 1;
+
+        CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
+
+        PlayHitAsync(_actionVersion, cancellationToken).Forget();
+    }
+
+    private async UniTask PlayHitAsync(int actionVersion, CancellationToken cancellationToken)
+    {
+        Anim_Fighter.Play(HitStateHash, 0, 0f);
+
+        float passedSeconds = 0f;
+
+        while (passedSeconds < HitDuration)
         {
             await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
 
