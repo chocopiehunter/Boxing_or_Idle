@@ -22,12 +22,19 @@ public class MatchManager : MonoBehaviour
     private float _playerRoundStartControlSeconds;
     private float _opponentRoundStartControlSeconds;
 
+    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-1f, 0f);
+    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(1f, 0f);
+    [SerializeField] private float MinFighterDistance = 0.6f;
+    [SerializeField] private Vector2 MatchAreaCenter = Vector2.zero;
+    [SerializeField] private float MatchAreaRadius = 4f;
+
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
     public MatchRuleData CurrentRuleData { get; private set; }
     public MatchStrategyData CurrentStrategyData { get; private set; }
     public MatchCombatModel CombatModel { get; private set; }
+    public MatchDistanceModel DistanceModel { get; private set; }
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
@@ -129,7 +136,7 @@ public class MatchManager : MonoBehaviour
     }
 
     public MatchResult LastResult { get; private set; } = MatchResult.None;
-    public MatchResultSummary LastResultSummary { get; private set; } // 결과요약
+    public MatchResultSummary LastResultSummary { get; private set; }
 
     private void Awake()
     {
@@ -242,6 +249,19 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
+        DistanceModel = new MatchDistanceModel();
+
+        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, MatchAreaCenter, MatchAreaRadius);
+
+        if (distanceSetupSuccess == false)
+        {
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 경기 위치 및 거리 설정 오류");
+
+            return false;
+        }
+
         List<string> opponentSkillIds = GameDataManager.Instance.GetStartingSkillIds(OpponentData);
 
         _playerMatchFighter = new MatchFighterModel(
@@ -313,7 +333,15 @@ public class MatchManager : MonoBehaviour
 
     private void StartCurrentRound()
     {
+        if (DistanceModel == null || DistanceModel.IsReady == false)
+        {
+            StopMatchByError("라운드 시작 실패. 경기 거리 모델 없음");
+
+            return;
+        }
+
         CombatModel.StartRound();
+        DistanceModel.ResetPositions();
         _combatRunner.Reset();
 
         _playerRoundStartHp = PlayerCurrentHp;
@@ -991,6 +1019,7 @@ public class MatchManager : MonoBehaviour
         CurrentRuleData = null;
         CurrentStrategyData = null;
         CombatModel = null;
+        DistanceModel = null;
         _combatRunner = null;
 
         _playerMatchFighter = null;
