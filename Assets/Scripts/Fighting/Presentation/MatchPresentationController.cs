@@ -1,18 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class MatchPresentationController : MonoBehaviour
 {
     [SerializeField] private MatchFighterView PlayerView;
     [SerializeField] private MatchFighterView OpponentView;
+    [SerializeField] private float StrikeImpactDelay = 0.12f;
+
+    private int _presentationVersion;
 
     private void OnEnable()
     {
+        _presentationVersion = _presentationVersion + 1;
+
         RefreshFighterDirection();
         BindCombatActionEvent();
     }
 
     private void OnDisable()
     {
+        _presentationVersion = _presentationVersion + 1;
+
         UnbindCombatActionEvent();
     }
 
@@ -68,6 +77,32 @@ public class MatchPresentationController : MonoBehaviour
         }
 
         MatchFighterView targetView = GetFighterView(actionResult.Action.TargetSide);
+
+        if (targetView == null)
+        {
+            return;
+        }
+
+        CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
+
+        PlayHitAfterDelayAsync(targetView, _presentationVersion, cancellationToken).Forget();
+    }
+
+    private async UniTask PlayHitAfterDelayAsync(MatchFighterView targetView, int presentationVersion, CancellationToken cancellationToken)
+    {
+        float passedSeconds = 0f;
+
+        while (passedSeconds < StrikeImpactDelay)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+
+            passedSeconds = passedSeconds + Time.unscaledDeltaTime;
+        }
+
+        if (presentationVersion != _presentationVersion || isActiveAndEnabled == false)
+        {
+            return;
+        }
 
         if (targetView == null)
         {
