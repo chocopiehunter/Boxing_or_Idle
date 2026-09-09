@@ -1,0 +1,2502 @@
+fileFormatVersion: 2
+guid: fa27c86d7d1266c4f86a3e60deb14779
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fighter_Basic_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1462
+        width: 22
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec448e6c85e5b464996ffde8f93555a9
+      internalID: -1738638180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_1
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 1462
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de6b44a011b2f094e80ad58bdb4d8cbe
+      internalID: 261671939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_2
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 1462
+        width: 21
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1be39da20f0e76941bf7fe76c8537aad
+      internalID: 587488180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_3
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 1462
+        width: 22
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fff8698e51e44af429d1d24dc514758e
+      internalID: -1761408048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_4
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 1462
+        width: 23
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df2d8aa8af617b84dbc528ba1edfe841
+      internalID: -267574061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_5
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 1462
+        width: 22
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8522d03af5c6a0b4ebee40c8f66548c7
+      internalID: -671077394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_6
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1462
+        width: 20
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2669dedfbed850e40a2010a6ba6323e9
+      internalID: -218755342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_7
+      rect:
+        serializedVersion: 2
+        x: 706
+        y: 1462
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc98cce69e383c04b83d1a7a05f5d7b9
+      internalID: -1634635041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_8
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 1368
+        width: 19
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bd543b0f5b52f54da3fed9ae7203b77
+      internalID: -895925356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_9
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 1368
+        width: 17
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a106460ae1f404483d4838f1f3bdc7
+      internalID: 1188646508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_10
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 1366
+        width: 35
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0004013abff44bc4bbd8bba346b966e7
+      internalID: 2146784976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_11
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 1366
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a67ffbbe2eecab40a3bc08944fd9927
+      internalID: -603163655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_12
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 1366
+        width: 37
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65a27d4d3c476b149bdd79054271c771
+      internalID: -36363292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_13
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 1367
+        width: 24
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f3e60c9bb9a86c40a8607c5cdeee9c3
+      internalID: -2060564085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_14
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 1367
+        width: 20
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83d2387268e04dd49b4032fc31b19b9b
+      internalID: 1764670944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1275
+        width: 34
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8b96b2f71310fc4d8ef5dd92e649357
+      internalID: 1951106263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_16
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1274
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1dcdfaf384dc6c4fa82d3cfe81fa917
+      internalID: 1961347352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_17
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 1271
+        width: 40
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10a68f0b8b2e3be4db8371649b5f715b
+      internalID: -392470107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_18
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 1271
+        width: 42
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 049a1d68e58a87448a5553d3500fa437
+      internalID: -2063972781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_19
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 1271
+        width: 41
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74780a428dc6d04458231d5cf37d1791
+      internalID: -725999547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_20
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1272
+        width: 35
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f44d4c04900ef24698dff818fb6252e
+      internalID: -508281240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_21
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 1272
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c474736dfcbdcdb409b48971dc12dd40
+      internalID: 272351478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1179
+        width: 31
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6900d217e7b8604b96feb33220f8801
+      internalID: -304739280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_1
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 1178
+        width: 38
+        height: 44
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fda085b6b32999245990c27334ff2805
+      internalID: -60006790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_2
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 1175
+        width: 30
+        height: 43
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a43602cd757c3d47bda06ceecaa3f7e
+      internalID: -1658486002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_3
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 1175
+        width: 38
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9010b0c3e3a14924cac3223a24dca2a6
+      internalID: -604001595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_4
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 1176
+        width: 37
+        height: 40
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2f3446f62a2af846b6d1dcb0b6e9ef2
+      internalID: -415728342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_5
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1175
+        width: 40
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d86c5cc80305ac149bb5a656b40913c7
+      internalID: 393714823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_East_6
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 1177
+        width: 35
+        height: 42
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d0d6c69ee1e9964d8445c387dde6dc0
+      internalID: -575249228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_29
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 1078
+        width: 21
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deeb282fa2e31fa4bb2c12901e4cba42
+      internalID: 264851885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_30
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 1078
+        width: 20
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04088a0df7977a246842ef5f15aadea7
+      internalID: -1166518432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_31
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 1077
+        width: 38
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e2ddaec8fafed4468e033643400c0d0
+      internalID: 797496804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_32
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 1077
+        width: 36
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dccd772d41b70304a906cc05db4047a8
+      internalID: -1762714406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_33
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1076
+        width: 35
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ce08b2eecc532944b39c522b3a07211
+      internalID: 948488553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_34
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 1078
+        width: 25
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eb509bab030a0d4c85fd265c747c373
+      internalID: -1698505274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_35
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 1080
+        width: 23
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72e607fffe90e40458b73bc72030e719
+      internalID: -1148946545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 984
+        width: 36
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f68bed86a07fb554e83ea5a375f0a831
+      internalID: -1292888696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_1
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 984
+        width: 39
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a550085002712e41bfcbed83340bad5
+      internalID: 813641989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_2
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 980
+        width: 27
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68506cca0623b444284ee8d2759b4fbf
+      internalID: 1342763027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_3
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 980
+        width: 40
+        height: 43
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89ffdb21c6857a5459c240c8bb0b3ddf
+      internalID: 1460887334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_4
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 980
+        width: 40
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c46e057a1607fe43b54c0fd6c01b6a2
+      internalID: -410007750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_5
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 982
+        width: 38
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1e508795f1e41d4fb1eaf4a5242964a
+      internalID: -1725130415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_HighKick_West_6
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 983
+        width: 39
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f545e06e3294cf40aa5cbd18b75ce40
+      internalID: -1472796622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 888
+        width: 26
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e02242f7926929346b388af9fa4c5a56
+      internalID: 1723569614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_1
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 888
+        width: 27
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c56a8355ad00664898696b7ab057c48
+      internalID: 429890939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_2
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 889
+        width: 29
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1420905ba0d7f9e4ba8f6c5679f89b34
+      internalID: -398647577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_3
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 889
+        width: 26
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 650a577feb370dd489b1f50497964670
+      internalID: -228895775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_4
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 889
+        width: 23
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aeeeb7290e8860443bf8838cc1ad073c
+      internalID: 938819593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_5
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 888
+        width: 21
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7614c7715960e24099c13860f0ef1a3
+      internalID: -369678299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_6
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 889
+        width: 22
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 051f6ba57189d5345834c1730421d65c
+      internalID: -1899370618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_7
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 887
+        width: 24
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1274ad7f13167184e8a626485bc93fd0
+      internalID: -1739985201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Right_8
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 887
+        width: 23
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdfa5013eedc3a8499153a82e0270e04
+      internalID: -1649725426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_0
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 792
+        width: 22
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd08c772f30f1684d9557f7b11081897
+      internalID: 1261684902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_1
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 792
+        width: 21
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e82f0019cd745194286c736efd7052d0
+      internalID: 2036397631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_2
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 792
+        width: 21
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a23fa445a631e94b8c57ca12421e21a
+      internalID: -842040068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_3
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 792
+        width: 21
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a434cd68bd49ff44cbf6e27e3fc48421
+      internalID: 1416943446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_4
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 792
+        width: 22
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6c1757b3db5c234bb303ac82d0dc753
+      internalID: 797483562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_5
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 793
+        width: 22
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 128ca83273d88bc4e91df0eca862151b
+      internalID: 1407484374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_6
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 794
+        width: 22
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb85391e0b148c641ac858e480affb8c
+      internalID: -538187455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_7
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 793
+        width: 24
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7239fb415b74e914a96b5e7a5e66494d
+      internalID: 1803491353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Step_Left_8
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 792
+        width: 26
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad8cb51575a0d24d9a14aea40cbd66e
+      internalID: -1376020519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_61
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 694
+        width: 18
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93ffee83691bc4c4cb3b92f98b67f844
+      internalID: -1825432489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_62
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 694
+        width: 16
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33e8b2bf4e4fc4d41a04619521a7523a
+      internalID: 1569775084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_63
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 696
+        width: 19
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbb43bbe3ffce544788c5200a8a73bf3
+      internalID: -1259261141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_64
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 695
+        width: 18
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e20c7ee5b26fa4748a32ab593a3fd9a0
+      internalID: -821421154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_65
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 694
+        width: 21
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0d762e1f49728c4b8860d1cf6207d2a
+      internalID: -1253397789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_66
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 694
+        width: 22
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79be59b686eca344fb2fafd64205d1a4
+      internalID: -789301156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_0
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 599
+        width: 22
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff586ee31af8091439f436e58e170a7b
+      internalID: 869707405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_1
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 599
+        width: 21
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ac2589c828fadb47a3efaa0f6281edf
+      internalID: 760910592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_2
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 600
+        width: 28
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57fb15b4a60db254696ae82f34f513b5
+      internalID: -885312650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_3
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 600
+        width: 28
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22796e919834ea6478f2500450f2c757
+      internalID: 1151224917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_4
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 598
+        width: 26
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0545ddbef7a8dfa42b5dfcc921001bb3
+      internalID: -1968578609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_SEast_5
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 599
+        width: 20
+        height: 43
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 855bf32245819c84d8c146762d25682c
+      internalID: -646166097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_73
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 502
+        width: 24
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8830d63cb74e8d479ba2bbe3a741116
+      internalID: 1834324840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_74
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 502
+        width: 23
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f3bb9d5bf712dd44887b5e046d1eb2a
+      internalID: 2095489344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_75
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 503
+        width: 30
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d208d412632a054baecd8b2c65b6d9a
+      internalID: -1749368096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_76
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 503
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd30406f209314c4495150705521cc48
+      internalID: 2115625180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_77
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 502
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e021114e24c49144a8f481c0c051a86d
+      internalID: -1242226150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_78
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 502
+        width: 25
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52aa1db807646994b8cdd38cbc6bd6e6
+      internalID: 1163294741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_0
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 406
+        width: 24
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbe056721f95aa84490f3bbcad1ea817
+      internalID: 1944262067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_1
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 406
+        width: 24
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf298a2d3834de24f95c85098ce91341
+      internalID: 1761931711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_2
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 407
+        width: 31
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08542f7998c5b2d4e9d94c7aa1a2de21
+      internalID: 283986165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_3
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 407
+        width: 29
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58664b5dab768c64e844ec4c90f362f5
+      internalID: 1060375924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_4
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 406
+        width: 27
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75f8a3f03410f2247ac8bd3cd613e7d5
+      internalID: -1921525362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Hit_West_5
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 406
+        width: 25
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1f1a6e14c3b8bf44a91d89d4cc62d6e
+      internalID: -63161913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_85
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 311
+        width: 20
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f98177fba06cdd4bade538d3e0683ab
+      internalID: 1943698136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_86
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 310
+        width: 18
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ebd7f72ccf80440a29f97f1ba33825
+      internalID: -1543687526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_87
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 312
+        width: 23
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66d9147fa8957624fae35cd89e1d0e1d
+      internalID: 1377048278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_88
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 217
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc449d4e042beaf45b94804c328f719b
+      internalID: -2095311706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_89
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 215
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72bbd0bd48522424aab247717cb31a4e
+      internalID: 945387842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_90
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 215
+        width: 30
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c44f3a3570ad204c8ce7db313e69c8a
+      internalID: -663991009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Jab_East_0
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 119
+        width: 27
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6169806deaa25d847b5b928321d81e30
+      internalID: -1488059383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Jab_East_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 119
+        width: 38
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37e994b0a0f46d041ac80ff2e70d2b53
+      internalID: -510572858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_Jab_East_2
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 120
+        width: 34
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9e03b4d5c0fb864f8f598ce9cf1dfc4
+      internalID: 226264731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_0
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 22
+        width: 26
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75464bc5e7ae3ba4ca606a5810602dd5
+      internalID: -905182184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_1
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 22
+        width: 26
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f7d787bbd1f677438b805dfcf339a27
+      internalID: -1208514321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_2
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 22
+        width: 28
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f87485df33e1f6e44966bb21d77e703d
+      internalID: 1682806057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_3
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 23
+        width: 33
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eda1ebe8492f93b45bbde9a21e2a282f
+      internalID: 1717697778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_4
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 22
+        width: 34
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 916a6569360ea334e8d9c6c0e4173450
+      internalID: -1738341842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_5
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 22
+        width: 29
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5737697d7dff86b43a71f6489f480517
+      internalID: -1427127280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_6
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 22
+        width: 37
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f824afb537abab4f8a41cfcb0871efe
+      internalID: -1999813049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_7
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 22
+        width: 32
+        height: 49
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 480f6b569d7c9a04c81ecc095b102e56
+      internalID: -878607628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fighter_Basic_OneTwoOne_8
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 22
+        width: 36
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d07b20af33d07742a7673d221204f84
+      internalID: -1068460612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4a5e25e5f4bc1ea4ead69b99f2de0e50
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Fighter_Basic_0: -1738638180
+      Fighter_Basic_1: 261671939
+      Fighter_Basic_10: 2146784976
+      Fighter_Basic_11: -603163655
+      Fighter_Basic_12: -36363292
+      Fighter_Basic_13: -2060564085
+      Fighter_Basic_14: 1764670944
+      Fighter_Basic_15: 1951106263
+      Fighter_Basic_16: 1961347352
+      Fighter_Basic_17: -392470107
+      Fighter_Basic_18: -2063972781
+      Fighter_Basic_19: -725999547
+      Fighter_Basic_2: 587488180
+      Fighter_Basic_20: -508281240
+      Fighter_Basic_21: 272351478
+      Fighter_Basic_22: 300229876
+      Fighter_Basic_29: 264851885
+      Fighter_Basic_3: -1761408048
+      Fighter_Basic_30: -1166518432
+      Fighter_Basic_31: 797496804
+      Fighter_Basic_32: -1762714406
+      Fighter_Basic_33: 948488553
+      Fighter_Basic_34: -1698505274
+      Fighter_Basic_35: -1148946545
+      Fighter_Basic_4: -267574061
+      Fighter_Basic_5: -671077394
+      Fighter_Basic_6: -218755342
+      Fighter_Basic_61: -1825432489
+      Fighter_Basic_62: 1569775084
+      Fighter_Basic_63: -1259261141
+      Fighter_Basic_64: -821421154
+      Fighter_Basic_65: -1253397789
+      Fighter_Basic_66: -789301156
+      Fighter_Basic_7: -1634635041
+      Fighter_Basic_73: 1834324840
+      Fighter_Basic_74: 2095489344
+      Fighter_Basic_75: -1749368096
+      Fighter_Basic_76: 2115625180
+      Fighter_Basic_77: -1242226150
+      Fighter_Basic_78: 1163294741
+      Fighter_Basic_8: -895925356
+      Fighter_Basic_85: 1943698136
+      Fighter_Basic_86: -1543687526
+      Fighter_Basic_87: 1377048278
+      Fighter_Basic_88: -2095311706
+      Fighter_Basic_89: 945387842
+      Fighter_Basic_9: 1188646508
+      Fighter_Basic_90: -663991009
+      Fighter_Basic_HighKick_East_0: -304739280
+      Fighter_Basic_HighKick_East_1: -60006790
+      Fighter_Basic_HighKick_East_2: -1658486002
+      Fighter_Basic_HighKick_East_3: -604001595
+      Fighter_Basic_HighKick_East_4: -415728342
+      Fighter_Basic_HighKick_East_5: 393714823
+      Fighter_Basic_HighKick_East_6: -575249228
+      Fighter_Basic_HighKick_West_0: -1292888696
+      Fighter_Basic_HighKick_West_1: 813641989
+      Fighter_Basic_HighKick_West_2: 1342763027
+      Fighter_Basic_HighKick_West_3: 1460887334
+      Fighter_Basic_HighKick_West_4: -410007750
+      Fighter_Basic_HighKick_West_5: -1725130415
+      Fighter_Basic_HighKick_West_6: -1472796622
+      Fighter_Basic_Hit_SEast_0: 869707405
+      Fighter_Basic_Hit_SEast_1: 760910592
+      Fighter_Basic_Hit_SEast_2: -885312650
+      Fighter_Basic_Hit_SEast_3: 1151224917
+      Fighter_Basic_Hit_SEast_4: -1968578609
+      Fighter_Basic_Hit_SEast_5: -646166097
+      Fighter_Basic_Hit_West_0: 1944262067
+      Fighter_Basic_Hit_West_1: 1761931711
+      Fighter_Basic_Hit_West_2: 283986165
+      Fighter_Basic_Hit_West_3: 1060375924
+      Fighter_Basic_Hit_West_4: -1921525362
+      Fighter_Basic_Hit_West_5: -63161913
+      Fighter_Basic_Jab_East_0: -1488059383
+      Fighter_Basic_Jab_East_1: -510572858
+      Fighter_Basic_Jab_East_2: 226264731
+      Fighter_Basic_OneTwoOne_0: -905182184
+      Fighter_Basic_OneTwoOne_1: -1208514321
+      Fighter_Basic_OneTwoOne_2: 1682806057
+      Fighter_Basic_OneTwoOne_3: 1717697778
+      Fighter_Basic_OneTwoOne_4: -1738341842
+      Fighter_Basic_OneTwoOne_5: -1427127280
+      Fighter_Basic_OneTwoOne_6: -1999813049
+      Fighter_Basic_OneTwoOne_7: -878607628
+      Fighter_Basic_OneTwoOne_8: -1068460612
+      Fighter_Basic_Step_Left_0: 1261684902
+      Fighter_Basic_Step_Left_1: 2036397631
+      Fighter_Basic_Step_Left_2: -842040068
+      Fighter_Basic_Step_Left_3: 1416943446
+      Fighter_Basic_Step_Left_4: 797483562
+      Fighter_Basic_Step_Left_5: 1407484374
+      Fighter_Basic_Step_Left_6: -538187455
+      Fighter_Basic_Step_Left_7: 1803491353
+      Fighter_Basic_Step_Left_8: -1376020519
+      Fighter_Basic_Step_Right_0: 1723569614
+      Fighter_Basic_Step_Right_1: 429890939
+      Fighter_Basic_Step_Right_2: -398647577
+      Fighter_Basic_Step_Right_3: -228895775
+      Fighter_Basic_Step_Right_4: 938819593
+      Fighter_Basic_Step_Right_5: -369678299
+      Fighter_Basic_Step_Right_6: -1899370618
+      Fighter_Basic_Step_Right_7: -1739985201
+      Fighter_Basic_Step_Right_8: -1649725426
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
