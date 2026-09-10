@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class MatchFighterView : MonoBehaviour
 {
-    private static readonly int IdleStateHash = Animator.StringToHash("Idle");
-    private static readonly int JabStateHash = Animator.StringToHash("Jab");
-    private static readonly int HitStateHash = Animator.StringToHash("Hit");
-    private static readonly int StepEastStateHash = Animator.StringToHash("StepEast");
-    private static readonly int StepWestStateHash = Animator.StringToHash("StepWest");
-    private static readonly int BackStepEastStateHash = Animator.StringToHash("BackStepEast");
-    private static readonly int BackStepWestStateHash = Animator.StringToHash("BackStepWest");
+    private static readonly int IdleEastHash = Animator.StringToHash("Idle_East");
+    private static readonly int IdleWestHash = Animator.StringToHash("Idle_West");
+    private static readonly int JabEastHash = Animator.StringToHash("Jab_East");
+    private static readonly int JabWestHash = Animator.StringToHash("Jab_West");
+    private static readonly int HitHash = Animator.StringToHash("Hit");
+    private static readonly int StepEastHash = Animator.StringToHash("Step_East");
+    private static readonly int StepWestHash = Animator.StringToHash("Step_West");
+    private static readonly int BackStepEastHash = Animator.StringToHash("BackStep_East");
+    private static readonly int BackStepWestHash = Animator.StringToHash("BackStep_West");
 
     [SerializeField] private Animator Anim_Fighter;
+    [SerializeField] private SpriteRenderer SpriteRenderer_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
     [SerializeField] private float HitDuration = 0.52f;
     [SerializeField] private float StepMoveDuration = 0.35f;
@@ -29,6 +32,12 @@ public class MatchFighterView : MonoBehaviour
         if (Anim_Fighter == null)
         {
             Debug.LogError($"{name} 선수에 Animator가 연결되지 않음");
+            return;
+        }
+
+        if (SpriteRenderer_Fighter == null)
+        {
+            Debug.LogError($"{name} 선수에 SpriteRenderer가 연결되지 않음");
             return;
         }
 
@@ -78,7 +87,7 @@ public class MatchFighterView : MonoBehaviour
 
     private async UniTask PlayJabAsync(int actionVersion, CancellationToken cancellationToken)
     {
-        Anim_Fighter.Play(JabStateHash, 0, 0f);
+        PlayDirectionalJab();
 
         float passedSeconds = 0f;
 
@@ -98,6 +107,24 @@ public class MatchFighterView : MonoBehaviour
         PlayStepOrIdle();
     }
 
+    private void PlayDirectionalJab()
+    {
+        if (Anim_Fighter == null || SpriteRenderer_Fighter == null)
+        {
+            return;
+        }
+
+        if (CurrentDirection == MatchFighterDirection.West)
+        {
+            SpriteRenderer_Fighter.flipX = true;
+            Anim_Fighter.Play(JabWestHash, 0, 0f);
+            return;
+        }
+
+        SpriteRenderer_Fighter.flipX = false;
+        Anim_Fighter.Play(JabEastHash, 0, 0f);
+    }
+
     public void PlayHit()
     {
         if (Anim_Fighter == null)
@@ -115,7 +142,8 @@ public class MatchFighterView : MonoBehaviour
 
     private async UniTask PlayHitAsync(int actionVersion, CancellationToken cancellationToken)
     {
-        Anim_Fighter.Play(HitStateHash, 0, 0f);
+        SpriteRenderer_Fighter.flipX = false;
+        Anim_Fighter.Play(HitHash, 0, 0f);
 
         float passedSeconds = 0f;
 
@@ -213,6 +241,8 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
+        SpriteRenderer_Fighter.flipX = false;
+
         if (_isMoving == false || _currentStepType == MatchStepType.None)
         {
             PlayIdle();
@@ -223,11 +253,11 @@ public class MatchFighterView : MonoBehaviour
         {
             if (_currentStepType == MatchStepType.Back)
             {
-                Anim_Fighter.Play(BackStepEastStateHash, 0, 1f);
+                Anim_Fighter.Play(BackStepEastHash, 0, 1f);
                 return;
             }
 
-            Anim_Fighter.Play(StepEastStateHash, 0, 0f);
+            Anim_Fighter.Play(StepEastHash, 0, 0f);
             return;
         }
 
@@ -235,11 +265,11 @@ public class MatchFighterView : MonoBehaviour
         {
             if (_currentStepType == MatchStepType.Back)
             {
-                Anim_Fighter.Play(BackStepWestStateHash, 0, 1f);
+                Anim_Fighter.Play(BackStepWestHash, 0, 1f);
                 return;
             }
 
-            Anim_Fighter.Play(StepWestStateHash, 0, 0f);
+            Anim_Fighter.Play(StepWestHash, 0, 0f);
             return;
         }
 
@@ -248,12 +278,20 @@ public class MatchFighterView : MonoBehaviour
 
     private void PlayIdle()
     {
-        if (Anim_Fighter == null)
+        if (Anim_Fighter == null || SpriteRenderer_Fighter == null)
         {
             return;
         }
 
-        Anim_Fighter.Play(IdleStateHash, 0, 0f);
+        SpriteRenderer_Fighter.flipX = false;
+
+        if (CurrentDirection == MatchFighterDirection.West)
+        {
+            Anim_Fighter.Play(IdleWestHash, 0, 0f);
+            return;
+        }
+
+        Anim_Fighter.Play(IdleEastHash, 0, 0f);
     }
 
     private void OnDisable()
