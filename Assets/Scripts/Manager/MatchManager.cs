@@ -319,7 +319,7 @@ public class MatchManager : MonoBehaviour
             OpponentData.JiuJitsuDefense,
             opponentSkillIds);
 
-        MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance);
+        MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance, DistanceModel);
 
         _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
 
