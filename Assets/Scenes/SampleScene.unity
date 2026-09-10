@@ -163,6 +163,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1142e1eba0b1eab4199424591a972e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchManager
+  PlayerStartPosition: {x: -2, y: 0}
+  OpponentStartPosition: {x: 2, y: 0}
+  MinFighterDistance: 0.6
+  MatchAreaCenter: {x: 0, y: 0}
+  MatchAreaRadius: 4
+  StepIntervalSeconds: 0.45
+  StepMoveDistance: 0.15
+  PlayerPreferredMinDistance: 1.1
+  PlayerPreferredMaxDistance: 1.7
+  OpponentPreferredMinDistance: 1.1
+  OpponentPreferredMaxDistance: 1.7
+  InsidePreferredRangeMoveChance: 0.35
 --- !u!1 &233609625
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5518952192298782855, guid: d8731bee3472beb48b3a773335d98f62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5518952192298782855, guid: d8731bee3472beb48b3a773335d98f62, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1120,7 +1132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5518952192298782855, guid: d8731bee3472beb48b3a773335d98f62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5518952192298782855, guid: d8731bee3472beb48b3a773335d98f62, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2143,6 +2155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MatchPresentationController
   PlayerView: {fileID: 715314548}
   OpponentView: {fileID: 968630189}
+  StrikeImpactDelay: 0.12
 --- !u!1 &1914820259
 GameObject:
   m_ObjectHideFlags: 0

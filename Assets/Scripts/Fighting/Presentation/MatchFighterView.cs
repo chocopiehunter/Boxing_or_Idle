@@ -9,6 +9,8 @@ public class MatchFighterView : MonoBehaviour
     private static readonly int HitStateHash = Animator.StringToHash("Hit");
     private static readonly int StepEastStateHash = Animator.StringToHash("StepEast");
     private static readonly int StepWestStateHash = Animator.StringToHash("StepWest");
+    private static readonly int BackStepEastStateHash = Animator.StringToHash("BackStepEast");
+    private static readonly int BackStepWestStateHash = Animator.StringToHash("BackStepWest");
 
     [SerializeField] private Animator Anim_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
@@ -20,6 +22,7 @@ public class MatchFighterView : MonoBehaviour
     private int _moveVersion;
     private bool _isActionPlaying;
     private bool _isMoving;
+    private MatchStepType _currentStepType = MatchStepType.None;
 
     private void Awake()
     {
@@ -132,7 +135,7 @@ public class MatchFighterView : MonoBehaviour
         PlayStepOrIdle();
     }
 
-    public void MoveTo(Vector2 targetLocalPosition)
+    public void MoveTo(Vector2 targetLocalPosition, MatchStepType stepType)
     {
         Vector2 currentLocalPosition = transform.localPosition;
 
@@ -141,11 +144,26 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
+        _currentStepType = stepType;
         _moveVersion = _moveVersion + 1;
 
         CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
 
         MoveToAsync(targetLocalPosition, _moveVersion, cancellationToken).Forget();
+    }
+
+    public void SetPositionImmediately(Vector2 targetLocalPosition)
+    {
+        _actionVersion = _actionVersion + 1;
+        _moveVersion = _moveVersion + 1;
+        _isActionPlaying = false;
+        _isMoving = false;
+        _currentStepType = MatchStepType.None;
+
+        Vector3 currentPosition = transform.localPosition;
+        transform.localPosition = new Vector3(targetLocalPosition.x, targetLocalPosition.y, currentPosition.z);
+
+        PlayIdle();
     }
 
     private async UniTask MoveToAsync(Vector2 targetLocalPosition, int moveVersion, CancellationToken cancellationToken)
@@ -156,6 +174,7 @@ public class MatchFighterView : MonoBehaviour
         if (StepMoveDuration <= 0f)
         {
             transform.localPosition = targetPosition;
+            _currentStepType = MatchStepType.None;
             return;
         }
 
@@ -183,6 +202,7 @@ public class MatchFighterView : MonoBehaviour
 
         transform.localPosition = targetPosition;
         _isMoving = false;
+        _currentStepType = MatchStepType.None;
         PlayStepOrIdle();
     }
 
@@ -193,14 +213,32 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
-        if (_isMoving && CurrentDirection == MatchFighterDirection.East)
+        if (_isMoving == false || _currentStepType == MatchStepType.None)
         {
+            PlayIdle();
+            return;
+        }
+
+        if (CurrentDirection == MatchFighterDirection.East)
+        {
+            if (_currentStepType == MatchStepType.Back)
+            {
+                Anim_Fighter.Play(BackStepEastStateHash, 0, 1f);
+                return;
+            }
+
             Anim_Fighter.Play(StepEastStateHash, 0, 0f);
             return;
         }
 
-        if (_isMoving && CurrentDirection == MatchFighterDirection.West)
+        if (CurrentDirection == MatchFighterDirection.West)
         {
+            if (_currentStepType == MatchStepType.Back)
+            {
+                Anim_Fighter.Play(BackStepWestStateHash, 0, 1f);
+                return;
+            }
+
             Anim_Fighter.Play(StepWestStateHash, 0, 0f);
             return;
         }
@@ -224,5 +262,6 @@ public class MatchFighterView : MonoBehaviour
         _moveVersion = _moveVersion + 1;
         _isActionPlaying = false;
         _isMoving = false;
+        _currentStepType = MatchStepType.None;
     }
 }

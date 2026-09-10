@@ -7,6 +7,7 @@ public class MatchManager : MonoBehaviour
     public static MatchManager Instance { get; private set; }
     public event Action<CombatActionResult> OnCombatActionResolved;
     public event Action<MatchStepResult> OnMatchStepResolved;
+    public event Action<Vector2, Vector2> OnMatchPositionReset;
     private IMatchJudge _matchJudge;
     private MatchCombatRunner _combatRunner;
     private MatchStepRunner _stepRunner;
@@ -24,8 +25,8 @@ public class MatchManager : MonoBehaviour
     private float _playerRoundStartControlSeconds;
     private float _opponentRoundStartControlSeconds;
 
-    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-1f, 0f);
-    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(1f, 0f);
+    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-2f, 0f);
+    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(2f, 0f);
     [SerializeField] private float MinFighterDistance = 0.6f;
     [SerializeField] private Vector2 MatchAreaCenter = Vector2.zero;
     [SerializeField] private float MatchAreaRadius = 4f;
@@ -372,6 +373,12 @@ public class MatchManager : MonoBehaviour
 
         CombatModel.StartRound();
         DistanceModel.ResetPositions();
+
+        if (OnMatchPositionReset != null)
+        {
+            OnMatchPositionReset(DistanceModel.PlayerPosition, DistanceModel.OpponentPosition);
+        }
+
         _combatRunner.Reset();
         _stepRunner.Reset();
 

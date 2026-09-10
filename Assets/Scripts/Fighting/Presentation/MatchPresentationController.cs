@@ -35,9 +35,11 @@ public class MatchPresentationController : MonoBehaviour
 
         MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
         MatchManager.Instance.OnMatchStepResolved -= HandleMatchStepResolved;
+        MatchManager.Instance.OnMatchPositionReset -= HandleMatchPositionsReset;
 
         MatchManager.Instance.OnCombatActionResolved += HandleCombatActionResolved;
         MatchManager.Instance.OnMatchStepResolved += HandleMatchStepResolved;
+        MatchManager.Instance.OnMatchPositionReset += HandleMatchPositionsReset;
     }
 
     private void UnbindCombatActionEvent()
@@ -49,6 +51,24 @@ public class MatchPresentationController : MonoBehaviour
 
         MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
         MatchManager.Instance.OnMatchStepResolved -= HandleMatchStepResolved;
+        MatchManager.Instance.OnMatchPositionReset -= HandleMatchPositionsReset;
+    }
+
+    private void HandleMatchPositionsReset(Vector2 playerPosition, Vector2 opponentPosition)
+    {
+        if (PlayerView == null || OpponentView == null)
+        {
+            return;
+        }
+
+        PlayerView.SetPositionImmediately(playerPosition);
+        OpponentView.SetPositionImmediately(opponentPosition);
+
+        MatchFighterDirection playerDirection = CalculateDirection(playerPosition, opponentPosition);
+        MatchFighterDirection opponentDirection = CalculateDirection(opponentPosition, playerPosition);
+
+        PlayerView.Setup(playerDirection);
+        OpponentView.Setup(opponentDirection);
     }
 
     private void HandleMatchStepResolved(MatchStepResult stepResult)
@@ -64,8 +84,8 @@ public class MatchPresentationController : MonoBehaviour
         PlayerView.Setup(playerDirection);
         OpponentView.Setup(opponentDirection);
 
-        PlayerView.MoveTo(stepResult.PlayerPosition);
-        OpponentView.MoveTo(stepResult.OpponentPosition);
+        PlayerView.MoveTo(stepResult.PlayerPosition, stepResult.PlayerStepType);
+        OpponentView.MoveTo(stepResult.OpponentPosition, stepResult.OpponentStepType);
     }
 
     private void HandleCombatActionResolved(CombatActionResult actionResult)
