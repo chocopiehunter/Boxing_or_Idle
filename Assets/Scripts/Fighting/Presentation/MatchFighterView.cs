@@ -7,14 +7,19 @@ public class MatchFighterView : MonoBehaviour
     private static readonly int IdleStateHash = Animator.StringToHash("Idle");
     private static readonly int JabStateHash = Animator.StringToHash("Jab");
     private static readonly int HitStateHash = Animator.StringToHash("Hit");
+    private static readonly int StepEastStateHash = Animator.StringToHash("StepEast");
+    private static readonly int StepWestStateHash = Animator.StringToHash("StepWest");
 
     [SerializeField] private Animator Anim_Fighter;
-    [SerializeField] private SpriteRenderer SpriteRenderer_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
     [SerializeField] private float HitDuration = 0.52f;
+    [SerializeField] private float StepMoveDuration = 0.35f;
 
     public MatchFighterDirection CurrentDirection { get; private set; } = MatchFighterDirection.None;
     private int _actionVersion;
+    private int _moveVersion;
+    private bool _isActionPlaying;
+    private bool _isMoving;
 
     private void Awake()
     {
@@ -24,10 +29,9 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
-        if (SpriteRenderer_Fighter == null)
+        if (StepMoveDuration <= 0f)
         {
-            Debug.LogError($"{name} 선수에 SpriteRenderer가 연결되지 않음");
-            return;
+            Debug.LogError($"{name} 선수의 Step 이동 시간이 0 이하임");
         }
 
         Anim_Fighter.updateMode = AnimatorUpdateMode.UnscaledTime;
@@ -35,9 +39,7 @@ public class MatchFighterView : MonoBehaviour
 
     public void Setup(MatchFighterDirection direction)
     {
-        _actionVersion = _actionVersion + 1;
-
-        if (Anim_Fighter == null || SpriteRenderer_Fighter == null)
+        if (Anim_Fighter == null)
         {
             return;
         }
@@ -50,16 +52,10 @@ public class MatchFighterView : MonoBehaviour
 
         CurrentDirection = direction;
 
-        if (CurrentDirection == MatchFighterDirection.West)
+        if (_isActionPlaying == false && _isMoving == false)
         {
-            SpriteRenderer_Fighter.flipX = true;
+            PlayIdle();
         }
-        else
-        {
-            SpriteRenderer_Fighter.flipX = false;
-        }
-
-        PlayIdle();
     }
 
     public void PlayJab()
@@ -69,6 +65,7 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
+        _isActionPlaying = true;
         _actionVersion = _actionVersion + 1;
 
         CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
@@ -94,7 +91,8 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
-        PlayIdle();
+        _isActionPlaying = false;
+        PlayStepOrIdle();
     }
 
     public void PlayHit()
@@ -104,6 +102,7 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
+        _isActionPlaying = true;
         _actionVersion = _actionVersion + 1;
 
         CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
@@ -129,6 +128,83 @@ public class MatchFighterView : MonoBehaviour
             return;
         }
 
+        _isActionPlaying = false;
+        PlayStepOrIdle();
+    }
+
+    public void MoveTo(Vector2 targetLocalPosition)
+    {
+        Vector2 currentLocalPosition = transform.localPosition;
+
+        if ((targetLocalPosition - currentLocalPosition).sqrMagnitude <= 0.000001f)
+        {
+            return;
+        }
+
+        _moveVersion = _moveVersion + 1;
+
+        CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
+
+        MoveToAsync(targetLocalPosition, _moveVersion, cancellationToken).Forget();
+    }
+
+    private async UniTask MoveToAsync(Vector2 targetLocalPosition, int moveVersion, CancellationToken cancellationToken)
+    {
+        Vector3 startPosition = transform.localPosition;
+        Vector3 targetPosition = new Vector3(targetLocalPosition.x, targetLocalPosition.y, startPosition.z);
+
+        if (StepMoveDuration <= 0f)
+        {
+            transform.localPosition = targetPosition;
+            return;
+        }
+
+        _isMoving = true;
+        PlayStepOrIdle();
+
+        float passedSeconds = 0f;
+
+        while (passedSeconds < StepMoveDuration)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+
+            if (moveVersion != _moveVersion)
+            {
+                return;
+            }
+
+            passedSeconds = passedSeconds + Time.unscaledDeltaTime;
+
+            float progress = Mathf.Clamp01(passedSeconds / StepMoveDuration);
+            float easedProgress = Mathf.SmoothStep(0f, 1f, progress);
+
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, easedProgress);
+        }
+
+        transform.localPosition = targetPosition;
+        _isMoving = false;
+        PlayStepOrIdle();
+    }
+
+    private void PlayStepOrIdle()
+    {
+        if (Anim_Fighter == null || _isActionPlaying)
+        {
+            return;
+        }
+
+        if (_isMoving && CurrentDirection == MatchFighterDirection.East)
+        {
+            Anim_Fighter.Play(StepEastStateHash, 0, 0f);
+            return;
+        }
+
+        if (_isMoving && CurrentDirection == MatchFighterDirection.West)
+        {
+            Anim_Fighter.Play(StepWestStateHash, 0, 0f);
+            return;
+        }
+
         PlayIdle();
     }
 
@@ -145,5 +221,8 @@ public class MatchFighterView : MonoBehaviour
     private void OnDisable()
     {
         _actionVersion = _actionVersion + 1;
+        _moveVersion = _moveVersion + 1;
+        _isActionPlaying = false;
+        _isMoving = false;
     }
 }

@@ -34,8 +34,10 @@ public class MatchPresentationController : MonoBehaviour
         }
 
         MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
+        MatchManager.Instance.OnMatchStepResolved -= HandleMatchStepResolved;
 
         MatchManager.Instance.OnCombatActionResolved += HandleCombatActionResolved;
+        MatchManager.Instance.OnMatchStepResolved += HandleMatchStepResolved;
     }
 
     private void UnbindCombatActionEvent()
@@ -46,6 +48,24 @@ public class MatchPresentationController : MonoBehaviour
         }
 
         MatchManager.Instance.OnCombatActionResolved -= HandleCombatActionResolved;
+        MatchManager.Instance.OnMatchStepResolved -= HandleMatchStepResolved;
+    }
+
+    private void HandleMatchStepResolved(MatchStepResult stepResult)
+    {
+        if (stepResult == null || PlayerView == null || OpponentView == null)
+        {
+            return;
+        }
+
+        MatchFighterDirection playerDirection = CalculateDirection(stepResult.PlayerPosition, stepResult.OpponentPosition);
+        MatchFighterDirection opponentDirection = CalculateDirection(stepResult.OpponentPosition, stepResult.PlayerPosition);
+
+        PlayerView.Setup(playerDirection);
+        OpponentView.Setup(opponentDirection);
+
+        PlayerView.MoveTo(stepResult.PlayerPosition);
+        OpponentView.MoveTo(stepResult.OpponentPosition);
     }
 
     private void HandleCombatActionResolved(CombatActionResult actionResult)
