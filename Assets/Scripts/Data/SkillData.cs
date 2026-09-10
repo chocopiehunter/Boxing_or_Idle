@@ -11,6 +11,8 @@ public class SkillData : GameDataBase
     public float StaminaCost;
     public float StaminaCostPerSecond;
     public float CoolTime;
+    public float MinUseDistance;
+    public float MaxUseDistance;
     public string RequiredUnlockIds;
     public float BaseSuccessChance;
     public float DamageMultiplier;
