@@ -14,6 +14,7 @@ public class MatchCombatRunner
     private readonly CombatActionSelector _actionSelector;
 
     private readonly StrikeCalculator _strikeCalculator;
+    private readonly KickCalculator _kickCalculator;
     private readonly TakedownCalculator _takedownCalculator;
     private readonly GroundStrikeCalculator _groundStrikeCalculator;
     private readonly ClinchCalculator _clinchCalculator;
@@ -36,6 +37,7 @@ public class MatchCombatRunner
         _usableSkillFinder = usableSkillFinder;
         _actionSelector = new CombatActionSelector();
         _strikeCalculator = new StrikeCalculator();
+        _kickCalculator = new KickCalculator();
         _takedownCalculator = new TakedownCalculator();
         _groundStrikeCalculator = new GroundStrikeCalculator();
         _clinchCalculator = new ClinchCalculator();
@@ -154,6 +156,11 @@ public class MatchCombatRunner
         if (action.SelectedSkill.ActionType == SkillActionType.Strike)
         {
             actionPrepared = _strikeCalculator.TryCalculate(action, skillUser, target, out actionResult);
+        }
+
+        if (action.SelectedSkill.ActionType == SkillActionType.Kick)
+        {
+            actionPrepared = _kickCalculator.TryCalculate(action, skillUser, target, out actionResult);
         }
 
         if (action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
@@ -399,7 +406,7 @@ public class MatchCombatRunner
             ApplySubmissionResult(actionResult);
         }
 
-        if (action.SelectedSkill.ActionType == SkillActionType.Strike || action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
+        if (action.SelectedSkill.ActionType == SkillActionType.Strike || action.SelectedSkill.ActionType == SkillActionType.Kick || action.SelectedSkill.ActionType == SkillActionType.GroundStrike)
         {
             if (actionResult.IsSuccess)
             {

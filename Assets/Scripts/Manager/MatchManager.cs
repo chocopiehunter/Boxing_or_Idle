@@ -6,8 +6,11 @@ public class MatchManager : MonoBehaviour
 {
     public static MatchManager Instance { get; private set; }
     public event Action<CombatActionResult> OnCombatActionResolved;
+    public event Action<MatchStepResult> OnMatchStepResolved;
+    public event Action<Vector2, Vector2> OnMatchPositionReset;
     private IMatchJudge _matchJudge;
     private MatchCombatRunner _combatRunner;
+    private MatchStepRunner _stepRunner;
     private MatchFighterModel _playerMatchFighter;
     private MatchFighterModel _opponentMatchFighter;
     private List<MatchRoundRecord> _roundRecords = new List<MatchRoundRecord>();
@@ -22,12 +25,26 @@ public class MatchManager : MonoBehaviour
     private float _playerRoundStartControlSeconds;
     private float _opponentRoundStartControlSeconds;
 
+    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-2f, 0f);
+    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(2f, 0f);
+    [SerializeField] private float MinFighterDistance = 0.6f;
+    [SerializeField] private Vector2 MatchAreaCenter = Vector2.zero;
+    [SerializeField] private float MatchAreaRadius = 4f;
+    [SerializeField] private float StepIntervalSeconds = 0.45f;
+    [SerializeField] private float StepMoveDistance = 0.15f;
+    [SerializeField] private float PlayerPreferredMinDistance = 1.1f;
+    [SerializeField] private float PlayerPreferredMaxDistance = 1.7f;
+    [SerializeField] private float OpponentPreferredMinDistance = 1.1f;
+    [SerializeField] private float OpponentPreferredMaxDistance = 1.7f;
+    [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
+
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
     public FighterData OpponentData { get; private set; }
     public MatchRuleData CurrentRuleData { get; private set; }
     public MatchStrategyData CurrentStrategyData { get; private set; }
     public MatchCombatModel CombatModel { get; private set; }
+    public MatchDistanceModel DistanceModel { get; private set; }
     public int CurrentRound { get; private set; }
     public float RoundRemainingSeconds { get; private set; }
     public float RoundBreakRemainingSeconds { get; private set; }
@@ -129,7 +146,7 @@ public class MatchManager : MonoBehaviour
     }
 
     public MatchResult LastResult { get; private set; } = MatchResult.None;
-    public MatchResultSummary LastResultSummary { get; private set; } // 결과요약
+    public MatchResultSummary LastResultSummary { get; private set; }
 
     private void Awake()
     {
@@ -242,6 +259,40 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
+        DistanceModel = new MatchDistanceModel();
+
+        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, MatchAreaCenter, MatchAreaRadius);
+
+        if (distanceSetupSuccess == false)
+        {
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 경기 위치 및 거리 설정 오류");
+
+            return false;
+        }
+
+        _stepRunner = new MatchStepRunner();
+
+        bool stepSetupSuccess = _stepRunner.TrySetup(
+            StepIntervalSeconds,
+            StepMoveDistance,
+            PlayerPreferredMinDistance,
+            PlayerPreferredMaxDistance,
+            OpponentPreferredMinDistance,
+            OpponentPreferredMaxDistance,
+            InsidePreferredRangeMoveChance);
+
+        if (stepSetupSuccess == false)
+        {
+            _stepRunner = null;
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. Step 설정 오류");
+
+            return false;
+        }
+
         List<string> opponentSkillIds = GameDataManager.Instance.GetStartingSkillIds(OpponentData);
 
         _playerMatchFighter = new MatchFighterModel(
@@ -268,7 +319,7 @@ public class MatchManager : MonoBehaviour
             OpponentData.JiuJitsuDefense,
             opponentSkillIds);
 
-        MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance);
+        MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance, DistanceModel);
 
         _combatRunner = new MatchCombatRunner(CombatModel, _playerMatchFighter, _opponentMatchFighter, usableSkillFinder, CurrentRuleData.ActionIntervalSeconds);
 
@@ -313,8 +364,23 @@ public class MatchManager : MonoBehaviour
 
     private void StartCurrentRound()
     {
+        if (DistanceModel == null || DistanceModel.IsReady == false)
+        {
+            StopMatchByError("라운드 시작 실패. 경기 거리 모델 없음");
+
+            return;
+        }
+
         CombatModel.StartRound();
+        DistanceModel.ResetPositions();
+
+        if (OnMatchPositionReset != null)
+        {
+            OnMatchPositionReset(DistanceModel.PlayerPosition, DistanceModel.OpponentPosition);
+        }
+
         _combatRunner.Reset();
+        _stepRunner.Reset();
 
         _playerRoundStartHp = PlayerCurrentHp;
         _opponentRoundStartHp = OpponentCurrentHp;
@@ -356,6 +422,8 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        UpdateStepTime(passedSeconds);
+
         bool actionTimeReached = _combatRunner.UpdateCombatTime(passedSeconds);
 
         if (actionTimeReached == true)
@@ -381,6 +449,33 @@ public class MatchManager : MonoBehaviour
 
         RoundRemainingSeconds = 0f;
         EndCurrentRound();
+    }
+
+    private void UpdateStepTime(float passedSeconds)
+    {
+        if (_stepRunner == null || DistanceModel == null || CombatModel == null)
+        {
+            return;
+        }
+
+        if (CombatModel.CurrentSituation != MatchSituation.Standing)
+        {
+            return;
+        }
+
+        MatchStepResult stepResult;
+
+        bool stepResolved = _stepRunner.TryUpdate(passedSeconds, DistanceModel, out stepResult);
+
+        if (stepResolved == false)
+        {
+            return;
+        }
+
+        if (OnMatchStepResolved != null)
+        {
+            OnMatchStepResolved(stepResult);
+        }
     }
 
     private void ApplyGroundBottomStaminaLoss(float passedSeconds)
@@ -991,7 +1086,9 @@ public class MatchManager : MonoBehaviour
         CurrentRuleData = null;
         CurrentStrategyData = null;
         CombatModel = null;
+        DistanceModel = null;
         _combatRunner = null;
+        _stepRunner = null;
 
         _playerMatchFighter = null;
         _opponentMatchFighter = null;

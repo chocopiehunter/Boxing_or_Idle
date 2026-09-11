@@ -7,6 +7,7 @@
     "SortOrder": 0,
     "ActionSelectionWeight": 1,
     "StrikeSelectionWeight": 1,
+    "KickSelectionWeight": 1,
     "WrestlingSelectionWeight": 1,
     "JiuJitsuSelectionWeight": 1
   },
@@ -18,6 +19,7 @@
     "SortOrder": 1,
     "ActionSelectionWeight": 1.3,
     "StrikeSelectionWeight": 2,
+    "KickSelectionWeight": 2,
     "WrestlingSelectionWeight": 0.6,
     "JiuJitsuSelectionWeight": 0.6
   },
@@ -29,6 +31,7 @@
     "SortOrder": 2,
     "ActionSelectionWeight": 1.3,
     "StrikeSelectionWeight": 0.6,
+    "KickSelectionWeight": 0.6,
     "WrestlingSelectionWeight": 2,
     "JiuJitsuSelectionWeight": 0.8
   },
@@ -40,6 +43,7 @@
     "SortOrder": 3,
     "ActionSelectionWeight": 0.7,
     "StrikeSelectionWeight": 1,
+    "KickSelectionWeight": 1,
     "WrestlingSelectionWeight": 0.7,
     "JiuJitsuSelectionWeight": 0.7
   }

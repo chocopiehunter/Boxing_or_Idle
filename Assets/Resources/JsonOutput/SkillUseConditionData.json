@@ -222,5 +222,29 @@
     "WrestlingSituation": "None",
     "GroundPosition": "BackControl",
     "UserRole": "Bottom"
+  },
+  {
+    "Id": "use_kick_high_01",
+    "SkillId": "skill_kick_high",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_kick_middle_01",
+    "SkillId": "skill_kick_middle",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
+  },
+  {
+    "Id": "use_kick_low_01",
+    "SkillId": "skill_kick_low",
+    "MatchSituation": "Standing",
+    "WrestlingSituation": "None",
+    "GroundPosition": "None",
+    "UserRole": "Any"
   }
 ]
