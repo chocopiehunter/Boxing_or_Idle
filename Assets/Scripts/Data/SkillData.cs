@@ -24,6 +24,7 @@ public class SkillData : GameDataBase
 public static class SkillCategoryType
 {
     public const string Strike = "Strike";
+    public const string Kick = "Kick";
     public const string Wrestling = "Wrestling";
     public const string JiuJitsu = "JiuJitsu";
 }
@@ -31,6 +32,7 @@ public static class SkillCategoryType
 public static class SkillActionType
 {
     public const string Strike = "Strike";
+    public const string Kick = "Kick";
     public const string GroundStrike = "GroundStrike";
     public const string Takedown = "Takedown";
     public const string ClinchEntry = "ClinchEntry";
