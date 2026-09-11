@@ -6,7 +6,7 @@ public class MatchPresentationController : MonoBehaviour
 {
     [SerializeField] private MatchFighterView PlayerView;
     [SerializeField] private MatchFighterView OpponentView;
-    [SerializeField] private float StrikeImpactDelay = 0.12f;
+    [SerializeField] private MatchSkillAnimationTable SkillAnimationTable;
 
     private int _presentationVersion;
 
@@ -95,7 +95,15 @@ public class MatchPresentationController : MonoBehaviour
             return;
         }
 
-        if (actionResult.Action.SelectedSkill.ActionType != SkillActionType.Strike)
+        if (SkillAnimationTable == null)
+        {
+            Debug.LogError("경기 기술 애니메이션 테이블이 연결되지 않음");
+            return;
+        }
+
+        MatchSkillAnimationEntry animationEntry;
+
+        if (SkillAnimationTable.TryGetEntry(actionResult.Action.SelectedSkill.Id, out animationEntry) == false)
         {
             return;
         }
@@ -109,7 +117,10 @@ public class MatchPresentationController : MonoBehaviour
             return;
         }
 
-        skillUserView.PlayJab();
+        if (TryPlaySkillAnimation(skillUserView, animationEntry.AnimationType) == false)
+        {
+            return;
+        }
 
         if (actionResult.ResultType != CombatActionResultType.StrikeHit)
         {
@@ -125,14 +136,36 @@ public class MatchPresentationController : MonoBehaviour
 
         CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
 
-        PlayHitAfterDelayAsync(targetView, _presentationVersion, cancellationToken).Forget();
+        PlayHitAfterDelayAsync(targetView, animationEntry.ImpactDelay, _presentationVersion, cancellationToken).Forget();
     }
 
-    private async UniTask PlayHitAfterDelayAsync(MatchFighterView targetView, int presentationVersion, CancellationToken cancellationToken)
+    private bool TryPlaySkillAnimation(MatchFighterView fighterView, MatchFighterAnimationType animationType)
+    {
+        if (fighterView == null)
+        {
+            return false;
+        }
+
+        if (animationType == MatchFighterAnimationType.Jab)
+        {
+            fighterView.PlayJab();
+            return true;
+        }
+
+        if (animationType == MatchFighterAnimationType.HighKick)
+        {
+            fighterView.PlayHighKick();
+            return true;
+        }
+
+        return false;
+    }
+
+    private async UniTask PlayHitAfterDelayAsync(MatchFighterView targetView, float impactDelay, int presentationVersion, CancellationToken cancellationToken)
     {
         float passedSeconds = 0f;
 
-        while (passedSeconds < StrikeImpactDelay)
+        while (passedSeconds < impactDelay)
         {
             await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
 

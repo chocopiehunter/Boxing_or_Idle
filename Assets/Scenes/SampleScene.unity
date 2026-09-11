@@ -2155,7 +2155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MatchPresentationController
   PlayerView: {fileID: 715314548}
   OpponentView: {fileID: 968630189}
-  StrikeImpactDelay: 0.12
+  SkillAnimationTable: {fileID: 11400000, guid: c320ab9bf5f4e1f4eafa622ca5e2cbcc, type: 2}
 --- !u!1 &1914820259
 GameObject:
   m_ObjectHideFlags: 0
