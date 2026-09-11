@@ -195,6 +195,11 @@ public class CombatActionSelector
             selectionWeight = strategyData.StrikeSelectionWeight;
         }
 
+        if (skillData.Category == SkillCategoryType.Kick)
+        {
+            selectionWeight = strategyData.KickSelectionWeight;
+        }
+
         if (skillData.Category == SkillCategoryType.Wrestling)
         {
             selectionWeight = strategyData.WrestlingSelectionWeight;

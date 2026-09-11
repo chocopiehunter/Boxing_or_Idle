@@ -9,6 +9,7 @@ public class MatchStrategyData : GameDataBase
     public int SortOrder;
     public float ActionSelectionWeight;
     public float StrikeSelectionWeight;
+    public float KickSelectionWeight;
     public float WrestlingSelectionWeight;
     public float JiuJitsuSelectionWeight;
 }
