@@ -13,10 +13,13 @@ public class MatchFighterView : MonoBehaviour
     private static readonly int StepWestHash = Animator.StringToHash("Step_West");
     private static readonly int BackStepEastHash = Animator.StringToHash("BackStep_East");
     private static readonly int BackStepWestHash = Animator.StringToHash("BackStep_West");
+    private static readonly int HighKickEastHash = Animator.StringToHash("Kick_High_East");
+    private static readonly int HighKickWestHash = Animator.StringToHash("Kick_High_West");
 
     [SerializeField] private Animator Anim_Fighter;
     [SerializeField] private SpriteRenderer SpriteRenderer_Fighter;
     [SerializeField] private float JabDuration = 0.25f;
+    [SerializeField] private float HighKickDuration = 0.85f;
     [SerializeField] private float HitDuration = 0.52f;
     [SerializeField] private float StepMoveDuration = 0.35f;
 
@@ -123,6 +126,61 @@ public class MatchFighterView : MonoBehaviour
 
         SpriteRenderer_Fighter.flipX = false;
         Anim_Fighter.Play(JabEastHash, 0, 0f);
+    }
+
+    public void PlayHighKick()
+    {
+        if (Anim_Fighter == null)
+        {
+            return;
+        }
+
+        _isActionPlaying = true;
+        _actionVersion = _actionVersion + 1;
+
+        CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
+
+        PlayHighKickAsync(_actionVersion, cancellationToken).Forget();
+    }
+
+    private async UniTask PlayHighKickAsync(int actionVersion, CancellationToken cancellationToken)
+    {
+        PlayDirectionalHighKick();
+
+        float passedSeconds = 0f;
+
+        while (passedSeconds < HighKickDuration)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+
+            passedSeconds = passedSeconds + Time.unscaledDeltaTime;
+        }
+
+        if (actionVersion != _actionVersion)
+        {
+            return;
+        }
+
+        _isActionPlaying = false;
+        PlayStepOrIdle();
+    }
+
+    private void PlayDirectionalHighKick()
+    {
+        if (Anim_Fighter == null || SpriteRenderer_Fighter == null)
+        {
+            return;
+        }
+
+        SpriteRenderer_Fighter.flipX = false;
+
+        if (CurrentDirection == MatchFighterDirection.West)
+        {
+            Anim_Fighter.Play(HighKickWestHash, 0, 0f);
+            return;
+        }
+
+        Anim_Fighter.Play(HighKickEastHash, 0, 0f);
     }
 
     public void PlayHit()
