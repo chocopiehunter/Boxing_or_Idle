@@ -79,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1881090513
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -905182184, guid: fa27c86d7d1266c4f86a3e60deb14779, type: 3}
@@ -130,3 +130,6 @@ MonoBehaviour:
   Anim_Fighter: {fileID: 6750671664803792390}
   SpriteRenderer_Fighter: {fileID: 7565151122407608778}
   JabDuration: 0.25
+  HighKickDuration: 0.85
+  HitDuration: 0.52
+  StepMoveDuration: 0.35
