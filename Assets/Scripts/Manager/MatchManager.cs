@@ -282,11 +282,38 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
+        MatchStepCalculator stepCalculator = new MatchStepCalculator();
+
+        bool playerStepCalculated = stepCalculator.TryCalculate(
+            PlayerFighter.Step,
+            StepIntervalSeconds,
+            StepMoveDistance,
+            out float playerStepIntervalSeconds,
+            out float playerStepMoveDistance);
+
+        bool opponentStepCalculated = stepCalculator.TryCalculate(
+            OpponentData.Step,
+            StepIntervalSeconds,
+            StepMoveDistance,
+            out float opponentStepIntervalSeconds,
+            out float opponentStepMoveDistance);
+
+        if (playerStepCalculated == false || opponentStepCalculated == false)
+        {
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 선수 Step 능력치 계산 오류");
+
+            return false;
+        }
+
         _stepRunner = new MatchStepRunner();
 
         bool stepSetupSuccess = _stepRunner.TrySetup(
-            StepIntervalSeconds,
-            StepMoveDistance,
+            playerStepIntervalSeconds,
+            playerStepMoveDistance,
+            opponentStepIntervalSeconds,
+            opponentStepMoveDistance,
             PlayerFighter.PreferredMinDistance,
             PlayerFighter.PreferredMaxDistance,
             OpponentData.PreferredMinDistance,

@@ -3,23 +3,34 @@
 public class MatchStepRunner
 {
     private MatchStepMover _stepMover = new MatchStepMover();
-    private float _stepIntervalSeconds;
-    private float _stepMoveDistance;
+    private float _playerStepIntervalSeconds;
+    private float _playerStepMoveDistance;
+    private float _opponentStepIntervalSeconds;
+    private float _opponentStepMoveDistance;
     private float _playerPreferredMinDistance;
     private float _playerPreferredMaxDistance;
     private float _opponentPreferredMinDistance;
     private float _opponentPreferredMaxDistance;
     private float _insideRangeMoveChance;
-    private float _stepRemainingSeconds;
+    private float _playerStepRemainingSeconds;
+    private float _opponentStepRemainingSeconds;
 
     public bool IsReady { get; private set; }
 
-    public bool TrySetup(float stepIntervalSeconds, float stepMoveDistance, float playerPreferredMinDistance, float playerPreferredMaxDistance,
-                         float opponentPreferredMinDistance, float opponentPreferredMaxDistance, float insideRangeMoveChance)
+    public bool TrySetup(float playerStepIntervalSeconds, float playerStepMoveDistance,
+                         float opponentStepIntervalSeconds, float opponentStepMoveDistance,
+                         float playerPreferredMinDistance, float playerPreferredMaxDistance,
+                         float opponentPreferredMinDistance, float opponentPreferredMaxDistance,
+                         float insideRangeMoveChance)
     {
         IsReady = false;
 
-        if (stepIntervalSeconds <= 0f || stepMoveDistance <= 0f)
+        if (playerStepIntervalSeconds <= 0f || playerStepMoveDistance <= 0f)
+        {
+            return false;
+        }
+
+        if (opponentStepIntervalSeconds <= 0f || opponentStepMoveDistance <= 0f)
         {
             return false;
         }
@@ -39,8 +50,10 @@ public class MatchStepRunner
             return false;
         }
 
-        _stepIntervalSeconds = stepIntervalSeconds;
-        _stepMoveDistance = stepMoveDistance;
+        _playerStepIntervalSeconds = playerStepIntervalSeconds;
+        _playerStepMoveDistance = playerStepMoveDistance;
+        _opponentStepIntervalSeconds = opponentStepIntervalSeconds;
+        _opponentStepMoveDistance = opponentStepMoveDistance;
         _playerPreferredMinDistance = playerPreferredMinDistance;
         _playerPreferredMaxDistance = playerPreferredMaxDistance;
         _opponentPreferredMinDistance = opponentPreferredMinDistance;
@@ -55,7 +68,8 @@ public class MatchStepRunner
 
     public void Reset()
     {
-        _stepRemainingSeconds = _stepIntervalSeconds;
+        _playerStepRemainingSeconds = _playerStepIntervalSeconds;
+        _opponentStepRemainingSeconds = _opponentStepIntervalSeconds;
     }
 
     public bool TryUpdate(float passedSeconds, MatchDistanceModel distanceModel, out MatchStepResult stepResult)
@@ -72,18 +86,50 @@ public class MatchStepRunner
             return false;
         }
 
-        _stepRemainingSeconds = _stepRemainingSeconds - passedSeconds;
+        _playerStepRemainingSeconds = _playerStepRemainingSeconds - passedSeconds;
+        _opponentStepRemainingSeconds = _opponentStepRemainingSeconds - passedSeconds;
 
-        if (_stepRemainingSeconds > 0f)
+        bool playerStepReady = _playerStepRemainingSeconds <= 0f;
+        bool opponentStepReady = _opponentStepRemainingSeconds <= 0f;
+
+        if (playerStepReady == false && opponentStepReady == false)
         {
             return false;
         }
 
-        _stepRemainingSeconds = _stepIntervalSeconds;
+        if (playerStepReady)
+        {
+            _playerStepRemainingSeconds = _playerStepRemainingSeconds + _playerStepIntervalSeconds;
+
+            if (_playerStepRemainingSeconds <= 0f)
+            {
+                _playerStepRemainingSeconds = _playerStepIntervalSeconds;
+            }
+        }
+
+        if (opponentStepReady)
+        {
+            _opponentStepRemainingSeconds = _opponentStepRemainingSeconds + _opponentStepIntervalSeconds;
+
+            if (_opponentStepRemainingSeconds <= 0f)
+            {
+                _opponentStepRemainingSeconds = _opponentStepIntervalSeconds;
+            }
+        }
 
         float currentDistance = distanceModel.CurrentDistance;
-        MatchStepType playerStepType = ChooseStepType(currentDistance, _playerPreferredMinDistance, _playerPreferredMaxDistance);
-        MatchStepType opponentStepType = ChooseStepType(currentDistance, _opponentPreferredMinDistance, _opponentPreferredMaxDistance);
+        MatchStepType playerStepType = MatchStepType.None;
+        MatchStepType opponentStepType = MatchStepType.None;
+
+        if (playerStepReady)
+        {
+            playerStepType = ChooseStepType(currentDistance, _playerPreferredMinDistance, _playerPreferredMaxDistance);
+        }
+
+        if (opponentStepReady)
+        {
+            opponentStepType = ChooseStepType(currentDistance, _opponentPreferredMinDistance, _opponentPreferredMaxDistance);
+        }
 
         if (playerStepType == MatchStepType.None && opponentStepType == MatchStepType.None)
         {
@@ -97,8 +143,8 @@ public class MatchStepRunner
             distanceModel,
             playerStepType,
             opponentStepType,
-            _stepMoveDistance,
-            _stepMoveDistance);
+            _playerStepMoveDistance,
+            _opponentStepMoveDistance);
 
         if (moveSuccess == false)
         {
@@ -117,7 +163,9 @@ public class MatchStepRunner
             playerStepType,
             opponentStepType,
             distanceModel.PlayerPosition,
-            distanceModel.OpponentPosition);
+            distanceModel.OpponentPosition,
+            playerPositionChanged,
+            opponentPositionChanged);
 
         return true;
     }

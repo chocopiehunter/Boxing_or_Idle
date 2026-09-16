@@ -20,6 +20,7 @@ public class FighterData : GameDataBase
     public float Reach;
     public float PreferredMinDistance;
     public float PreferredMaxDistance;
+    public float Step;
     public float TrainingStamina;
     public string StartingSkillIds;
 

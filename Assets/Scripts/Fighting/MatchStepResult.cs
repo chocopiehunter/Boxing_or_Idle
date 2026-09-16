@@ -6,12 +6,17 @@ public class MatchStepResult
     public MatchStepType OpponentStepType { get; private set; }
     public Vector2 PlayerPosition { get; private set; }
     public Vector2 OpponentPosition { get; private set; }
+    public bool PlayerMoved { get; private set; }
+    public bool OpponentMoved { get; private set; }
 
-    public MatchStepResult(MatchStepType playerStepType, MatchStepType opponentStepType, Vector2 playerPosition, Vector2 opponentPosition)
+    public MatchStepResult(MatchStepType playerStepType, MatchStepType opponentStepType, Vector2 playerPosition, Vector2 opponentPosition,
+                           bool playerMoved, bool opponentMoved)
     {
         PlayerStepType = playerStepType;
         OpponentStepType = opponentStepType;
         PlayerPosition = playerPosition;
         OpponentPosition = opponentPosition;
+        PlayerMoved = playerMoved;
+        OpponentMoved = opponentMoved;
     }
 }

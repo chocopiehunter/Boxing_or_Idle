@@ -84,8 +84,15 @@ public class MatchPresentationController : MonoBehaviour
         PlayerView.Setup(playerDirection);
         OpponentView.Setup(opponentDirection);
 
-        PlayerView.MoveTo(stepResult.PlayerPosition, stepResult.PlayerStepType);
-        OpponentView.MoveTo(stepResult.OpponentPosition, stepResult.OpponentStepType);
+        if (stepResult.PlayerMoved)
+        {
+            PlayerView.MoveTo(stepResult.PlayerPosition, stepResult.PlayerStepType);
+        }
+
+        if (stepResult.OpponentMoved)
+        {
+            OpponentView.MoveTo(stepResult.OpponentPosition, stepResult.OpponentStepType);
+        }
     }
 
     private void HandleCombatActionResolved(CombatActionResult actionResult)
