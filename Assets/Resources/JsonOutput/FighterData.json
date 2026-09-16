@@ -16,6 +16,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 50,
     "TrainingStamina": 100,
     "StartingSkillIds": "None"
   },
@@ -36,6 +37,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 45,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -56,6 +58,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 40,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_guillotine"
   },
@@ -76,6 +79,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 45,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo"
   },
@@ -96,6 +100,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 70,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut"
   },
@@ -116,6 +121,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 50,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -136,6 +142,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 75,
     "TrainingStamina": 0,
     "StartingSkillIds": "None"
   },
@@ -156,6 +163,7 @@
     "Reach": 1,
     "PreferredMinDistance": 0.32,
     "PreferredMaxDistance": 0.48,
+    "Step": 60,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo,skill_guillotine"
   }
