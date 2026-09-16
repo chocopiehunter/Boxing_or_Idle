@@ -305,6 +305,7 @@ public class MatchManager : MonoBehaviour
             PlayerFighter.WrestlingDefense,
             PlayerFighter.JiuJitsuOffense,
             PlayerFighter.JiuJitsuDefense,
+            PlayerFighter.Reach,
             PlayerFighter.OwnedSkillIds);
 
         _opponentMatchFighter = new MatchFighterModel(
@@ -317,6 +318,7 @@ public class MatchManager : MonoBehaviour
             OpponentData.WrestlingDefense,
             OpponentData.JiuJitsuOffense,
             OpponentData.JiuJitsuDefense,
+            OpponentData.Reach,
             opponentSkillIds);
 
         MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance, DistanceModel);

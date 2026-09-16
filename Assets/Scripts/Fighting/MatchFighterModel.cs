@@ -14,6 +14,7 @@ public class MatchFighterModel
     public float WrestlingDefense { get; private set; }
     public float JiuJitsuOffense { get; private set; }
     public float JiuJitsuDefense { get; private set; }
+    public float Reach { get; private set; }
 
     private List<string> _ownedSkillIds;
 
@@ -28,7 +29,7 @@ public class MatchFighterModel
     }
 
     public MatchFighterModel(MatchFighterSide fighterSide, float hp, float stamina, float standingOffense, float standingDefense, float wrestlingOffense, float wrestlingDefense, 
-                                float jiujitsuOffense, float jiujitsuDefense, IReadOnlyList<string> ownedSkillIds)
+                                float jiujitsuOffense, float jiujitsuDefense, float reach ,IReadOnlyList<string> ownedSkillIds)
     {
         FighterSide = fighterSide;
         MaxHp = hp;
@@ -41,6 +42,7 @@ public class MatchFighterModel
         WrestlingDefense = wrestlingDefense;
         JiuJitsuOffense = jiujitsuOffense;
         JiuJitsuDefense = jiujitsuDefense;
+        Reach = reach;
         _ownedSkillIds = new List<string>();
         _coolTimeModel = new MatchCoolTimeModel();
 

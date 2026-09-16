@@ -17,6 +17,7 @@ public class FighterData : GameDataBase
     public float WrestlingDefense;
     public float JiuJitsuOffense;
     public float JiuJitsuDefense;
+    public float Reach;
     public float TrainingStamina;
     public string StartingSkillIds;
 
