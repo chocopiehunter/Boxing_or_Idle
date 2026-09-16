@@ -14,6 +14,8 @@
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 15,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 100,
     "StartingSkillIds": "None"
   },
@@ -32,6 +34,8 @@
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 10,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -50,6 +54,8 @@
     "JiuJitsuOffense": 30,
     "JiuJitsuDefense": 30,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_guillotine"
   },
@@ -68,6 +74,8 @@
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 13,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo"
   },
@@ -86,6 +94,8 @@
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 15,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut"
   },
@@ -104,6 +114,8 @@
     "JiuJitsuOffense": 40,
     "JiuJitsuDefense": 40,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -122,6 +134,8 @@
     "JiuJitsuOffense": 25,
     "JiuJitsuDefense": 80,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "None"
   },
@@ -140,6 +154,8 @@
     "JiuJitsuOffense": 40,
     "JiuJitsuDefense": 40,
     "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo,skill_guillotine"
   }
