@@ -25,16 +25,12 @@ public class MatchManager : MonoBehaviour
     private float _playerRoundStartControlSeconds;
     private float _opponentRoundStartControlSeconds;
 
-    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-2f, 0f);
-    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(2f, 0f);
-    [SerializeField] private float MinFighterDistance = 0.6f;
+    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-0.8f, -0.2f);
+    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(0.8f, -0.2f);
+    [SerializeField] private float MinFighterDistance = 0.22f;
     [SerializeField] private MatchArenaBoundary ArenaBoundary;
     [SerializeField] private float StepIntervalSeconds = 0.45f;
-    [SerializeField] private float StepMoveDistance = 0.15f;
-    [SerializeField] private float PlayerPreferredMinDistance = 1.1f;
-    [SerializeField] private float PlayerPreferredMaxDistance = 1.7f;
-    [SerializeField] private float OpponentPreferredMinDistance = 1.1f;
-    [SerializeField] private float OpponentPreferredMaxDistance = 1.7f;
+    [SerializeField] private float StepMoveDistance = 0.06f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
@@ -291,10 +287,10 @@ public class MatchManager : MonoBehaviour
         bool stepSetupSuccess = _stepRunner.TrySetup(
             StepIntervalSeconds,
             StepMoveDistance,
-            PlayerPreferredMinDistance,
-            PlayerPreferredMaxDistance,
-            OpponentPreferredMinDistance,
-            OpponentPreferredMaxDistance,
+            PlayerFighter.PreferredMinDistance,
+            PlayerFighter.PreferredMaxDistance,
+            OpponentData.PreferredMinDistance,
+            OpponentData.PreferredMaxDistance,
             InsidePreferredRangeMoveChance);
 
         if (stepSetupSuccess == false)

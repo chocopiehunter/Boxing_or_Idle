@@ -18,6 +18,8 @@ public class FighterData : GameDataBase
     public float JiuJitsuOffense;
     public float JiuJitsuDefense;
     public float Reach;
+    public float PreferredMinDistance;
+    public float PreferredMaxDistance;
     public float TrainingStamina;
     public string StartingSkillIds;
 
