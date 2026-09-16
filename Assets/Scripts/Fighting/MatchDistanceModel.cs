@@ -7,7 +7,7 @@ public class MatchDistanceModel
     public Vector2 OpponentPosition { get; private set; }
     public float MinDistance { get; private set; }
     public Vector2 AreaCenter { get; private set; }
-    public float AreaRadius { get; private set; }
+    public Vector2 AreaRadii { get; private set; }
 
     public float CurrentDistance
     {
@@ -20,26 +20,28 @@ public class MatchDistanceModel
     private Vector2 _playerStartPosition;
     private Vector2 _opponentStartPosition;
 
-    public bool TrySetup(Vector2 playerStartPosition, Vector2 opponentStartPosition, float minDistance, Vector2 areaCenter, float areaRadius)
+    public bool TrySetup(Vector2 playerStartPosition, Vector2 opponentStartPosition, float minDistance, Vector2 areaCenter, Vector2 areaRadii)
     {
         IsReady = false;
 
-        if (minDistance <= 0f || areaRadius <= 0f)
+        if (minDistance <= 0f || areaRadii.x <= 0f || areaRadii.y <= 0f)
         {
             return false;
         }
 
-        if (minDistance > areaRadius * 2f)
+        float maxAreaDistance = Mathf.Max(areaRadii.x, areaRadii.y) * 2f;
+
+        if (minDistance > maxAreaDistance)
         {
             return false;
         }
 
-        if (IsPositionInsideArea(playerStartPosition, areaCenter, areaRadius) == false)
+        if (IsPositionInsideArea(playerStartPosition, areaCenter, areaRadii) == false)
         {
             return false;
         }
 
-        if (IsPositionInsideArea(opponentStartPosition, areaCenter, areaRadius) == false)
+        if (IsPositionInsideArea(opponentStartPosition, areaCenter, areaRadii) == false)
         {
             return false;
         }
@@ -53,7 +55,7 @@ public class MatchDistanceModel
         _opponentStartPosition = opponentStartPosition;
         MinDistance = minDistance;
         AreaCenter = areaCenter;
-        AreaRadius = areaRadius;
+        AreaRadii = areaRadii;
         PlayerPosition = _playerStartPosition;
         OpponentPosition = _opponentStartPosition;
 
@@ -127,7 +129,7 @@ public class MatchDistanceModel
             return false;
         }
 
-        return IsPositionInsideArea(position, AreaCenter, AreaRadius);
+        return IsPositionInsideArea(position, AreaCenter, AreaRadii);
     }
 
     public Vector2 GetPositionInsideArea(Vector2 position)
@@ -139,16 +141,32 @@ public class MatchDistanceModel
 
         Vector2 centerToPosition = position - AreaCenter;
 
-        if (centerToPosition.sqrMagnitude <= AreaRadius * AreaRadius)
+        float normalizedX = centerToPosition.x / AreaRadii.x;
+        float normalizedY = centerToPosition.y / AreaRadii.y;
+        float normalizedDistanceSqr = normalizedX * normalizedX + normalizedY * normalizedY;
+
+        if (normalizedDistanceSqr <= 1f)
         {
             return position;
         }
 
-        return AreaCenter + centerToPosition.normalized * AreaRadius;
+        float boundaryScale = 1f / Mathf.Sqrt(normalizedDistanceSqr);
+
+        return AreaCenter + centerToPosition * boundaryScale;
     }
 
-    private bool IsPositionInsideArea(Vector2 position, Vector2 areaCenter, float areaRadius)
+    private bool IsPositionInsideArea(Vector2 position, Vector2 areaCenter, Vector2 areaRadii)
     {
-        return Vector2.Distance(position, areaCenter) <= areaRadius;
+        if (areaRadii.x <= 0f || areaRadii.y <= 0f)
+        {
+            return false;
+        }
+
+        Vector2 centerToPosition = position - areaCenter;
+        float normalizedX = centerToPosition.x / areaRadii.x;
+        float normalizedY = centerToPosition.y / areaRadii.y;
+        float normalizedDistanceSqr = normalizedX * normalizedX + normalizedY * normalizedY;
+
+        return normalizedDistanceSqr <= 1f;
     }
 }

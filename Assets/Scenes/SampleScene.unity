@@ -166,8 +166,7 @@ MonoBehaviour:
   PlayerStartPosition: {x: -0.8, y: -0.2}
   OpponentStartPosition: {x: 0.8, y: -0.2}
   MinFighterDistance: 0.6
-  MatchAreaCenter: {x: 0, y: -0.2}
-  MatchAreaRadius: 0.9
+  ArenaBoundary: {fileID: 2993119961894204671}
   StepIntervalSeconds: 0.45
   StepMoveDistance: 0.15
   PlayerPreferredMinDistance: 1.1
@@ -2466,6 +2465,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+--- !u!114 &2993119961894204671 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8182534461917140618, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+  m_PrefabInstance: {fileID: 2993119961894204670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28d8a2c186491c42bc5f2f2036d492e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MatchArenaBoundary
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

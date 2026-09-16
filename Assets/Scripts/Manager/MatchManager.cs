@@ -28,8 +28,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-2f, 0f);
     [SerializeField] private Vector2 OpponentStartPosition = new Vector2(2f, 0f);
     [SerializeField] private float MinFighterDistance = 0.6f;
-    [SerializeField] private Vector2 MatchAreaCenter = Vector2.zero;
-    [SerializeField] private float MatchAreaRadius = 4f;
+    [SerializeField] private MatchArenaBoundary ArenaBoundary;
     [SerializeField] private float StepIntervalSeconds = 0.45f;
     [SerializeField] private float StepMoveDistance = 0.15f;
     [SerializeField] private float PlayerPreferredMinDistance = 1.1f;
@@ -259,9 +258,24 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
+        if (ArenaBoundary == null)
+        {
+            Debug.LogError("경기 초기화 실패. 경기장 이동 경계가 연결되지 않음");
+            return false;
+        }
+
+        Vector2 matchAreaCenter;
+        Vector2 matchAreaRadii;
+
+        if (ArenaBoundary.TryGetBoundary(out matchAreaCenter, out matchAreaRadii) == false)
+        {
+            Debug.LogError("경기 초기화 실패. 경기장 이동 경계 설정 오류");
+            return false;
+        }
+
         DistanceModel = new MatchDistanceModel();
 
-        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, MatchAreaCenter, MatchAreaRadius);
+        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, matchAreaCenter, matchAreaRadii);
 
         if (distanceSetupSuccess == false)
         {
