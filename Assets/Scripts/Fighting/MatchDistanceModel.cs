@@ -155,6 +155,27 @@ public class MatchDistanceModel
         return AreaCenter + centerToPosition * boundaryScale;
     }
 
+    public bool IsNearBoundary(Vector2 position, float nearBoundaryRatio)
+    {
+        if (IsReady == false)
+        {
+            return false;
+        }
+
+        if (nearBoundaryRatio <= 0f || nearBoundaryRatio > 1f)
+        {
+            return false;
+        }
+
+        Vector2 centerToPosition = position - AreaCenter;
+        float normalizedX = centerToPosition.x / AreaRadii.x;
+        float normalizedY = centerToPosition.y / AreaRadii.y;
+        float normalizedDistanceSqr = normalizedX * normalizedX + normalizedY * normalizedY;
+        float nearBoundaryRatioSqr = nearBoundaryRatio * nearBoundaryRatio;
+
+        return normalizedDistanceSqr >= nearBoundaryRatioSqr;
+    }
+
     private bool IsPositionInsideArea(Vector2 position, Vector2 areaCenter, Vector2 areaRadii)
     {
         if (areaRadii.x <= 0f || areaRadii.y <= 0f)
