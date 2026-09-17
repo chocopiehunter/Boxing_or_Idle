@@ -6,5 +6,7 @@ public enum MatchStepType
     Forward,
     Back,
     CircleLeft,
-    CircleRight
+    CircleRight,
+    CageEscapeLeft,
+    CageEscapeRight
 }
