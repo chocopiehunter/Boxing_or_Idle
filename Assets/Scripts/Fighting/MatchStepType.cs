@@ -4,5 +4,9 @@ public enum MatchStepType
 {
     None,
     Forward,
-    Back
+    Back,
+    CircleLeft,
+    CircleRight,
+    CageEscapeLeft,
+    CageEscapeRight
 }

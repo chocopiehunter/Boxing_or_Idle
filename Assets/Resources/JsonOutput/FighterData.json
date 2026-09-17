@@ -13,6 +13,10 @@
     "WrestlingDefense": 15,
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 15,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 50,
     "TrainingStamina": 100,
     "StartingSkillIds": "None"
   },
@@ -30,6 +34,10 @@
     "WrestlingDefense": 30,
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 10,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 45,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -47,6 +55,10 @@
     "WrestlingDefense": 15,
     "JiuJitsuOffense": 30,
     "JiuJitsuDefense": 30,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 40,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_guillotine"
   },
@@ -64,6 +76,10 @@
     "WrestlingDefense": 15,
     "JiuJitsuOffense": 10,
     "JiuJitsuDefense": 13,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 45,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo"
   },
@@ -81,6 +97,10 @@
     "WrestlingDefense": 15,
     "JiuJitsuOffense": 15,
     "JiuJitsuDefense": 15,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 70,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut"
   },
@@ -98,6 +118,10 @@
     "WrestlingDefense": 40,
     "JiuJitsuOffense": 40,
     "JiuJitsuDefense": 40,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 50,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_takedown_judo"
   },
@@ -115,6 +139,10 @@
     "WrestlingDefense": 80,
     "JiuJitsuOffense": 25,
     "JiuJitsuDefense": 80,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 75,
     "TrainingStamina": 0,
     "StartingSkillIds": "None"
   },
@@ -132,6 +160,10 @@
     "WrestlingDefense": 40,
     "JiuJitsuOffense": 40,
     "JiuJitsuDefense": 40,
+    "Reach": 1,
+    "PreferredMinDistance": 0.32,
+    "PreferredMaxDistance": 0.48,
+    "Step": 60,
     "TrainingStamina": 0,
     "StartingSkillIds": "skill_elbow,skill_uppercut,skill_takedown_judo,skill_guillotine"
   }

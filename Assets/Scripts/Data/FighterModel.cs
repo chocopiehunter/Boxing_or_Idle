@@ -13,6 +13,10 @@ public class FighterModel
     public float WrestlingDefense { get; set; }
     public float JiuJitsuOffense { get; set; }
     public float JiuJitsuDefense { get; set; }
+    public float Reach { get; private set; }
+    public float PreferredMinDistance { get; private set; }
+    public float PreferredMaxDistance { get; private set; }
+    public float Step { get; private set; }
     public float Condition { get; set; }
 
     public string LastCompletedTrainingId { get; set; }
@@ -50,6 +54,10 @@ public class FighterModel
         WrestlingDefense = data.WrestlingDefense;
         JiuJitsuOffense = data.JiuJitsuOffense;
         JiuJitsuDefense = data.JiuJitsuDefense;
+        Reach = data.Reach;
+        PreferredMinDistance = data.PreferredMinDistance;
+        PreferredMaxDistance = data.PreferredMaxDistance;
+        Step = data.Step;
         Condition = 100f;
 
         TrainingStamina = 100f;

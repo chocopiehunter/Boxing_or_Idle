@@ -165,16 +165,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MatchManager
   PlayerStartPosition: {x: -0.8, y: -0.2}
   OpponentStartPosition: {x: 0.8, y: -0.2}
-  MinFighterDistance: 0.6
-  MatchAreaCenter: {x: 0, y: -0.2}
-  MatchAreaRadius: 0.9
+  MinFighterDistance: 0.22
+  ArenaBoundary: {fileID: 2993119961894204671}
   StepIntervalSeconds: 0.45
-  StepMoveDistance: 0.15
-  PlayerPreferredMinDistance: 1.1
-  PlayerPreferredMaxDistance: 1.7
-  OpponentPreferredMinDistance: 1.1
-  OpponentPreferredMaxDistance: 1.7
+  StepMoveDistance: 0.1
   InsidePreferredRangeMoveChance: 0.35
+  InsidePreferredRangeCircleChance: 0.6
+  CageNearBoundaryRatio: 0.82
+  CageEscapeStartChance: 0.65
+  CagePressureFollowChance: 0.6
+  CageEscapeStepCount: 5
 --- !u!1 &233609625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,11 +2449,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Octagon
       objectReference: {fileID: 0}
+    - target: {fileID: 8182534461917140618, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+      propertyPath: CenterOffset.y
+      value: -0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182534461917140618, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+      propertyPath: VerticalRadius
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182534461917140618, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+      propertyPath: HorizontalRadius
+      value: 0.9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+--- !u!114 &2993119961894204671 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8182534461917140618, guid: ee99f308173d0e040b725ad850d30890, type: 3}
+  m_PrefabInstance: {fileID: 2993119961894204670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28d8a2c186491c42bc5f2f2036d492e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MatchArenaBoundary
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

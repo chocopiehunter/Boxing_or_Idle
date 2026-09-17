@@ -26,8 +26,8 @@ public class MatchStepMover
         Vector2 playerDirection = playerToOpponent.normalized;
         Vector2 opponentDirection = -playerDirection;
 
-        Vector2 nextPlayerPosition = CalculateNextPosition(playerPosition, playerDirection, playerStepType, playerMoveDistance);
-        Vector2 nextOpponentPosition = CalculateNextPosition(opponentPosition, opponentDirection, opponentStepType, opponentMoveDistance);
+        Vector2 nextPlayerPosition = CalculateNextPosition(playerPosition, playerDirection, playerStepType, playerMoveDistance, distanceModel.AreaCenter);
+        Vector2 nextOpponentPosition = CalculateNextPosition(opponentPosition, opponentDirection, opponentStepType, opponentMoveDistance, distanceModel.AreaCenter);
 
         nextPlayerPosition = distanceModel.GetPositionInsideArea(nextPlayerPosition);
         nextOpponentPosition = distanceModel.GetPositionInsideArea(nextOpponentPosition);
@@ -50,7 +50,7 @@ public class MatchStepMover
         return distanceModel.TrySetPositions(nextPlayerPosition, nextOpponentPosition);
     }
 
-    private Vector2 CalculateNextPosition(Vector2 currentPosition, Vector2 directionToOpponent, MatchStepType stepType, float moveDistance)
+    private Vector2 CalculateNextPosition(Vector2 currentPosition, Vector2 directionToOpponent, MatchStepType stepType, float moveDistance, Vector2 areaCenter)
     {
         if (stepType == MatchStepType.Forward)
         {
@@ -60,6 +60,38 @@ public class MatchStepMover
         if (stepType == MatchStepType.Back)
         {
             return currentPosition - directionToOpponent * moveDistance;
+        }
+
+        if (stepType == MatchStepType.CircleLeft)
+        {
+            Vector2 leftDirection = new Vector2(-directionToOpponent.y, directionToOpponent.x);
+
+            return currentPosition + leftDirection * moveDistance;
+        }
+
+        if (stepType == MatchStepType.CircleRight)
+        {
+            Vector2 rightDirection = new Vector2(directionToOpponent.y, -directionToOpponent.x);
+
+            return currentPosition + rightDirection * moveDistance;
+        }
+
+        if (stepType == MatchStepType.CageEscapeLeft)
+        {
+            Vector2 leftDirection = new Vector2(-directionToOpponent.y, directionToOpponent.x);
+            Vector2 directionToCenter = (areaCenter - currentPosition).normalized;
+            Vector2 escapeDirection = (leftDirection * 0.75f + directionToCenter * 0.25f).normalized;
+
+            return currentPosition + escapeDirection * moveDistance;
+        }
+
+        if (stepType == MatchStepType.CageEscapeRight)
+        {
+            Vector2 rightDirection = new Vector2(directionToOpponent.y, -directionToOpponent.x);
+            Vector2 directionToCenter = (areaCenter - currentPosition).normalized;
+            Vector2 escapeDirection = (rightDirection * 0.75f + directionToCenter * 0.25f).normalized;
+
+            return currentPosition + escapeDirection * moveDistance;
         }
 
         return currentPosition;

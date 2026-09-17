@@ -25,18 +25,18 @@ public class MatchManager : MonoBehaviour
     private float _playerRoundStartControlSeconds;
     private float _opponentRoundStartControlSeconds;
 
-    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-2f, 0f);
-    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(2f, 0f);
-    [SerializeField] private float MinFighterDistance = 0.6f;
-    [SerializeField] private Vector2 MatchAreaCenter = Vector2.zero;
-    [SerializeField] private float MatchAreaRadius = 4f;
+    [SerializeField] private Vector2 PlayerStartPosition = new Vector2(-0.8f, -0.2f);
+    [SerializeField] private Vector2 OpponentStartPosition = new Vector2(0.8f, -0.2f);
+    [SerializeField] private float MinFighterDistance = 0.22f;
+    [SerializeField] private MatchArenaBoundary ArenaBoundary;
     [SerializeField] private float StepIntervalSeconds = 0.45f;
-    [SerializeField] private float StepMoveDistance = 0.15f;
-    [SerializeField] private float PlayerPreferredMinDistance = 1.1f;
-    [SerializeField] private float PlayerPreferredMaxDistance = 1.7f;
-    [SerializeField] private float OpponentPreferredMinDistance = 1.1f;
-    [SerializeField] private float OpponentPreferredMaxDistance = 1.7f;
+    [SerializeField] private float StepMoveDistance = 0.1f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
+    [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeCircleChance = 0.6f;
+    [SerializeField, Range(0f, 1f)] private float CageNearBoundaryRatio = 0.82f;
+    [SerializeField, Range(0f, 1f)] private float CageEscapeStartChance = 0.65f;
+    [SerializeField, Range(0f, 1f)] private float CagePressureFollowChance = 0.6f;
+    [SerializeField] private int CageEscapeStepCount = 5;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -259,9 +259,24 @@ public class MatchManager : MonoBehaviour
         CurrentStrategyData = defaultStrategyData;
         CombatModel = new MatchCombatModel();
 
+        if (ArenaBoundary == null)
+        {
+            Debug.LogError("경기 초기화 실패. 경기장 이동 경계가 연결되지 않음");
+            return false;
+        }
+
+        Vector2 matchAreaCenter;
+        Vector2 matchAreaRadii;
+
+        if (ArenaBoundary.TryGetBoundary(out matchAreaCenter, out matchAreaRadii) == false)
+        {
+            Debug.LogError("경기 초기화 실패. 경기장 이동 경계 설정 오류");
+            return false;
+        }
+
         DistanceModel = new MatchDistanceModel();
 
-        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, MatchAreaCenter, MatchAreaRadius);
+        bool distanceSetupSuccess = DistanceModel.TrySetup(PlayerStartPosition, OpponentStartPosition, MinFighterDistance, matchAreaCenter, matchAreaRadii);
 
         if (distanceSetupSuccess == false)
         {
@@ -272,16 +287,44 @@ public class MatchManager : MonoBehaviour
             return false;
         }
 
+        MatchStepCalculator stepCalculator = new MatchStepCalculator();
+
+        bool playerStepCalculated = stepCalculator.TryCalculate(
+            PlayerFighter.Step,
+            StepIntervalSeconds,
+            StepMoveDistance,
+            out float playerStepIntervalSeconds,
+            out float playerStepMoveDistance);
+
+        bool opponentStepCalculated = stepCalculator.TryCalculate(
+            OpponentData.Step,
+            StepIntervalSeconds,
+            StepMoveDistance,
+            out float opponentStepIntervalSeconds,
+            out float opponentStepMoveDistance);
+
+        if (playerStepCalculated == false || opponentStepCalculated == false)
+        {
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 선수 Step 능력치 계산 오류");
+
+            return false;
+        }
+
         _stepRunner = new MatchStepRunner();
 
         bool stepSetupSuccess = _stepRunner.TrySetup(
-            StepIntervalSeconds,
-            StepMoveDistance,
-            PlayerPreferredMinDistance,
-            PlayerPreferredMaxDistance,
-            OpponentPreferredMinDistance,
-            OpponentPreferredMaxDistance,
-            InsidePreferredRangeMoveChance);
+            playerStepIntervalSeconds,
+            playerStepMoveDistance,
+            opponentStepIntervalSeconds,
+            opponentStepMoveDistance,
+            PlayerFighter.PreferredMinDistance,
+            PlayerFighter.PreferredMaxDistance,
+            OpponentData.PreferredMinDistance,
+            OpponentData.PreferredMaxDistance,
+            InsidePreferredRangeMoveChance,
+            InsidePreferredRangeCircleChance);
 
         if (stepSetupSuccess == false)
         {
@@ -289,6 +332,22 @@ public class MatchManager : MonoBehaviour
             DistanceModel = null;
 
             Debug.LogError("경기 초기화 실패. Step 설정 오류");
+
+            return false;
+        }
+
+        bool cageStepSetupSuccess = _stepRunner.TrySetupCage(
+            CageNearBoundaryRatio,
+            CageEscapeStartChance,
+            CagePressureFollowChance,
+            CageEscapeStepCount);
+
+        if (cageStepSetupSuccess == false)
+        {
+            _stepRunner = null;
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 케이지 Step 설정 오류");
 
             return false;
         }
@@ -305,6 +364,7 @@ public class MatchManager : MonoBehaviour
             PlayerFighter.WrestlingDefense,
             PlayerFighter.JiuJitsuOffense,
             PlayerFighter.JiuJitsuDefense,
+            PlayerFighter.Reach,
             PlayerFighter.OwnedSkillIds);
 
         _opponentMatchFighter = new MatchFighterModel(
@@ -317,6 +377,7 @@ public class MatchManager : MonoBehaviour
             OpponentData.WrestlingDefense,
             OpponentData.JiuJitsuOffense,
             OpponentData.JiuJitsuDefense,
+            OpponentData.Reach,
             opponentSkillIds);
 
         MatchUsableSkillFinder usableSkillFinder = new MatchUsableSkillFinder(GameDataManager.Instance, DistanceModel);

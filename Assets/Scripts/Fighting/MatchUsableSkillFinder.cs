@@ -56,7 +56,7 @@ public class MatchUsableSkillFinder
                 continue;
             }
 
-            if (IsSkillInsideUseDistance(skillData) == false)
+            if (IsSkillInsideUseDistance(skillData, fighter) == false)
             {
                 continue;
             }
@@ -76,26 +76,26 @@ public class MatchUsableSkillFinder
         return usableSkills;
     }
 
-    private bool IsSkillInsideUseDistance(SkillData skillData)
+    private bool IsSkillInsideUseDistance(SkillData skillData, MatchFighterModel fighter)
     {
-        if (skillData == null)
+        if (skillData == null || fighter == null)
         {
             return false;
         }
 
-        if (skillData.MinUseDistance == 0f && skillData.MaxUseDistance == 0f)
+        float minUseDistance;
+        float maxUseDistance;
+
+        bool rangeCalculationSuccess = SkillRangeCalculator.TryCalculate(skillData, fighter.Reach, out minUseDistance, out maxUseDistance);
+
+        if (rangeCalculationSuccess == false)
+        {
+            return false;
+        }
+
+        if (minUseDistance == 0f && maxUseDistance == 0f)
         {
             return true;
-        }
-
-        if (skillData.MinUseDistance < 0f || skillData.MaxUseDistance <= 0f)
-        {
-            return false;
-        }
-
-        if (skillData.MaxUseDistance < skillData.MinUseDistance)
-        {
-            return false;
         }
 
         if (_distanceModel == null || _distanceModel.IsReady == false)
@@ -105,6 +105,6 @@ public class MatchUsableSkillFinder
 
         float currentDistance = _distanceModel.CurrentDistance;
 
-        return currentDistance >= skillData.MinUseDistance && currentDistance <= skillData.MaxUseDistance;
+        return currentDistance >= minUseDistance && currentDistance <= maxUseDistance;
     }
 }
