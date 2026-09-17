@@ -12,6 +12,7 @@ public class MatchStepRunner
     private float _opponentPreferredMinDistance;
     private float _opponentPreferredMaxDistance;
     private float _insideRangeMoveChance;
+    private float _insideRangeCircleChance;
     private float _playerStepRemainingSeconds;
     private float _opponentStepRemainingSeconds;
 
@@ -21,7 +22,7 @@ public class MatchStepRunner
                          float opponentStepIntervalSeconds, float opponentStepMoveDistance,
                          float playerPreferredMinDistance, float playerPreferredMaxDistance,
                          float opponentPreferredMinDistance, float opponentPreferredMaxDistance,
-                         float insideRangeMoveChance)
+                         float insideRangeMoveChance, float insideRangeCircleChance)
     {
         IsReady = false;
 
@@ -50,6 +51,11 @@ public class MatchStepRunner
             return false;
         }
 
+        if (insideRangeCircleChance < 0f || insideRangeCircleChance > 1f)
+        {
+            return false;
+        }
+
         _playerStepIntervalSeconds = playerStepIntervalSeconds;
         _playerStepMoveDistance = playerStepMoveDistance;
         _opponentStepIntervalSeconds = opponentStepIntervalSeconds;
@@ -59,6 +65,7 @@ public class MatchStepRunner
         _opponentPreferredMinDistance = opponentPreferredMinDistance;
         _opponentPreferredMaxDistance = opponentPreferredMaxDistance;
         _insideRangeMoveChance = insideRangeMoveChance;
+        _insideRangeCircleChance = insideRangeCircleChance;
         IsReady = true;
 
         Reset();
@@ -185,6 +192,16 @@ public class MatchStepRunner
         if (Random.value > _insideRangeMoveChance)
         {
             return MatchStepType.None;
+        }
+
+        if (Random.value < _insideRangeCircleChance)
+        {
+            if (Random.value < 0.5f)
+            {
+                return MatchStepType.CircleLeft;
+            }
+
+            return MatchStepType.CircleRight;
         }
 
         if (Random.value < 0.5f)

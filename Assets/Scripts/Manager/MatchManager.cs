@@ -32,6 +32,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField] private float StepIntervalSeconds = 0.45f;
     [SerializeField] private float StepMoveDistance = 0.06f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
+    [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeCircleChance = 0.6f;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -318,7 +319,8 @@ public class MatchManager : MonoBehaviour
             PlayerFighter.PreferredMaxDistance,
             OpponentData.PreferredMinDistance,
             OpponentData.PreferredMaxDistance,
-            InsidePreferredRangeMoveChance);
+            InsidePreferredRangeMoveChance,
+            InsidePreferredRangeCircleChance);
 
         if (stepSetupSuccess == false)
         {

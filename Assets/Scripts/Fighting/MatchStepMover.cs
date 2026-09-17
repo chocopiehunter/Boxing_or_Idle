@@ -62,6 +62,20 @@ public class MatchStepMover
             return currentPosition - directionToOpponent * moveDistance;
         }
 
+        if (stepType == MatchStepType.CircleLeft)
+        {
+            Vector2 leftDirection = new Vector2(-directionToOpponent.y, directionToOpponent.x);
+
+            return currentPosition + leftDirection * moveDistance;
+        }
+
+        if (stepType == MatchStepType.CircleRight)
+        {
+            Vector2 rightDirection = new Vector2(directionToOpponent.y, -directionToOpponent.x);
+
+            return currentPosition + rightDirection * moveDistance;
+        }
+
         return currentPosition;
     }
 }
