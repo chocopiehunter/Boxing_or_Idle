@@ -168,8 +168,9 @@ MonoBehaviour:
   MinFighterDistance: 0.22
   ArenaBoundary: {fileID: 2993119961894204671}
   StepIntervalSeconds: 0.45
-  StepMoveDistance: 0.06
+  StepMoveDistance: 0.1
   InsidePreferredRangeMoveChance: 0.35
+  InsidePreferredRangeCircleChance: 0.6
 --- !u!1 &233609625
 GameObject:
   m_ObjectHideFlags: 0

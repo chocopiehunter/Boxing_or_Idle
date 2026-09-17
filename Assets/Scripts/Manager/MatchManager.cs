@@ -30,7 +30,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField] private float MinFighterDistance = 0.22f;
     [SerializeField] private MatchArenaBoundary ArenaBoundary;
     [SerializeField] private float StepIntervalSeconds = 0.45f;
-    [SerializeField] private float StepMoveDistance = 0.06f;
+    [SerializeField] private float StepMoveDistance = 0.1f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeCircleChance = 0.6f;
 
