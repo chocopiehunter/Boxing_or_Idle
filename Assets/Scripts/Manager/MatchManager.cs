@@ -35,6 +35,7 @@ public class MatchManager : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeCircleChance = 0.6f;
     [SerializeField, Range(0f, 1f)] private float CageNearBoundaryRatio = 0.82f;
     [SerializeField, Range(0f, 1f)] private float CageEscapeStartChance = 0.65f;
+    [SerializeField, Range(0f, 1f)] private float CagePressureFollowChance = 0.6f;
     [SerializeField] private int CageEscapeStepCount = 5;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
@@ -338,6 +339,7 @@ public class MatchManager : MonoBehaviour
         bool cageStepSetupSuccess = _stepRunner.TrySetupCage(
             CageNearBoundaryRatio,
             CageEscapeStartChance,
+            CagePressureFollowChance,
             CageEscapeStepCount);
 
         if (cageStepSetupSuccess == false)

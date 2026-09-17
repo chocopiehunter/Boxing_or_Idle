@@ -17,6 +17,7 @@ public class MatchStepRunner
     private float _opponentStepRemainingSeconds;
     private float _cageNearBoundaryRatio;
     private float _cageEscapeStartChance;
+    private float _cagePressureFollowChance;
     private int _cageEscapeStepCount;
     private MatchStepType _playerCageEscapeType;
     private MatchStepType _opponentCageEscapeType;
@@ -80,7 +81,7 @@ public class MatchStepRunner
         return true;
     }
 
-    public bool TrySetupCage(float nearBoundaryRatio, float escapeStartChance, int escapeStepCount)
+    public bool TrySetupCage(float nearBoundaryRatio, float escapeStartChance, float pressureFollowChance, int escapeStepCount)
     {
         if (IsReady == false)
         {
@@ -97,6 +98,11 @@ public class MatchStepRunner
             return false;
         }
 
+        if (pressureFollowChance < 0f || pressureFollowChance > 1f)
+        {
+            return false;
+        }
+
         if (escapeStepCount <= 0)
         {
             return false;
@@ -104,6 +110,7 @@ public class MatchStepRunner
 
         _cageNearBoundaryRatio = nearBoundaryRatio;
         _cageEscapeStartChance = escapeStartChance;
+        _cagePressureFollowChance = pressureFollowChance;
         _cageEscapeStepCount = escapeStepCount;
         _playerCageEscapeType = MatchStepType.None;
         _opponentCageEscapeType = MatchStepType.None;
@@ -196,6 +203,8 @@ public class MatchStepRunner
                 ref _opponentCageEscapeRemainingSteps);
         }
 
+        ApplyCagePressureFollow(currentDistance, playerStepReady, opponentStepReady, ref playerStepType, ref opponentStepType);
+
         if (playerStepType == MatchStepType.None && opponentStepType == MatchStepType.None)
         {
             return false;
@@ -233,6 +242,72 @@ public class MatchStepRunner
             opponentPositionChanged);
 
         return true;
+    }
+
+    private void ApplyCagePressureFollow(float currentDistance, bool playerStepReady, bool opponentStepReady, ref MatchStepType playerStepType, ref MatchStepType opponentStepType)
+    {
+        MatchStepType playerEscapeType = GetActiveCageEscapeType(playerStepType, _playerCageEscapeType, _playerCageEscapeRemainingSteps);
+        MatchStepType opponentEscapeType = GetActiveCageEscapeType(opponentStepType, _opponentCageEscapeType, _opponentCageEscapeRemainingSteps);
+        bool playerIsEscaping = IsCageEscapeStep(playerEscapeType);
+        bool opponentIsEscaping = IsCageEscapeStep(opponentEscapeType);
+
+        if (playerIsEscaping == opponentIsEscaping)
+        {
+            return;
+        }
+
+        if (playerIsEscaping && opponentStepReady && currentDistance <= _opponentPreferredMaxDistance)
+        {
+            if (Random.value < _cagePressureFollowChance)
+            {
+                opponentStepType = GetPressureFollowStepType(playerEscapeType);
+            }
+
+            return;
+        }
+
+        if (opponentIsEscaping && playerStepReady && currentDistance <= _playerPreferredMaxDistance)
+        {
+            if (Random.value < _cagePressureFollowChance)
+            {
+                playerStepType = GetPressureFollowStepType(opponentEscapeType);
+            }
+        }
+    }
+
+    private MatchStepType GetActiveCageEscapeType(MatchStepType currentStepType, MatchStepType cageEscapeType, int cageEscapeRemainingSteps)
+    {
+        if (IsCageEscapeStep(currentStepType))
+        {
+            return currentStepType;
+        }
+
+        if (cageEscapeRemainingSteps > 0 && IsCageEscapeStep(cageEscapeType))
+        {
+            return cageEscapeType;
+        }
+
+        return MatchStepType.None;
+    }
+
+    private bool IsCageEscapeStep(MatchStepType stepType)
+    {
+        return stepType == MatchStepType.CageEscapeLeft || stepType == MatchStepType.CageEscapeRight;
+    }
+
+    private MatchStepType GetPressureFollowStepType(MatchStepType cageEscapeType)
+    {
+        if (cageEscapeType == MatchStepType.CageEscapeLeft)
+        {
+            return MatchStepType.CircleRight;
+        }
+
+        if (cageEscapeType == MatchStepType.CageEscapeRight)
+        {
+            return MatchStepType.CircleLeft;
+        }
+
+        return MatchStepType.None;
     }
 
     private MatchStepType ChooseStepTypeWithCage(
