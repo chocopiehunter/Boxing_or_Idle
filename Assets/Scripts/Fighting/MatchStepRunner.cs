@@ -15,6 +15,13 @@ public class MatchStepRunner
     private float _insideRangeCircleChance;
     private float _playerStepRemainingSeconds;
     private float _opponentStepRemainingSeconds;
+    private float _cageNearBoundaryRatio;
+    private float _cageEscapeStartChance;
+    private int _cageEscapeStepCount;
+    private MatchStepType _playerCageEscapeType;
+    private MatchStepType _opponentCageEscapeType;
+    private int _playerCageEscapeRemainingSteps;
+    private int _opponentCageEscapeRemainingSteps;
 
     public bool IsReady { get; private set; }
 
@@ -73,10 +80,47 @@ public class MatchStepRunner
         return true;
     }
 
+    public bool TrySetupCage(float nearBoundaryRatio, float escapeStartChance, int escapeStepCount)
+    {
+        if (IsReady == false)
+        {
+            return false;
+        }
+
+        if (nearBoundaryRatio <= 0f || nearBoundaryRatio > 1f)
+        {
+            return false;
+        }
+
+        if (escapeStartChance < 0f || escapeStartChance > 1f)
+        {
+            return false;
+        }
+
+        if (escapeStepCount <= 0)
+        {
+            return false;
+        }
+
+        _cageNearBoundaryRatio = nearBoundaryRatio;
+        _cageEscapeStartChance = escapeStartChance;
+        _cageEscapeStepCount = escapeStepCount;
+        _playerCageEscapeType = MatchStepType.None;
+        _opponentCageEscapeType = MatchStepType.None;
+        _playerCageEscapeRemainingSteps = 0;
+        _opponentCageEscapeRemainingSteps = 0;
+
+        return true;
+    }
+
     public void Reset()
     {
         _playerStepRemainingSeconds = _playerStepIntervalSeconds;
         _opponentStepRemainingSeconds = _opponentStepIntervalSeconds;
+        _playerCageEscapeType = MatchStepType.None;
+        _opponentCageEscapeType = MatchStepType.None;
+        _playerCageEscapeRemainingSteps = 0;
+        _opponentCageEscapeRemainingSteps = 0;
     }
 
     public bool TryUpdate(float passedSeconds, MatchDistanceModel distanceModel, out MatchStepResult stepResult)
@@ -130,12 +174,26 @@ public class MatchStepRunner
 
         if (playerStepReady)
         {
-            playerStepType = ChooseStepType(currentDistance, _playerPreferredMinDistance, _playerPreferredMaxDistance);
+            playerStepType = ChooseStepTypeWithCage(
+                distanceModel,
+                distanceModel.PlayerPosition,
+                currentDistance,
+                _playerPreferredMinDistance,
+                _playerPreferredMaxDistance,
+                ref _playerCageEscapeType,
+                ref _playerCageEscapeRemainingSteps);
         }
 
         if (opponentStepReady)
         {
-            opponentStepType = ChooseStepType(currentDistance, _opponentPreferredMinDistance, _opponentPreferredMaxDistance);
+            opponentStepType = ChooseStepTypeWithCage(
+                distanceModel,
+                distanceModel.OpponentPosition,
+                currentDistance,
+                _opponentPreferredMinDistance,
+                _opponentPreferredMaxDistance,
+                ref _opponentCageEscapeType,
+                ref _opponentCageEscapeRemainingSteps);
         }
 
         if (playerStepType == MatchStepType.None && opponentStepType == MatchStepType.None)
@@ -175,6 +233,43 @@ public class MatchStepRunner
             opponentPositionChanged);
 
         return true;
+    }
+
+    private MatchStepType ChooseStepTypeWithCage(
+        MatchDistanceModel distanceModel,
+        Vector2 fighterPosition,
+        float currentDistance,
+        float preferredMinDistance,
+        float preferredMaxDistance,
+        ref MatchStepType cageEscapeType,
+        ref int cageEscapeRemainingSteps)
+    {
+        if (cageEscapeRemainingSteps > 0)
+        {
+            cageEscapeRemainingSteps = cageEscapeRemainingSteps - 1;
+
+            return cageEscapeType;
+        }
+
+        cageEscapeType = MatchStepType.None;
+
+        if (distanceModel.IsNearBoundary(fighterPosition, _cageNearBoundaryRatio) && Random.value < _cageEscapeStartChance)
+        {
+            if (Random.value < 0.5f)
+            {
+                cageEscapeType = MatchStepType.CageEscapeLeft;
+            }
+            else
+            {
+                cageEscapeType = MatchStepType.CageEscapeRight;
+            }
+
+            cageEscapeRemainingSteps = _cageEscapeStepCount - 1;
+
+            return cageEscapeType;
+        }
+
+        return ChooseStepType(currentDistance, preferredMinDistance, preferredMaxDistance);
     }
 
     private MatchStepType ChooseStepType(float currentDistance, float preferredMinDistance, float preferredMaxDistance)

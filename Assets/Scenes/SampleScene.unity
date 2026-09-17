@@ -171,6 +171,9 @@ MonoBehaviour:
   StepMoveDistance: 0.1
   InsidePreferredRangeMoveChance: 0.35
   InsidePreferredRangeCircleChance: 0.6
+  CageNearBoundaryRatio: 0.82
+  CageEscapeStartChance: 0.65
+  CageEscapeStepCount: 5
 --- !u!1 &233609625
 GameObject:
   m_ObjectHideFlags: 0

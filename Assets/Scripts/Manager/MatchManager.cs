@@ -33,6 +33,9 @@ public class MatchManager : MonoBehaviour
     [SerializeField] private float StepMoveDistance = 0.1f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeMoveChance = 0.35f;
     [SerializeField, Range(0f, 1f)] private float InsidePreferredRangeCircleChance = 0.6f;
+    [SerializeField, Range(0f, 1f)] private float CageNearBoundaryRatio = 0.82f;
+    [SerializeField, Range(0f, 1f)] private float CageEscapeStartChance = 0.65f;
+    [SerializeField] private int CageEscapeStepCount = 5;
 
     public MatchState CurrentState { get; private set; } = MatchState.None;
     public FighterModel PlayerFighter { get; private set; }
@@ -328,6 +331,21 @@ public class MatchManager : MonoBehaviour
             DistanceModel = null;
 
             Debug.LogError("경기 초기화 실패. Step 설정 오류");
+
+            return false;
+        }
+
+        bool cageStepSetupSuccess = _stepRunner.TrySetupCage(
+            CageNearBoundaryRatio,
+            CageEscapeStartChance,
+            CageEscapeStepCount);
+
+        if (cageStepSetupSuccess == false)
+        {
+            _stepRunner = null;
+            DistanceModel = null;
+
+            Debug.LogError("경기 초기화 실패. 케이지 Step 설정 오류");
 
             return false;
         }
